@@ -15,3 +15,7 @@ export enum MaterialIcons {
 	Add = "add",
 	Folder = "folder",
 }
+
+export enum SocialIcons {
+	Github = "github",
+}

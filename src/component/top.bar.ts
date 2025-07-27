@@ -2,7 +2,7 @@ import { BubbleUI } from "../lib/bubble.js";
 import { uiComponent } from "../lib/dom.js";
 import { Html } from "../lib/html.js";
 import { getIcon } from "../lib/icons.js";
-import { IconBundle, MaterialIcons } from "../model/enum/icons.js";
+import { IconBundle, MaterialIcons, SocialIcons } from "../model/enum/icons.js";
 
 export default class TopBar {
 	private static readonly ID = "top-bar";
@@ -30,8 +30,8 @@ export default class TopBar {
 		});
 		this.instance.appendChild(leftContainer);
 
-		const icon = getIcon(IconBundle.Material, MaterialIcons.Terminal);
-		leftContainer.appendChild(icon);
+		const terminalIcon = getIcon(IconBundle.Material, MaterialIcons.Terminal);
+		leftContainer.appendChild(terminalIcon);
 
 		this.title = uiComponent({
 			type: Html.H1,
@@ -43,6 +43,15 @@ export default class TopBar {
 			id: TopBar.RIGHT_CONTAINER_ID,
 			classes: [BubbleUI.BoxXEnd],
 		});
+
+		const githublIcon = getIcon(IconBundle.Social, SocialIcons.Github);
+		rightContainer.appendChild(githublIcon);
+
+		const folderIcon = getIcon(IconBundle.Material, MaterialIcons.Folder);
+		rightContainer.appendChild(folderIcon);
+
+		const addIcon = getIcon(IconBundle.Material, MaterialIcons.Add);
+		rightContainer.appendChild(addIcon);
 
 		this.instance.appendChild(rightContainer);
 

@@ -43,6 +43,11 @@ async function getIcons() {
 		IconBundle.Material,
 		`${getConfiguration("path")["icons"]}/materialicons.json`,
 	);
+
+	await loadIcons(
+		IconBundle.Social,
+		`${getConfiguration("path")["icons"]}/socialicons.json`,
+	);
 }
 
 /**
