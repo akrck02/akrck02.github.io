@@ -1,0 +1,123 @@
+view#home {
+	width: 100%;
+	height: 100%;
+}
+
+:root[data-display="mobile"] view#home {
+	padding: 0rem 1rem;
+}
+
+view#home div#content {
+	width: 30rem;
+}
+
+:root[data-display="mobile"] view#home div#content {
+	width: min(20rem, 100%);
+}
+
+view#home p#echo {
+	text-align: left;
+	width: 100%;
+	color: var(--surface-6);
+}
+
+view#home h1#title {
+	font-size: 5rem;
+	width: 100%;
+	margin: 0rem 1rem;
+}
+
+:root[data-display="mobile"] view#home h1#title {
+	font-size: 3.2rem;
+}
+
+view#home p#timestamp {
+	text-align: right;
+	width: 100%;
+	color: var(--surface-6);
+}
+
+view#home h2#subtitle {
+	color: var(--surface-6);
+	font-size: 2.25rem;
+	font-weight: lighter;
+	line-height: 135%;
+	margin: 2rem 0;
+}
+
+:root[data-display="mobile"] view#home h2#subtitle {
+	font-size: 1.5rem;
+	margin: 2rem 0;
+}
+
+view#home div#mini-terminal-widget {
+	width: 100%;
+	padding: 0 1.2rem;
+}
+
+:root[data-display="mobile"] view#home div#mini-terminal-widget {
+	padding: 0 0.5rem;
+}
+
+view#home div#mini-terminal-widget div#mini-terminal {
+	background: var(--surface-1);
+	height: 4rem;
+	width: 80%;
+	border-radius: 1.4rem;
+	padding: 1rem;
+	font: var(--font-console);
+}
+
+:root[data-display="mobile"]
+	view#home
+	div#mini-terminal-widget
+	div#mini-terminal {
+	height: 4rem;
+	width: 80%;
+	padding: 1rem;
+}
+
+view#home div#mini-terminal-widget div#mini-terminal:has(input:focus) {
+	transition: outline-color var(--animation-fast);
+	outline: 0.15rem solid var(--primary-color);
+}
+
+view#home div#mini-terminal-widget div#mini-terminal span#dolar {
+	margin-right: 0.75rem;
+	font-size: 1.5rem;
+	color: var(--background);
+}
+
+view#home
+	div#mini-terminal-widget
+	div#mini-terminal:has(input:focus)
+	span#dolar {
+	color: var(--primary-color);
+}
+view#home div#mini-terminal-widget div#mini-terminal input {
+	background: transparent;
+	font-size: 1.2rem;
+	width: 100%;
+}
+
+view#home div#mini-terminal-widget div#mini-terminal input:focus {
+	outline: none;
+}
+
+view#home div#mini-terminal-widget button {
+	margin: 0;
+	margin-left: 1rem;
+	background: var(--surface-1);
+	height: 4rem;
+	width: 4rem;
+	padding: 0;
+}
+
+:root[data-display="mobile"] view#home div#mini-terminal-widget button {
+	margin-left: 0.5rem;
+}
+view#home div#mini-terminal-widget button svg {
+	width: 2.5rem;
+	height: 2.5rem;
+	fill: var(--primary-color);
+}

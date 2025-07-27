@@ -1,0 +1,16 @@
+header#top-bar {
+	background: var(--surface-1);
+	width: 100%;
+	padding: 0 1rem;
+	height: 3rem;
+}
+
+header#top-bar div#left-container svg {
+	fill: var(--primary-color);
+}
+
+header#top-bar div#left-container h1 {
+	color: var(--primary-color);
+	margin: 0 1rem;
+	font-size: 1.25rem;
+}
