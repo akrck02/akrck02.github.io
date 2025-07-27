@@ -1,3 +1,4 @@
+import Terminal from "../component/terminal.js";
 import TopBar from "../component/top.bar.js";
 import { BubbleUI } from "../lib/bubble.js";
 import { uiComponent } from "../lib/dom.js";
@@ -25,19 +26,63 @@ export default class ProjectsView {
 		const bar = TopBar.create("akrck02.org/projects");
 		view.appendChild(bar);
 
-		const executedTime = (TimeService.currentNanoseconds() - startTime) / 1000;
-		const command = uiComponent({
-			type: Html.P,
-			text: `$ user [${new Date().toLocaleTimeString()}] → ls ./projects [${executedTime}ms]`,
-			styles: {
-				padding: "0.5rem 1rem",
-				width: "100%",
-				color: "var(--primary-color)",
-				font: "var(--font-console)",
+		const terminal = Terminal.getInstance();
+		view.appendChild(terminal.ui);
+
+		terminal.execute({
+			name: "ls ./projects",
+			callback: async () => {
+				const content = uiComponent({
+					classes: [],
+				});
+
+				const projectsFound = uiComponent({
+					classes: ["out-line"],
+					text: "Found <span class='red'>63 projects</span> on projects directory.",
+				});
+				content.appendChild(projectsFound);
+
+				const usingProgrammingLanguages = uiComponent({
+					classes: ["out-line"],
+					text: "Using <span class='red'>20 programming languages.</span>",
+				});
+				content.appendChild(usingProgrammingLanguages);
+
+				const categories = uiComponent({
+					classes: ["out-line"],
+				});
+
+				const developerTools = uiComponent({
+					classes: ["out-line"],
+					text: "	- <span class='blue'>Developer tools</span> → <span class='green'>12</span> projects.",
+				});
+				categories.appendChild(developerTools);
+
+				const games = uiComponent({
+					classes: ["out-line"],
+					text: "	- <span class='blue'>Games</span> → <span class='green'>02</span> projects.",
+				});
+				categories.appendChild(games);
+
+				const websites = uiComponent({
+					classes: ["out-line"],
+					text: "	- <span class='blue'>Websites</span> → <span class='green'>10</span> projects.",
+				});
+				categories.appendChild(websites);
+
+				const cli = uiComponent({
+					classes: ["out-line"],
+					text: "	- <span class='blue'>Cli</span> → <span class='green'>08</span> projects.",
+				});
+				categories.appendChild(cli);
+
+				content.appendChild(categories);
+
+				return content;
 			},
 		});
-		view.appendChild(command);
 
+		await terminal.render();
 		container.append(view);
 	}
 }
