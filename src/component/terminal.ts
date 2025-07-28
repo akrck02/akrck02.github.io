@@ -1,67 +1,63 @@
-import { BubbleUI } from "../lib/bubble.js";
-import { uiComponent } from "../lib/dom.js";
-import { Command } from "./cli.js";
+import { emitSignal, setSignal } from "../lib/signals.js";
 
-export default class Terminal {
-  private static readonly CLASS = "terminal";
-  private static instance: Terminal;
+type OutputPipe = (out: string) => void;
+type CommandPipe = (out: OutputPipe, cmd: string) => void;
 
-  public ui: HTMLElement;
+export class Terminal {
+	private output: OutputPipe = console.log;
+	readonly updated: string = setSignal();
+	readonly patterns: Map<string, CommandPipe> = new Map();
 
-  /**
-   * Get current terminal instance
-   */
-  static getInstance(): Terminal {
-    // if instance does exist, return it
-    if (undefined == this.instance) this.instance = new Terminal();
-    return this.instance;
-  }
+	/**
+	 * Register a new command
+	 * @param pattern The command pattern
+	 * @param callback
+	 */
+	register(pattern: string, callback: CommandPipe) {
+		this.patterns.set(pattern, callback);
+	}
 
-  /**
-   * Create ui
-   */
-  constructor() {
-    this.ui = uiComponent({
-      classes: [Terminal.CLASS],
-    });
-  }
+	/**
+	 * Execute a command
+	 * @param cmd The command
+	 */
+	execute(cmd: string) {
+		const pipe = this.getCommandPipe(cmd);
+		if (undefined == pipe) {
+			this.help();
+			return;
+		}
+		pipe(this.output, cmd);
+		emitSignal(this.updated);
+	}
 
-  /**
-   * Clear the terminal
-   */
-  clear() {
-    this.ui.innerHTML = "";
-  }
+	/**
+	 * help
+	 */
+	help() {
+		this.output("Help");
+		this.output("-------------------------------------------");
+		this.output("");
+		this.output("This are the available commands:");
+		for (let key of this.patterns.keys()) {
+			this.output(key);
+		}
+	}
 
-  /**
-   * Execute a command
-   */
-  execute(cmd: Command) {
-    this.render(cmd);
-  }
+	/**
+	 * Get command pipe
+	 * @param cmd the command to Execute
+	 * @returns the command pipe matching the command
+	 */
+	private getCommandPipe(cmd: string): CommandPipe {
+		return this.patterns.get(cmd);
+	}
 
-  /**
-   * Render the terminal
-   */
-  async render(cmd: Command) {
-    console.log(cmd);
-    const commandBlock = uiComponent({
-      classes: ["command", BubbleUI.BoxColumn],
-    });
-
-    const input = uiComponent({
-      classes: ["in"],
-      text: `$ user [${new Date().toLocaleTimeString()}] → ${cmd.input}`,
-    });
-    commandBlock.appendChild(input);
-
-    const output = uiComponent({
-      classes: ["out"],
-      text: cmd.getOutput().join(),
-    });
-    commandBlock.appendChild(output);
-    this.ui.appendChild(commandBlock);
-
-    // output.appendChild(content);
-  }
+	/**
+	 * Attach the output pipe
+	 * @param output the output to attach
+	 */
+	attach(output: OutputPipe) {
+		this.output = output;
+	}
 }

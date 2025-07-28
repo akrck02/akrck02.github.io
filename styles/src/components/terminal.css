@@ -3,11 +3,7 @@ div.terminal {
 	width: 100%;
 }
 
-div.terminal div.command {
-	width: 100%;
-}
-
-div.terminal div.command div.in {
+div.terminal div.in {
 	padding: 1rem 0rem;
 	width: 100%;
 	color: var(--primary-color);
@@ -15,23 +11,21 @@ div.terminal div.command div.in {
 	font-size: 1.25rem;
 }
 
-div.terminal div.command div.out {
-	padding: 0.5rem 1rem;
+div.terminal div.out {
+	padding: 0.05rem 1rem;
 	font-size: 1.25rem;
+	line-height: 135%;
 	color: #676767;
 }
 
-div.terminal div.command div.out *.out-line {
-	padding: 0.5rem 0;
-}
-
-div.terminal div.command div.out span.red {
+div.terminal div.out span.red {
 	color: #b24545;
 }
 
-div.terminal div.command div.out span.green {
+div.terminal div.out span.green {
 	color: #82ad6a;
 }
-div.terminal div.command div.out span.blue {
+
+div.terminal div.out span.blue {
 	color: #b4e6ff;
 }
