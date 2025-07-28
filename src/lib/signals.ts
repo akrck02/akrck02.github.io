@@ -1,15 +1,15 @@
-import { uuidv4 } from "./crypto.js"
+import { uuidv4 } from "./crypto.js";
 
-export type signalHandler = (data: any) => Promise<void>
-const buffer: Map<string, signalHandler[]> = new Map()
+export type signalHandler = (data: any) => Promise<void>;
+const buffer: Map<string, signalHandler[]> = new Map();
 
 /**
  * Set a new signal
  */
 export function setSignal(): string {
-  const id = uuidv4()
-  buffer.set(id, [])
-  return id
+  const id = uuidv4();
+  buffer.set(id, []);
+  return id;
 }
 
 /**
@@ -18,36 +18,32 @@ export function setSignal(): string {
  * @param handler The signal handler function
  */
 export function connectToSignal(id: string, handler: signalHandler) {
-
   if (false == buffer.has(id)) {
-    console.error(`Error connecting: The signal ${id} does not exist.`)
-    return
+    console.error(`Error connecting: The signal ${id} does not exist.`);
+    return;
   }
 
-  buffer.get(id).push(handler)
+  buffer.get(id).push(handler);
 }
 
 export function disconnectSignal(id: string) {
-
   if (false == buffer.has(id)) {
-    console.error(`Error connecting: The signal ${id} does not exist.`)
-    return
+    console.error(`Error connecting: The signal ${id} does not exist.`);
+    return;
   }
 
-  buffer.set(id, [])
+  buffer.set(id, []);
 }
 
 /**
- * Emit a signal with the given dat 
+ * Emit a signal with the given dat
  */
-export async function emitSignal(id: string, data: any) {
+export async function emitSignal(id: string, data: any = undefined) {
+  if (false == buffer.has(id)) return;
 
-  if (false == buffer.has(id))
-    return
-
-  const targets = buffer.get(id)
+  const targets = buffer.get(id);
 
   for (const target of targets) {
-    target(data)
+    target(data);
   }
 }
