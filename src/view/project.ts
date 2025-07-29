@@ -1,87 +1,108 @@
+import TerminalUI from "../component/terminal.html.js";
 import TopBar from "../component/top.bar.js";
 import { BubbleUI } from "../lib/bubble.js";
 import { uiComponent } from "../lib/dom.js";
 import { Html } from "../lib/html.js";
+import FormatService from "../service/format.service.js";
+import ProjectService from "../service/project.service.js";
 import TimeService from "../service/time.service.js";
 
 export default class ProjectsView {
-	static readonly VIEW_ID = "projectsw";
+  static readonly VIEW_ID = "projectsw";
 
-	/**
-	 * Show home view
-	 */
-	static async show(parameters: string[], container: HTMLElement) {
-		const startTime = TimeService.currentNanoseconds();
-		const view = uiComponent({
-			type: Html.View,
-			id: ProjectsView.VIEW_ID,
-			classes: [BubbleUI.BoxColumn, BubbleUI.BoxYCenter, BubbleUI.BoxXStart],
-			styles: {
-				width: "100%",
-				height: "100%",
-			},
-		});
+  /**
+   * Show home view
+   */
+  static async show(parameters: string[], container: HTMLElement) {
+    const view = uiComponent({
+      type: Html.View,
+      id: ProjectsView.VIEW_ID,
+      classes: [BubbleUI.BoxColumn, BubbleUI.BoxYCenter, BubbleUI.BoxXStart],
+      styles: {
+        width: "100%",
+        height: "100%",
+      },
+    });
 
-		const bar = TopBar.create("akrck02.org/projects");
-		view.appendChild(bar);
+    const bar = TopBar.create("akrck02.org/projects");
+    view.appendChild(bar);
 
-		// const terminal = TerminalUI.getInstance();
-		// view.appendChild(terminal.ui);
+    const terminal = TerminalUI.getInstance();
+    terminal.clear();
 
-		// terminal.execute({
-		// 	name: "ls ./projects",
-		// 	callback: async () => {
-		// 		const content = uiComponent({
-		// 			classes: [],
-		// 		});
+    const content = uiComponent({
+      classes: [BubbleUI.BoxColumn],
+      styles: {
+        width: "100%",
+        height: "calc(100% - 2rem)",
+        overflowY: "auto",
+      },
+    });
+    view.appendChild(content);
+    content.appendChild(terminal.ui);
 
-		// 		const projectsFound = uiComponent({
-		// 			classes: ["out-line"],
-		// 			text: "Found <span class='red'>63 projects</span> on projects directory.",
-		// 		});
-		// 		content.appendChild(projectsFound);
+    terminal.core.register("ls ./projects", ProjectsView.renderProjects);
 
-		// 		const usingProgrammingLanguages = uiComponent({
-		// 			classes: ["out-line"],
-		// 			text: "Using <span class='red'>20 programming languages.</span>",
-		// 		});
-		// 		content.appendChild(usingProgrammingLanguages);
+    terminal.execute("ls ./projects");
+    container.append(view);
+  }
 
-		// 		const categories = uiComponent({
-		// 			classes: ["out-line"],
-		// 		});
+  static async renderProjects(out: OutputPipe, cmd: string) {
+    const projects = await ProjectService.getGlobalCategoryStats();
 
-		// 		const developerTools = uiComponent({
-		// 			classes: ["out-line"],
-		// 			text: "	- <span class='blue'>Developer tools</span> → <span class='green'>12</span> projects.",
-		// 		});
-		// 		categories.appendChild(developerTools);
+    out(
+      uiComponent({
+        text: `Found <span class='red'>${projects?.stats?.languages ?? 0} projects</span> on projects directory.`,
+      }).outerHTML,
+    );
 
-		// 		const games = uiComponent({
-		// 			classes: ["out-line"],
-		// 			text: "	- <span class='blue'>Games</span> → <span class='green'>02</span> projects.",
-		// 		});
-		// 		categories.appendChild(games);
+    out(
+      uiComponent({
+        text: `Using <span class='red'>${projects?.stats?.projects ?? 0} programming languages.</span>`,
+      }).outerHTML,
+    );
 
-		// 		const websites = uiComponent({
-		// 			classes: ["out-line"],
-		// 			text: "	- <span class='blue'>Websites</span> → <span class='green'>10</span> projects.",
-		// 		});
-		// 		categories.appendChild(websites);
+    projects.summaries.forEach((category) => {
+      const component = uiComponent({
+        classes: [BubbleUI.BoxXStart],
+      });
 
-		// 		const cli = uiComponent({
-		// 			classes: ["out-line"],
-		// 			text: "	- <span class='blue'>Cli</span> → <span class='green'>08</span> projects.",
-		// 		});
-		// 		categories.appendChild(cli);
+      const name = uiComponent({
+        type: Html.Span,
+        text: category.name,
+        classes: ["blue"],
+        styles: {
+          width: "10rem",
+        },
+      });
+      component.appendChild(name);
 
-		// 		content.appendChild(categories);
+      const arrow = uiComponent({
+        type: Html.Span,
+        text: "->",
+        styles: {
+          textAlign: "center",
+          width: "3rem",
+        },
+      });
+      component.appendChild(arrow);
 
-		// 		return content;
-		// 	},
-		// });
+      const projects = uiComponent({
+        type: Html.Span,
+        text: `${FormatService.fixedInteger(category.projects, 2)}`,
+        classes: ["green"],
+        styles: {
+          width: "2rem",
+        },
+      });
+      component.appendChild(projects);
 
-		// await terminal.render();
-		container.append(view);
-	}
+      const prefix = uiComponent({
+        type: Html.Span,
+        text: "Projects.",
+      });
+      component.appendChild(prefix);
+      out(component.outerHTML);
+    });
+  }
 }

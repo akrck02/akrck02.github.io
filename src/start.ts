@@ -12,7 +12,7 @@ import { IconBundle } from "./model/enum/icons.js";
 import HomeView from "./view/home.js";
 import NotFound from "./view/not.found.js";
 import ProjectsView from "./view/project.js";
-import TerminalView from "./view/terminal.js";
+import TerminalView from "./view/test.js";
 
 /**
  * When the dynamic URL changes loads
@@ -58,7 +58,7 @@ function setRoutes(parent: HTMLElement) {
   setHomeRoute(HomeView.show);
   setNotFoundRoute(NotFound.show);
   setRoute("/projects", ProjectsView.show);
-  setRoute("/terminal", TerminalView.show);
+  setRoute("/test", TerminalView.show);
   showRoute(window.location.hash.slice(1).toLowerCase(), parent);
 }
 
