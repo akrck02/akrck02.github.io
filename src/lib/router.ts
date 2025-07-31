@@ -57,9 +57,10 @@ export function setHomeRoute(handler: viewHandler) {
  * Show view for the given route.
  * @param path The given path to search for
  * @param container The container to display the views in
+ * @param override If the content overrides previous content
  */
-export function showRoute(path: string, container: HTMLElement) {
-	container.innerHTML = "";
+export function showRoute(path: string, container: HTMLElement, override : boolean = true) {
+	if(override) container.innerHTML = "";
 
 	// If it is the home route, show
 	if ("/" == path || "" == path) {

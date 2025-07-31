@@ -61,4 +61,6 @@ export enum Html {
   LinearGradient = "linearGradient",
   RadialGradient = "radialGradient",
   Filter = "filter",
+  Pre = "pre",
+  Code = "code"
 }

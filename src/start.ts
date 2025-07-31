@@ -1,18 +1,26 @@
-import { getConfiguration, loadConfiguration } from "./lib/configuration.js";
+import TerminalUI from "./component/terminal.ui.js";
+import TopBar from "./component/top.bar.js";
+import Animations from "./lib/animations.js";
+import { BubbleUI } from "./lib/bubble.js";
+import { getConfiguration, isConfigurationActive, isConfigurationSet, loadConfiguration, setConfiguration } from "./lib/configuration.js";
 import { Display } from "./lib/display.js";
+import { uiComponent } from "./lib/dom.js";
 import { loadIcons } from "./lib/icons.js";
 import {
-  setHomeRoute,
-  setNotFoundRoute,
-  setRoute,
-  showRoute,
+	setHomeRoute,
+	setNotFoundRoute,
+	setRoute,
+	showRoute,
 } from "./lib/router.js";
-import { AppConfigurations } from "./model/enum/configurations.js";
-import { IconBundle } from "./model/enum/icons.js";
-import HomeView from "./view/home.js";
-import NotFound from "./view/not.found.js";
-import ProjectsView from "./view/project.js";
+import { sleep } from "./lib/time.js";
+import { AppConfigurations } from "./model/configurations/configurations.js";
+import { IconBundle } from "./model/configurations/icons.js";
+import HomeView from "./view/home.view.js";
+import NotFound from "./view/not.found.view.js";
+import ProjectsView from "./view/project.view.js";
 import TerminalView from "./view/test.js";
+
+let terminal : TerminalUI
 
 /**
  * When the dynamic URL changes loads
@@ -25,46 +33,96 @@ window.addEventListener("hashchange", start);
  * the app state to show
  */
 window.onload = async function () {
-  await loadConfiguration("gtdf.config.json");
-  document.title = getConfiguration(AppConfigurations.AppName);
-  Display.checkType();
-  await getIcons();
-  await start();
+	await loadConfiguration("gtdf.config.json");
+	document.title = getConfiguration(AppConfigurations.AppName);
+	Display.checkType();
+	checkAnimations()
+	await getIcons();
+
+	const bar = TopBar.getInstance("akrck02.org/projects");
+	document.body.appendChild(bar);
+
+	terminal = TerminalUI.getInstance();
+	terminal.clear();
+		sleep(1000)
+	terminal.ui.classList.add("show")
+
+	const content = uiComponent({
+		classes: [BubbleUI.BoxColumn],
+		styles: {
+			width: "100%",
+			height: "calc(100% - 3rem)",
+			overflowY: "auto",
+		},
+	});
+	content.appendChild(terminal.ui);
+	document.body.appendChild(content);
+
+	await start();
 };
 
 window.onresize = async function () {
-  Display.checkType();
+	Display.checkType();
 };
+
+/**
+ * Check if animations are enabled
+ */
+function checkAnimations() {
+
+	// if it is the first time, enable animations by default
+	if(false === isConfigurationSet(AppConfigurations.Animations)) {
+		setConfiguration(AppConfigurations.Animations, true)
+	}
+
+	Animations.enabled = isConfigurationActive(AppConfigurations.Animations)
+
+	// set the animation preference in all the document
+	if(Animations.enabled) {
+		document.documentElement.dataset.animations = "true"
+	}
+}
 
 /**
  * Get app icons
  */
 async function getIcons() {
-  await loadIcons(
-    IconBundle.Material,
-    `${getConfiguration("path")["icons"]}/materialicons.json`,
-  );
+	await loadIcons(
+		IconBundle.Material,
+		`${getConfiguration("path")["icons"]}/materialicons.json`,
+	);
 
-  await loadIcons(
-    IconBundle.Social,
-    `${getConfiguration("path")["icons"]}/socialicons.json`,
-  );
-}
-
-/**
- * Set routes
- */
-function setRoutes(parent: HTMLElement) {
-  setHomeRoute(HomeView.show);
-  setNotFoundRoute(NotFound.show);
-  setRoute("/projects", ProjectsView.show);
-  setRoute("/test", TerminalView.show);
-  showRoute(window.location.hash.slice(1).toLowerCase(), parent);
+	await loadIcons(
+		IconBundle.Social,
+		`${getConfiguration("path")["icons"]}/socialicons.json`,
+	);
 }
 
 /**
  *  Start the web app
  */
 async function start() {
-  setRoutes(document.body);
+	setCommands();
+	setRoutes(terminal.ui);
+	document.body.style.transition = "backgroundvar(--animation-slow)"
+	document.body.style.backgroundImage =` url("${getConfiguration(AppConfigurations.Path)["images"]}/development.jpg")`
+}
+
+/**
+ * Set routes
+ */
+function setRoutes(parent: HTMLElement) {
+	setHomeRoute(HomeView.show);
+	setNotFoundRoute(NotFound.show);
+	setRoute("/projects", ProjectsView.show);
+	setRoute("/test", TerminalView.show);
+	showRoute(window.location.hash.slice(1).toLowerCase(), parent);
+}
+
+/**
+ * Register commands for the terminal
+ */
+function setCommands() {
+	const terminal = TerminalUI.getInstance();
+	terminal.core.register("ls ./projects", ProjectsView.renderProjects);
 }

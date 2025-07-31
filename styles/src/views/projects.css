@@ -1,0 +1,14 @@
+view#projects {
+	padding-top : 2rem;
+	width: 100%;
+	position: relative;
+}
+
+view#projects div.menu {
+	width: 15rem
+}
+
+view#projects div#side-panel {
+	padding: 2rem 4rem;
+	width: calc(100% - 15rem)
+}

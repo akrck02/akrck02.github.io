@@ -1,21 +1,17 @@
-const DEFAULT_CONFIGURATION_ID = "gtd";
-
 /**
  * The id of the configuration used in the LocalStorage API
  * NOTE: Change this value with your app name.
  */
-let configurationId = "papiro-config";
+const configurationId = "akrck02-config";
 
 /**
  * Load a JSON file as the configuration of the app
  * @param path The file path
  */
 export async function loadConfiguration(path: string) {
-	assertIdHasBeenChanged();
 	const loadedConfiguration = await fetch(path).then((res) => res.json());
 
 	if (null != localStorage[configurationId]) {
-		const loaded = JSON.stringify(loadedConfiguration);
 		for (const key in loadedConfiguration) {
 			setConfiguration(key, loadedConfiguration[key]);
 		}
@@ -29,8 +25,7 @@ export async function loadConfiguration(path: string) {
  * @param id The configuration parameter id
  * @param value The value to set
  */
-export function setConfiguration(id: string, value: string) {
-	assertIdHasBeenChanged();
+export function setConfiguration(id: string, value: any) {
 	const configuration = JSON.parse(localStorage[configurationId] || "{}");
 	configuration[id] = value;
 	localStorage.setItem(configurationId, JSON.stringify(configuration));
@@ -42,20 +37,23 @@ export function setConfiguration(id: string, value: string) {
  * @returns The parameter value
  */
 export function getConfiguration(id: string) {
-	assertIdHasBeenChanged();
-	const configuration = JSON.parse(localStorage[configurationId]);
-	return configuration[id];
-}
-
-export function isConfigurationActive(id: string) {
-	return getConfiguration(id) == true;
+	return JSON.parse(localStorage[configurationId])[id];
 }
 
 /**
- * Assert that the id has been changed
+ * Get if a configuration is already set
+ * @param id The id of the configuration
+ * @returns If the configuration is already set
  */
-function assertIdHasBeenChanged() {}
+export function isConfigurationSet(id: string) {
+	return undefined !== getConfiguration(id);
+}
 
-export function setConfigurationId(id: string) {
-	configurationId = id;
+/**
+* Get if a configuration is active
+* @param id The id of the configuration
+* @returns If the configuration is active
+*/
+export function isConfigurationActive(id: string) {
+	return true == getConfiguration(id);
 }

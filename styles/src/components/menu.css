@@ -1,0 +1,20 @@
+div.menu button {
+	background: transparent;
+	text-align: left;
+	margin-left: 0;
+}
+
+div.menu button:focus,
+div.menu button:hover,
+div.menu button.selected {
+	background: var(--surface-1);
+	outline: none;
+}
+
+div.menu button:active {
+	transform: unset;
+}
+
+div.menu button.selected {
+	color: var(--primary-color);
+}

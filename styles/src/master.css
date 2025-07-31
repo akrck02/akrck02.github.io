@@ -3,26 +3,35 @@
 @import url("./views/_import.css");
 
 :root {
-	--surface-1: #1a1a1a;
-	--on-surface-1: #737373;
+	--animation-ultrafast: .2s;
 
-	--surface-2: #333333;
-	--on-surface-2: #e9e9e9;
-
-	--surface-3: #404040;
-	--on-surface-3: #dadada;
-
-	--surface-4: #4d4d4d;
-	--on-surface-4: #e9e9e9;
-
-	--surface-5: #595959;
-	--on-surface-5: #cacaca;
-
-	--surface-6: #666666;
-	--on-surface-6: #c1c1c1;
-
-	--background: #262626;
+	--background: #222;
 	--on-background: #e1e1e1;
+	--background-blur: blur(.5rem);
+
+	--surface-1: #dfdfdf10;
+	--on-surface-1: #737373;
+	--surface-1-blur: blur(.75rem);
+
+	--surface-2: #dfdfdf15;
+	--on-surface-2: #e9e9e9;
+	--surface-2-blur: blur(1rem);
+
+	--surface-3: #dfdfdf20;
+	--on-surface-3: #dadada;
+	--surface-3-blur: blur(1.25rem);
+
+	--surface-4: #dfdfdf25;
+	--on-surface-4: #e9e9e9;
+	--surface-4-blur: blur(1.5rem);
+
+	--surface-5:#dfdfdf30;
+	--on-surface-5: #cacaca;
+	--surface-5-blur: blur(2.75rem);
+
+	--surface-6: #dfdfdf35;
+	--on-surface-6: #c1c1c1;
+	--surface-6-blur: blur(3rem);
 
 	--text-color: #f0f0f0;
 
@@ -33,9 +42,16 @@
 	width: 100%;
 }
 
-body,
+body {
+	//	background-image: url("../../resources/images/development.jpg");
+	background-repeat: no-repeat;
+  	background-size: cover;
+   	background-blend-mode: multiply;
+
+}
+
 view {
-	background: var(--background);
+//	backdrop-filter: var(--background-blur);
 }
 
 :root[data-display="mobile"] body {

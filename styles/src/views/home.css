@@ -61,6 +61,7 @@ view#home div#mini-terminal-widget {
 
 view#home div#mini-terminal-widget div#mini-terminal {
 	background: var(--surface-1);
+	backdrop-filter: var(--surface-1-blur);
 	height: 4rem;
 	width: 80%;
 	border-radius: 1.4rem;
@@ -77,11 +78,6 @@ view#home div#mini-terminal-widget div#mini-terminal {
 	padding: 1rem;
 }
 
-view#home div#mini-terminal-widget div#mini-terminal:has(input:focus) {
-	transition: outline-color var(--animation-fast);
-	outline: 0.15rem solid var(--primary-color);
-}
-
 view#home div#mini-terminal-widget div#mini-terminal span#dolar {
 	margin-right: 0.75rem;
 	font-size: 1.5rem;
@@ -94,10 +90,13 @@ view#home
 	span#dolar {
 	color: var(--primary-color);
 }
+
 view#home div#mini-terminal-widget div#mini-terminal input {
 	background: transparent;
+	color: var(--on-surface-1);
 	font-size: 1.2rem;
 	width: 100%;
+	user-select: none;
 }
 
 view#home div#mini-terminal-widget div#mini-terminal input:focus {
@@ -116,8 +115,17 @@ view#home div#mini-terminal-widget button {
 :root[data-display="mobile"] view#home div#mini-terminal-widget button {
 	margin-left: 0.5rem;
 }
+
 view#home div#mini-terminal-widget button svg {
 	width: 2.5rem;
 	height: 2.5rem;
+	fill: var(--on-surface-1);
+}
+
+view#home div#mini-terminal-widget button:focus {
+	outline: none;
+}
+
+view#home div#mini-terminal-widget button:focus svg {
 	fill: var(--primary-color);
 }
