@@ -14,7 +14,7 @@
 	--surface-1-blur: blur(.75rem);
 
 	--surface-2: #dfdfdf15;
-	--on-surface-2: #e9e9e9;
+	--on-surface-2: #e9e9e9aa;
 	--surface-2-blur: blur(1rem);
 
 	--surface-3: #dfdfdf20;
@@ -40,6 +40,7 @@
 
 	height: 100%;
 	width: 100%;
+	font-size: 1.2rem;
 }
 
 body {
@@ -66,6 +67,7 @@ view {
 * {
 	transition: none;
 	user-select: none;
+	font-family: var(--font-console) !important;
 }
 
 *:focus {

@@ -60,3 +60,15 @@ div.terminal div.out .green {
 div.terminal div.out .blue {
 	color: #b4e6ff;
 }
+
+div.terminal div.out .darkblue {
+	color: #454EB2;
+}
+
+div.terminal div.out .orange {
+	color: #BD764A;
+}
+
+div.terminal div.out .pink {
+	color: #AF66AE;
+}

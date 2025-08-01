@@ -8,7 +8,7 @@ export default class ProjectService {
   static async getGlobalCategoryStats(): Promise<GlobalCategoryStats> {
     return {
       stats: {
-        languages: 10,
+        languages: 6,
         projects: 32,
       },
       summaries: [

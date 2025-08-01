@@ -5,77 +5,103 @@ import { Terminal } from "../model/terminal.js";
 import FormatService from "../service/format.service.js";
 import TimeService from "../service/time.service.js";
 
-export default class TerminalUI {
-	private static readonly CLASS = "terminal";
-	private static instance: TerminalUI;
+const TERMINAL_UI_CLASS = "terminal";
+let _core: Terminal;
+let _ui: HTMLElement;
+let _renderer: HTMLElement;
 
-	public readonly core: Terminal;
-	public ui: HTMLElement;
+/**
+ * instance terminal
+ */
+export function instanceTerminal(){
+	if (undefined !== _ui) return
+	_core = new Terminal()
+	_core.attach(data => output(data));
+	_ui = uiComponent({ classes: [TERMINAL_UI_CLASS] });
+	_renderer = _ui
+}
 
-	/**
-	 * Get current terminal instance
-	 */
-	static getInstance(): TerminalUI {
+/**
+ * Clear the terminal
+ */
+export function clearTerminal() {
+	_renderer.innerHTML = "";
+}
 
-		// if instance does not exist, create it
-		if (undefined === this.instance) this.instance = new TerminalUI();
-		return this.instance;
+/**
+ * Execute a command
+ */
+export async function executeCommand(cmd: string) {
+	const start = TimeService.currentNanoseconds();
+	if(_ui != _renderer) {
+		await _core.execute(cmd);
+		console.log("Rendered in",(TimeService.currentNanoseconds() - start)/1000,"ms")
+		return
 	}
 
-	/**
-	 * Create ui
-	 */
-	constructor() {
-		this.ui = uiComponent({
-			classes: [TerminalUI.CLASS],
-		});
 
-		this.core = new Terminal();
-		this.core.attach(data => this.out(data));
+	const input = uiComponent({
+		classes: ["in"],
+		text: `$ visitor (${new Date().toLocaleTimeString()}) ～ ${cmd}`,
+	});
+
+	_renderer.appendChild(input);
+	await Animations.typing(input)
+
+	await _core.execute(cmd);
+	const time = uiComponent({
+		type: Html.Span,
+		text: ` - ${FormatService.humanReadableTime((TimeService.currentNanoseconds() - start))}`
+	})
+
+	input.appendChild(time)
+	await Animations.typing(time)
+}
+
+/**
+ * Output to the terminal renderer
+ * @param data the output data
+ */
+async function output(data: HTMLElement | string) {
+	const output = uiComponent({ classes: ["out"] });
+
+	if (typeof data == "string") {
+		output.innerHTML = data as string
+	} else {
+		output.appendChild(data as HTMLElement)
 	}
 
-	/**
-	 * Clear the terminal
-	 */
-	clear() {
-		this.ui.innerHTML = "";
-	}
+	_renderer?.appendChild(output);
+	await Animations.show(output);
+}
 
-	/**
-	 * Execute a command
-	 */
-	async execute(cmd: string) {
-		const start = TimeService.currentNanoseconds();
-		const input = uiComponent({
-			classes: ["in"],
-			text: `$ visitor (${new Date().toLocaleTimeString()}) ～ ${cmd}`,
-		});
+/**
+ * Get terminal ui
+ * @returns the terminal ui
+ */
+export function getTerminalUI() : HTMLElement {
+	return _ui
+}
 
-		this.ui.appendChild(input);
-		await Animations.typing(input)
-		await this.core.execute(cmd);
+/**
+ * Get terminal
+ * @returns the terminal
+ */
+export function getTerminal() : Terminal {
+	return _core
+}
 
-		const time = uiComponent({
-			type: Html.Span,
-			text: ` - ${FormatService.humanReadableTime((TimeService.currentNanoseconds() - start))}`
-		})
+/**
+ * Set a new renderer for terminal
+ * @param renderer the renderer component
+ */
+export function setTerminalRenderer(renderer : HTMLElement) {
+	_renderer = renderer ?? _ui
+}
 
-		input.appendChild(time)
-		Animations.typing(time)
-	}
-
-	async out (out : HTMLElement | string) {
-		const output = uiComponent({
-			classes: ["out"],
-		});
-
-		if(typeof out == "string") {
-			output.innerHTML = out as string
-		} else {
-			output.appendChild(out as HTMLElement)
-		}
-
-		this.ui.appendChild(output);
-		await Animations.show(output);
-	}
+/**
+ * Set default renderer
+ */
+export function resetTerminalRenderer() {
+	_renderer = _ui
 }

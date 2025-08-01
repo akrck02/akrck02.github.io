@@ -36,14 +36,12 @@ export function disconnectSignal(id: string) {
 }
 
 /**
- * Emit a signal with the given dat
+ * Emit a signal with the given data
  */
 export async function emitSignal(id: string, data: any = undefined) {
   if (false == buffer.has(id)) return;
 
   const targets = buffer.get(id);
-
-  for (const target of targets) {
-    target(data);
-  }
+  for (const target of targets) target(data);
+  await Promise.all(targets)
 }

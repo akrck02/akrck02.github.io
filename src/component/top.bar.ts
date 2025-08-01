@@ -75,7 +75,7 @@ export default class TopBar {
 		return this.instance;
 	}
 
-	static setTitle(name : string) {
+	static async setTitle(name : string) {
 		if(undefined === this.instance) return
 		this.title.innerText = name;
 	}

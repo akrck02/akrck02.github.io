@@ -1,4 +1,6 @@
-import TerminalUI from "./component/terminal.ui.js";
+
+import { listProjects } from "./command/list.projects.js";
+import { clearTerminal, getTerminal, getTerminalUI, instanceTerminal } from "./component/terminal.ui.js";
 import TopBar from "./component/top.bar.js";
 import Animations from "./lib/animations.js";
 import { BubbleUI } from "./lib/bubble.js";
@@ -15,12 +17,14 @@ import {
 import { sleep } from "./lib/time.js";
 import { AppConfigurations } from "./model/configurations/configurations.js";
 import { IconBundle } from "./model/configurations/icons.js";
+import { listGames } from "./command/list.games.js";
 import HomeView from "./view/home.view.js";
 import NotFound from "./view/not.found.view.js";
-import ProjectsView from "./view/project.view.js";
+import {showProjectsView } from "./view/project.view.js";
 import TerminalView from "./view/test.js";
-
-let terminal : TerminalUI
+import { listDevTools } from "./command/list.devtools.js";
+import { listWebsites } from "./command/list.websites.js";
+import { listCli } from "./command/list.cli.js";
 
 /**
  * When the dynamic URL changes loads
@@ -42,10 +46,11 @@ window.onload = async function () {
 	const bar = TopBar.getInstance("akrck02.org/projects");
 	document.body.appendChild(bar);
 
-	terminal = TerminalUI.getInstance();
-	terminal.clear();
-		sleep(1000)
-	terminal.ui.classList.add("show")
+	instanceTerminal()
+	const terminalUI = getTerminalUI()
+	clearTerminal()
+	sleep(1)
+	terminalUI.classList.add("show")
 
 	const content = uiComponent({
 		classes: [BubbleUI.BoxColumn],
@@ -55,7 +60,7 @@ window.onload = async function () {
 			overflowY: "auto",
 		},
 	});
-	content.appendChild(terminal.ui);
+	content.appendChild(terminalUI);
 	document.body.appendChild(content);
 
 	await start();
@@ -78,9 +83,7 @@ function checkAnimations() {
 	Animations.enabled = isConfigurationActive(AppConfigurations.Animations)
 
 	// set the animation preference in all the document
-	if(Animations.enabled) {
-		document.documentElement.dataset.animations = "true"
-	}
+	if(Animations.enabled) document.documentElement.dataset.animations = "true"
 }
 
 /**
@@ -103,7 +106,7 @@ async function getIcons() {
  */
 async function start() {
 	setCommands();
-	setRoutes(terminal.ui);
+	setRoutes(getTerminalUI());
 	document.body.style.transition = "backgroundvar(--animation-slow)"
 	document.body.style.backgroundImage =` url("${getConfiguration(AppConfigurations.Path)["images"]}/development.jpg")`
 }
@@ -114,8 +117,8 @@ async function start() {
 function setRoutes(parent: HTMLElement) {
 	setHomeRoute(HomeView.show);
 	setNotFoundRoute(NotFound.show);
-	setRoute("/projects", ProjectsView.show);
-	setRoute("/test", TerminalView.show);
+	setRoute("/projects", showProjectsView);
+	setRoute("/terminal", TerminalView.show);
 	showRoute(window.location.hash.slice(1).toLowerCase(), parent);
 }
 
@@ -123,6 +126,10 @@ function setRoutes(parent: HTMLElement) {
  * Register commands for the terminal
  */
 function setCommands() {
-	const terminal = TerminalUI.getInstance();
-	terminal.core.register("ls ./projects", ProjectsView.renderProjects);
+	const terminal = getTerminal();
+	terminal.register("ls ./projects", listProjects);
+	terminal.register("ls ./projects/games", listGames);
+	terminal.register("ls ./projects/developer tools", listDevTools);
+	terminal.register("ls ./projects/websites", listWebsites);
+	terminal.register("ls ./projects/cli", listCli);
 }

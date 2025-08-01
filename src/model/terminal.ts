@@ -22,13 +22,15 @@ export class Terminal {
 	 * @param cmd The command
 	 */
 	async execute(cmd: string) {
+		console.debug(`Executing: ${cmd}`)
 		const pipe = this.getCommandPipe(cmd);
 		if (undefined == pipe) {
 			this.help();
 			return;
 		}
+
 		await pipe(this.output, cmd);
-		emitSignal(this.updated);
+		await emitSignal(this.updated);
 	}
 
 	/**

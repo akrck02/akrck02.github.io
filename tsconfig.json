@@ -4,9 +4,10 @@
 		"outDir": "./scripts/",
 		"rootDir": "./src/",
 		"esModuleInterop": true,
-		"experimentalDecorators": true,
-		"emitDecoratorMetadata": true,
+		"forceConsistentCasingInFileNames": true,
 		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true
+
+	  "module": "ESNext",
+	  "incremental": true,
 	}
 }

@@ -43,42 +43,34 @@ export class Menu {
 	}
 
 	private handleInteractions(item : HTMLButtonElement, option : string) {
-		item.onclick = async () => {
-			await emitSignal(this.selectedSignal, option)
-			this.selectedItem = item
-			this.select(+item.dataset.index)
-		}
-
-		item.onfocus = () => this.show(+item.dataset.index)
+		item.onclick = () => item.focus()
+		item.onfocus = async () => await this.show(+item.dataset.index)
 
 		const shortcutRegistry = Shortcuts.register(item)
 		Shortcuts.set(shortcutRegistry, {
 			interaction : KeyInteraction.keyDown,
 			key : "ARROWUP",
-			callback: () => {
-				this.show(this.selectedIndex-1 < 0 ? this.buttons.length - 1 : this.selectedIndex - 1)
-			}
+			callback: () => this.buttons[this.selectedIndex-1 < 0 ? this.buttons.length - 1 : this.selectedIndex - 1].focus()
 		})
 
 		Shortcuts.set(shortcutRegistry, {
 			interaction : KeyInteraction.keyDown,
 			key : "ARROWDOWN",
-			callback: () => {
-				this.show(this.selectedIndex + 1 >= this.buttons.length ? 0 : this.selectedIndex + 1)
-			}
+			callback: () => this.buttons[this.selectedIndex + 1 >= this.buttons.length ? 0 : this.selectedIndex + 1].focus()
 		})
 	}
 
-	select(index : number) {
+
+	async show(index : number = undefined) {
+
 		this.selectedIndex = index
 		for(const button of this.buttons) button.classList.remove("selected")
 		this.selectedItem = this.buttons[this.selectedIndex]
-		this.selectedItem.classList.add("selected")
-	}
 
-	show(index : number = undefined) {
-		this.buttons[index]?.focus()
-		this.buttons[index]?.click()
+		if(undefined == this.selectedItem) return
+
+		this.selectedItem.classList.add("selected")
+		await emitSignal(this.selectedSignal, this.selectedItem.innerText.toLocaleLowerCase())
 	}
 
 	getUi() : HTMLElement {

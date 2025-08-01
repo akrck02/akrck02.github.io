@@ -2,6 +2,7 @@ div.menu button {
 	background: transparent;
 	text-align: left;
 	margin-left: 0;
+	font-size: 1.2rem;
 }
 
 div.menu button:focus,

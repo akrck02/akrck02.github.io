@@ -51,10 +51,10 @@ export default class Animations {
 		 * animate appearing
 		 * @param output
 		 */
-		static async show(output : HTMLElement, time : number = 200) {
+		static async show(output : HTMLElement) {
 			await sleepIf(1, Animations.enabled)
 			output.classList.add("show")
-			await sleepIf(time + 1, Animations.enabled)
+			await sleepIf(1, Animations.enabled)
 		}
 
 

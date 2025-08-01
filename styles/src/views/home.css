@@ -8,11 +8,11 @@ view#home {
 }
 
 view#home div#content {
-	width: 30rem;
+	width: 33rem;
 }
 
 :root[data-display="mobile"] view#home div#content {
-	width: min(20rem, 100%);
+	width: min(21rem, 100%);
 }
 
 view#home p#echo {
