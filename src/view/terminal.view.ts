@@ -16,9 +16,9 @@ export async function showTerminalView(
 		styles: {
 			width: "100%",
 			height: "2rem",
-			padding: ".5rem 1rem",
+			padding: ".5rem 0rem",
 			borderRadius: ".5rem",
-			magin: "1rem",
+			margin: "1rem 0",
 			fontSize: "1.25rem",
 			background: "transparent",
 			outline: "none",
@@ -35,12 +35,14 @@ export async function showTerminalView(
 			container.appendChild(input);
 			input.value = "";
 			//	input.focus()
-			window.scrollTo(0, document.body.scrollHeight);
+
+			const terminal = document.getElementsByClassName("terminal")[0];
+			window.scrollTo(0, terminal.scrollHeight);
 		},
 	});
 
 	clearTerminal();
-	executeUiCommand(DEFAULT_COMMAND_CHANNEL, "neofetch");
+	await executeUiCommand(DEFAULT_COMMAND_CHANNEL, "help");
 	container.append(input);
 	input.focus();
 }

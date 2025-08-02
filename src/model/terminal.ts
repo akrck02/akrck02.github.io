@@ -34,3 +34,11 @@ export async function executeCommand(
 
 	return await registry.get(channel).get(cmd)();
 }
+/**
+ * Get available commands of a channel
+ * @param channel the channel to search for
+ * @returns the available commands of a channel
+ */
+export function getAvailableCommands(channel: string): MapIterator<string> {
+	return registry.get(channel)?.keys();
+}

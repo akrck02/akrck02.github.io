@@ -29,7 +29,7 @@ import { IconBundle } from "./model/configurations/icons.js";
 import { listGames } from "./command/list.games.js";
 import { showNotFoundView } from "./view/not.found.view.js";
 import { showProjectsView } from "./view/project.view.js";
-import { showTerminalView } from "./view/test.js";
+import { showTerminalView } from "./view/terminal.view.js";
 import { checkDisplayType } from "./lib/display.js";
 import { showHomeView } from "./view/home.view.js";
 import { setCommands } from "./service/command.service.js";

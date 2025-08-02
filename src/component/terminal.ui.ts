@@ -1,8 +1,10 @@
+import { help } from "../command/help.js";
 import Animations from "../lib/animations.js";
 import { uiComponent } from "../lib/dom.js";
 import { Html } from "../lib/html.js";
 import { sleep } from "../lib/time.js";
-import { executeCommand } from "../model/terminal.js";
+import { executeCommand, registerCommand } from "../model/terminal.js";
+import { DEFAULT_COMMAND_CHANNEL } from "../service/command.service.js";
 import { humanReadableTime } from "../service/format.service.js";
 import { currentNanoseconds } from "../service/time.service.js";
 
@@ -42,9 +44,14 @@ export async function executeUiCommand(
 
 	let input = undefined;
 	if (!showInput) {
-		const result = await executeCommand(channel, cmd);
+		let result = await executeCommand(channel, cmd);
+		if (undefined == result) {
+			result = await executeCommand(DEFAULT_COMMAND_CHANNEL, "help");
+		}
+
 		const renderTime = humanReadableTime((currentNanoseconds() - start) / 1000);
 		console.debug("Rendered in", renderTime);
+
 		for (const line of result) {
 			const outputContainer = await createOutputContainer(line);
 			renderer.appendChild(outputContainer);
@@ -61,7 +68,10 @@ export async function executeUiCommand(
 	renderer.appendChild(input);
 	await Animations.typing(input);
 
-	const result = await executeCommand(channel, cmd);
+	let result = await executeCommand(channel, cmd);
+	if (undefined == result) {
+		result = await executeCommand(DEFAULT_COMMAND_CHANNEL, "help");
+	}
 	const renderTime = humanReadableTime((currentNanoseconds() - start) / 1000);
 	console.debug("Rendered in", renderTime);
 
