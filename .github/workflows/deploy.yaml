@@ -10,9 +10,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          sparse-checkout: .
-
       - name: Show directories
         run: tree -L 2 .
 
