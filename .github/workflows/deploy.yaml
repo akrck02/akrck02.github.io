@@ -21,14 +21,15 @@ jobs:
 
       - name: Transpile typescript and minify the js
         run: npx swc src -d scripts --copy-files --strip-leading-paths
-      - name: Remove innecesary files and directories
-        run: rm -rf .git .gitignore .github styles/src node_modules package.json package-lock.json .swcrc server-n-cache.py bin temp src styles/out styles.env tsconfig.json README.md
 
       - name: Create directories
         run: mkdir -p styles/src
 
       - name: Move css
         run: mv styles/out/master.css styles/src/master.css
+
+      - name: Remove innecesary files and directories
+        run: rm -rf .git .gitignore .github styles/src node_modules package.json package-lock.json .swcrc server-n-cache.py bin temp src styles/out styles.env tsconfig.json README.md
 
       - name: Show directories
         run: tree -L 2 .
