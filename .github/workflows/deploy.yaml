@@ -21,12 +21,8 @@ jobs:
 
       - name: Transpile typescript and minify the js
         run: npx swc src -d scripts --copy-files --strip-leading-paths
-
-      - name: Show directories
-        run: tree -L 3 .
-
       - name: Remove innecesary files and directories
-        run: rm -rf .gitignore styles/src src bin/lit environment.js styles.env tsconfig.json .swcrc .github README.md server-n-cache.py package-lock.json .git
+        run: rm -rf node_modules .gitignore styles/src src bin/lit environment.js styles.env tsconfig.json .swcrc .github README.md server-n-cache.py package-lock.json .git
 
       - name: Create directories
         run: mkdir -p styles/src temp/src/
@@ -35,7 +31,7 @@ jobs:
         run: mv styles/out/master.css styles/src/master.css
 
       - name: Show directories
-        run: tree -L 3 .
+        run: tree -L 2 .
 
       #- name: Deploy 🚀
       #  uses: JamesIves/github-pages-deploy-action@v4.3.0
