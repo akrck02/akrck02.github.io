@@ -7,76 +7,58 @@ import { getIcon } from "../lib/icons.js";
 import { AppConfigurations } from "../model/configurations/configurations.js";
 import { IconBundle, MaterialIcons, SocialIcons } from "../model/configurations/icons.js";
 
+let title: HTMLElement;
 
-export default class TopBar {
-	private static readonly ID = "top-bar";
-	private static readonly LEFT_CONTAINER_ID = "left-container";
-	private static readonly RIGHT_CONTAINER_ID = "right-container";
+export function createTopBar(name: string) : HTMLElement {
 
-	private static instance: HTMLElement;
-	private static title: HTMLElement;
+	const instance = uiComponent({
+		type: Html.Header,
+		id: "top-bar",
+		classes: [BubbleUI.BoxXBetween, BubbleUI.BoxYCenter],
+	});
 
-	static getInstance(name: string) {
-		if (undefined != this.instance) {
-			this.title.innerText = name;
-			return this.instance;
-		}
+	const leftContainer = uiComponent({
+		id: "left-container",
+		classes: [BubbleUI.BoxXStart],
+	});
+	instance.appendChild(leftContainer);
 
-		this.instance = uiComponent({
-			type: Html.Header,
-			id: TopBar.ID,
-			classes: [BubbleUI.BoxXBetween, BubbleUI.BoxYCenter],
-		});
+	const terminalIcon = getIcon(IconBundle.Material, MaterialIcons.Terminal);
+	leftContainer.appendChild(terminalIcon);
 
-		const leftContainer = uiComponent({
-			id: TopBar.LEFT_CONTAINER_ID,
-			classes: [BubbleUI.BoxXStart],
-		});
-		this.instance.appendChild(leftContainer);
+	title = uiComponent({
+		type: Html.H1,
+		text: name,
+	});
+	leftContainer.appendChild(title);
 
-		const terminalIcon = getIcon(IconBundle.Material, MaterialIcons.Terminal);
-		leftContainer.appendChild(terminalIcon);
+	const rightContainer = uiComponent({
+		id: "right-container",
+		classes: [BubbleUI.BoxXEnd],
+	});
 
-		this.title = uiComponent({
-			type: Html.H1,
-			text: name,
-		});
-		leftContainer.appendChild(this.title);
+	const githubIcon = getIcon(IconBundle.Social, SocialIcons.Github);
+	rightContainer.appendChild(githubIcon ?? uiComponent());
+	githubIcon.onclick = () => window.open(getConfiguration(AppConfigurations.GithubRepository), "_blank")
 
-		const rightContainer = uiComponent({
-			id: TopBar.RIGHT_CONTAINER_ID,
-			classes: [BubbleUI.BoxXEnd],
-		});
+	const motionsIcon = getIcon(IconBundle.Material, Animations.enabled? MaterialIcons.MotionPause: MaterialIcons.MotionPlay);
+	rightContainer.appendChild(motionsIcon ?? uiComponent());
 
-		const githubIcon = getIcon(IconBundle.Social, SocialIcons.Github);
-		rightContainer.appendChild(githubIcon ?? uiComponent());
-		githubIcon.onclick = () => window.open(getConfiguration(AppConfigurations.GithubRepository), "_blank")
-
-		const motionsIcon = getIcon(IconBundle.Material, Animations.enabled? MaterialIcons.MotionPause: MaterialIcons.MotionPlay);
-		rightContainer.appendChild(motionsIcon ?? uiComponent());
-
-		motionsIcon.onclick= () => {
-			Animations.enabled =! Animations.enabled
-			setConfiguration(AppConfigurations.Animations, Animations.enabled)
-			document.documentElement.dataset.animations = `${Animations.enabled}`
-			motionsIcon.innerHTML = getIcon(IconBundle.Material, Animations.enabled? MaterialIcons.MotionPause: MaterialIcons.MotionPlay).querySelector("svg").outerHTML;
-		}
-
-		const folderIcon = getIcon(IconBundle.Material, MaterialIcons.Folder);
-		rightContainer.appendChild(folderIcon ?? uiComponent());
-
-		// const addIcon = getIcon(IconBundle.Material, MaterialIcons.Add);
-		// rightContainer.appendChild(addIcon ?? uiComponent());
-
-
-
-		this.instance.appendChild(rightContainer);
-
-		return this.instance;
+	motionsIcon.onclick= () => {
+		Animations.enabled =! Animations.enabled
+		setConfiguration(AppConfigurations.Animations, Animations.enabled)
+		document.documentElement.dataset.animations = `${Animations.enabled}`
+		motionsIcon.innerHTML = getIcon(IconBundle.Material, Animations.enabled? MaterialIcons.MotionPause: MaterialIcons.MotionPlay).querySelector("svg").outerHTML;
 	}
 
-	static async setTitle(name : string) {
-		if(undefined === this.instance) return
-		this.title.innerText = name;
-	}
+	const folderIcon = getIcon(IconBundle.Material, MaterialIcons.Folder);
+	rightContainer.appendChild(folderIcon ?? uiComponent());
+
+	instance.appendChild(rightContainer);
+	return instance;
+}
+
+export async function setTopBarTitle(name : string) {
+	if(undefined === title) return
+	title.innerText = name;
 }

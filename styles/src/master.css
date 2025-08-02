@@ -44,23 +44,14 @@
 }
 
 body {
-	//	background-image: url("../../resources/images/development.jpg");
 	background-repeat: no-repeat;
   	background-size: cover;
    	background-blend-mode: multiply;
-
 }
 
-view {
-//	backdrop-filter: var(--background-blur);
-}
 
 :root[data-display="mobile"] body {
 	display: flex;
-	flex-direction: column;
-}
-
-:root[data-display="mobile"] body {
 	flex-direction: column-reverse;
 }
 
@@ -78,4 +69,10 @@ view {
 a:focus:not(:hover) {
 	border-radius: 0.35rem;
 	border: 0.15rem solid var(--primary-color);
+}
+
+div#app-content {
+	width: 100%;
+	height: calc(100% - 3rem);
+	overflow-y: auto;
 }

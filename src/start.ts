@@ -1,11 +1,11 @@
 
 import { listProjects } from "./command/list.projects.js";
 import { clearTerminal, getTerminal, getTerminalUI, instanceTerminal } from "./component/terminal.ui.js";
-import TopBar from "./component/top.bar.js";
+import { createTopBar } from "./component/top.bar.js";
 import Animations from "./lib/animations.js";
 import { BubbleUI } from "./lib/bubble.js";
 import { getConfiguration, isConfigurationActive, isConfigurationSet, loadConfiguration, setConfiguration } from "./lib/configuration.js";
-import { Display } from "./lib/display.js";
+
 import { uiComponent } from "./lib/dom.js";
 import { loadIcons } from "./lib/icons.js";
 import {
@@ -25,6 +25,7 @@ import TerminalView from "./view/test.js";
 import { listDevTools } from "./command/list.devtools.js";
 import { listWebsites } from "./command/list.websites.js";
 import { listCli } from "./command/list.cli.js";
+import { checkDisplayType } from "./lib/display.js";
 
 /**
  * When the dynamic URL changes loads
@@ -37,13 +38,20 @@ window.addEventListener("hashchange", start);
  * the app state to show
  */
 window.onload = async function () {
+
+	// Load configuration
 	await loadConfiguration("gtdf.config.json");
 	document.title = getConfiguration(AppConfigurations.AppName);
-	Display.checkType();
-	checkAnimations()
-	await getIcons();
 
-	const bar = TopBar.getInstance("akrck02.org/projects");
+	// Check ui start variables
+	checkDisplayType();
+	window.onresize = checkDisplayType;
+	checkAnimations()
+	await loadIcons(IconBundle.Material,`${getConfiguration("path")["icons"]}/materialicons.json`);
+	await loadIcons(IconBundle.Social,`${getConfiguration("path")["icons"]}/socialicons.json`);
+
+	// Create basic DOM layout
+	const bar = createTopBar("akrck02.org");
 	document.body.appendChild(bar);
 
 	instanceTerminal()
@@ -54,11 +62,7 @@ window.onload = async function () {
 
 	const content = uiComponent({
 		classes: [BubbleUI.BoxColumn],
-		styles: {
-			width: "100%",
-			height: "calc(100% - 3rem)",
-			overflowY: "auto",
-		},
+		id : "app-content"
 	});
 	content.appendChild(terminalUI);
 	document.body.appendChild(content);
@@ -66,9 +70,7 @@ window.onload = async function () {
 	await start();
 };
 
-window.onresize = async function () {
-	Display.checkType();
-};
+
 
 /**
  * Check if animations are enabled
@@ -84,21 +86,6 @@ function checkAnimations() {
 
 	// set the animation preference in all the document
 	if(Animations.enabled) document.documentElement.dataset.animations = "true"
-}
-
-/**
- * Get app icons
- */
-async function getIcons() {
-	await loadIcons(
-		IconBundle.Material,
-		`${getConfiguration("path")["icons"]}/materialicons.json`,
-	);
-
-	await loadIcons(
-		IconBundle.Social,
-		`${getConfiguration("path")["icons"]}/socialicons.json`,
-	);
 }
 
 /**

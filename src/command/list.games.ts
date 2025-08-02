@@ -1,4 +1,4 @@
-import TopBar from "../component/top.bar.js";
+import { setTopBarTitle } from "../component/top.bar.js";
 import { BubbleUI } from "../lib/bubble.js";
 import { getConfiguration } from "../lib/configuration.js";
 import { uiComponent } from "../lib/dom.js";
@@ -35,7 +35,7 @@ const games = {
 
 export async function listGames(out: (out: HTMLElement | string) => Promise<void>, cmd: string) {
 
-	TopBar.setTitle("akrck02.org/projects/games")
+	setTopBarTitle("akrck02.org/projects/games")
 
 	for(const id in games) {
 		const game = games[id]

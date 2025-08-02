@@ -1,13 +1,10 @@
-import { isMediumDevice, isSmallDevice } from "./browser.js"
-import { isMobile } from "./browser.js"
+import { isMediumDevice, isMobile, isSmallDevice } from "./browser.js"
 import { getConfiguration, setConfiguration } from "./configuration.js"
 import { setDomDataset } from "./dom.js"
 
-export class Display {
+export function checkDisplayType() {
 
-  static checkType() {
-
-    if (isMobile() || isSmallDevice() || isMediumDevice()) {
+	if (isMobile() || isSmallDevice() || isMediumDevice()) {
       setDomDataset(document.documentElement, {
         display: "mobile"
       })
@@ -21,9 +18,8 @@ export class Display {
     })
 
     setConfiguration("display", "desktop")
-  }
+}
 
-  static isMobile() {
-    return "mobile" == getConfiguration("display")
-  }
+export default function isMobileDisplay() {
+	  return "mobile" == getConfiguration("display")
 }

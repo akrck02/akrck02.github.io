@@ -1,5 +1,4 @@
 import { clearTerminal, executeCommand, getTerminal, getTerminalUI, setTerminalRenderer } from "../component/terminal.ui.js";
-import TopBar from "../component/top.bar.js";
 import { BubbleUI } from "../lib/bubble.js";
 import { uiComponent } from "../lib/dom.js";
 import { Html } from "../lib/html.js";

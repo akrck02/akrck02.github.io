@@ -1,0 +1,44 @@
+name: Deploy
+on:
+  push:
+    branches: [main,dev]
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install node dependencies
+        run: npm install -g typescript && npm i -D @swc/cli @swc/core
+
+      - name: Minify the css
+        run: ./bin/lit -f styles.env
+
+      - name: Transpile typescript and minify the js
+        run: npx swc src -d scripts --copy-files --strip-leading-paths
+
+      - name: Show directories
+        run: tree -L 3 .
+
+      - name: Remove innecesary files and directories
+        run: rm -rf .gitignore styles/src src bin/lit environment.js styles.env tsconfig.json .swcrc .github README.md server-n-cache.py package-lock.json .git
+
+      - name: Create directories
+        run: mkdir -p styles/src temp/src/
+
+      - name: Move css
+        run: mv styles/out/master.css styles/src/master.css
+
+      - name: Show directories
+        run: tree -L 3 .
+
+      #- name: Deploy 🚀
+      #  uses: JamesIves/github-pages-deploy-action@v4.3.0
+      #  with:
+      #    branch: gh-pages # The branch the action should deploy to.
+      #    folder: . # The folder the action should deploy.

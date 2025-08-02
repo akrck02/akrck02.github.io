@@ -23,6 +23,8 @@ export class Menu {
 
 		let index = 0
 		for(const option of options) {
+
+			// Create menu option
 			const item = uiComponent({
 				type: Html.Button,
 				text : option,
@@ -36,28 +38,27 @@ export class Menu {
 				this.selectedItem.classList.add("selected")
 			}
 
-			this.handleInteractions(item, option)
 			this.ui.appendChild(item)
+
+			// handle interactions
+			item.onclick = () => item.focus()
+			item.onfocus = async () => await this.show(+item.dataset.index)
+
+			const shortcutRegistry = Shortcuts.register(item)
+			Shortcuts.set(shortcutRegistry, {
+				interaction : KeyInteraction.keyDown,
+				key : "ARROWUP",
+				callback: () => this.buttons[this.selectedIndex-1 < 0 ? this.buttons.length - 1 : this.selectedIndex - 1].focus()
+			})
+
+			Shortcuts.set(shortcutRegistry, {
+				interaction : KeyInteraction.keyDown,
+				key : "ARROWDOWN",
+				callback: () => this.buttons[this.selectedIndex + 1 >= this.buttons.length ? 0 : this.selectedIndex + 1].focus()
+			})
+
 			index++;
 		}
-	}
-
-	private handleInteractions(item : HTMLButtonElement, option : string) {
-		item.onclick = () => item.focus()
-		item.onfocus = async () => await this.show(+item.dataset.index)
-
-		const shortcutRegistry = Shortcuts.register(item)
-		Shortcuts.set(shortcutRegistry, {
-			interaction : KeyInteraction.keyDown,
-			key : "ARROWUP",
-			callback: () => this.buttons[this.selectedIndex-1 < 0 ? this.buttons.length - 1 : this.selectedIndex - 1].focus()
-		})
-
-		Shortcuts.set(shortcutRegistry, {
-			interaction : KeyInteraction.keyDown,
-			key : "ARROWDOWN",
-			callback: () => this.buttons[this.selectedIndex + 1 >= this.buttons.length ? 0 : this.selectedIndex + 1].focus()
-		})
 	}
 
 

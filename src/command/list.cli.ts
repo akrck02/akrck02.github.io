@@ -1,7 +1,8 @@
-import TopBar from "../component/top.bar.js";
+import { setTopBarTitle } from "../component/top.bar.js";
+
 
 export async function listCli(out: (out: HTMLElement | string) => Promise<void>, cmd: string) {
-	TopBar.setTitle("akrck02.org/projects/cli")
+	setTopBarTitle("akrck02.org/projects/cli")
 
 
 }

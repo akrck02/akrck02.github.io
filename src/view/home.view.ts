@@ -1,4 +1,5 @@
-import TopBar from "../component/top.bar.js";
+
+import { setTopBarTitle } from "../component/top.bar.js";
 import { BubbleUI } from "../lib/bubble.js";
 import { uiComponent } from "../lib/dom.js";
 import { Html } from "../lib/html.js";
@@ -26,7 +27,7 @@ export default class HomeView {
 	 */
 	static async show(parameters: string[], container: HTMLElement) {
 
-		TopBar.setTitle("akrck02.org")
+		setTopBarTitle("akrck02.org")
 
 		let ns = TimeService.currentNanoseconds();
 		const view = uiComponent({
