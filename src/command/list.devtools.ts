@@ -1,8 +1,6 @@
 import { setTopBarTitle } from "../component/top.bar.js";
 
-
-export async function listDevTools(out: (out: HTMLElement | string) => Promise<void>, cmd: string) {
-	setTopBarTitle("akrck02.org/projects/developer tools")
-
-
+export async function listDevTools() {
+	setTopBarTitle("akrck02.org/projects/developer tools");
+	return [];
 }

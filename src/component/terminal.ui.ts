@@ -1,107 +1,104 @@
 import Animations from "../lib/animations.js";
 import { uiComponent } from "../lib/dom.js";
 import { Html } from "../lib/html.js";
-import { Terminal } from "../model/terminal.js";
-import FormatService from "../service/format.service.js";
-import TimeService from "../service/time.service.js";
+import { sleep } from "../lib/time.js";
+import { executeCommand } from "../model/terminal.js";
+import { humanReadableTime } from "../service/format.service.js";
+import { currentNanoseconds } from "../service/time.service.js";
 
-const TERMINAL_UI_CLASS = "terminal";
-let _core: Terminal;
 let _ui: HTMLElement;
-let _renderer: HTMLElement;
 
 /**
  * instance terminal
  */
-export function instanceTerminal(){
-	if (undefined !== _ui) return
-	_core = new Terminal()
-	_core.attach(data => output(data));
-	_ui = uiComponent({ classes: [TERMINAL_UI_CLASS] });
-	_renderer = _ui
+export function instanceTerminal() {
+	if (undefined !== _ui) return;
+	_ui = uiComponent({ classes: ["terminal"] });
 }
 
 /**
  * Clear the terminal
  */
 export function clearTerminal() {
-	_renderer.innerHTML = "";
+	_ui.innerHTML = "";
 }
 
 /**
  * Execute a command
+ * @param channel The channel to which the command is sent
+ * @param cmd The command to execute
+ * @param renderer The command output renderer
+ * @param showInput (optional) if input line is shown
  */
-export async function executeCommand(cmd: string) {
-	const start = TimeService.currentNanoseconds();
-	if(_ui != _renderer) {
-		await _core.execute(cmd);
-		console.log("Rendered in",(TimeService.currentNanoseconds() - start)/1000,"ms")
-		return
+export async function executeUiCommand(
+	channel: string,
+	cmd: string,
+	renderer: HTMLElement = undefined,
+	showInput: boolean = true,
+): Promise<void> {
+	const start = currentNanoseconds();
+
+	if (undefined === renderer) renderer = _ui;
+
+	let input = undefined;
+	if (!showInput) {
+		const result = await executeCommand(channel, cmd);
+		const renderTime = humanReadableTime((currentNanoseconds() - start) / 1000);
+		console.debug("Rendered in", renderTime);
+		for (const line of result) {
+			const outputContainer = await createOutputContainer(line);
+			renderer.appendChild(outputContainer);
+			sleep(1);
+			await Animations.show(outputContainer);
+		}
+		return;
 	}
 
-
-	const input = uiComponent({
+	input = uiComponent({
 		classes: ["in"],
 		text: `$ visitor (${new Date().toLocaleTimeString()}) ～ ${cmd}`,
 	});
+	renderer.appendChild(input);
+	await Animations.typing(input);
 
-	_renderer.appendChild(input);
-	await Animations.typing(input)
+	const result = await executeCommand(channel, cmd);
+	const renderTime = humanReadableTime((currentNanoseconds() - start) / 1000);
+	console.debug("Rendered in", renderTime);
 
-	await _core.execute(cmd);
 	const time = uiComponent({
 		type: Html.Span,
-		text: ` - ${FormatService.humanReadableTime((TimeService.currentNanoseconds() - start))}`
-	})
+		text: ` - ${renderTime}`,
+	});
 
-	input.appendChild(time)
-	await Animations.typing(time)
+	input.appendChild(time);
+	await Animations.typing(time);
+	for (const line of result) {
+		const outputContainer = await createOutputContainer(line);
+		renderer.appendChild(outputContainer);
+		sleep(1);
+		await Animations.show(outputContainer);
+	}
 }
 
 /**
  * Output to the terminal renderer
  * @param data the output data
  */
-async function output(data: HTMLElement | string) {
+async function createOutputContainer(
+	data: HTMLElement | string,
+): Promise<HTMLElement> {
 	const output = uiComponent({ classes: ["out"] });
 
-	if (typeof data == "string") {
-		output.innerHTML = data as string
-	} else {
-		output.appendChild(data as HTMLElement)
-	}
+	if (typeof data == "string") output.innerHTML = data as string;
+	else output.appendChild(data as HTMLElement);
 
-	_renderer?.appendChild(output);
-	await Animations.show(output);
+	return output;
 }
 
 /**
  * Get terminal ui
  * @returns the terminal ui
  */
-export function getTerminalUI() : HTMLElement {
-	return _ui
-}
-
-/**
- * Get terminal
- * @returns the terminal
- */
-export function getTerminal() : Terminal {
-	return _core
-}
-
-/**
- * Set a new renderer for terminal
- * @param renderer the renderer component
- */
-export function setTerminalRenderer(renderer : HTMLElement) {
-	_renderer = renderer ?? _ui
-}
-
-/**
- * Set default renderer
- */
-export function resetTerminalRenderer() {
-	_renderer = _ui
+export function getTerminalUI(): HTMLElement {
+	return _ui;
 }

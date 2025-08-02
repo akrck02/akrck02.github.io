@@ -1,65 +1,36 @@
-import { emitSignal, setSignal } from "../lib/signals.js";
+type Command = () => Promise<HTMLElement[]>;
+const registry: Map<string, Map<string, Command>> = new Map(); // channel -> <pattern, command>
 
-type OutputPipe = (out: HTMLElement | string) => Promise<void>;
-type CommandPipe = (out: OutputPipe, cmd: string) => Promise<void>;
+/**
+ * Register a new command
+ * @param channel The channel to which the command is registered
+ * @param pattern The command pattern
+ * @param callback The command execution callback
+ */
+export function registerCommand(
+	channel: string,
+	pattern: string,
+	callback: Command,
+) {
+	if (!registry.has(channel)) registry.set(channel, new Map());
+	registry.get(channel).set(pattern, callback);
+}
 
-export class Terminal {
-	private output: OutputPipe = async (out) => console.log(out);
-	readonly updated: string = setSignal();
-	readonly patterns: Map<string, CommandPipe> = new Map();
+/**
+ * Execute a command
+ * @param channel The channel to which the command is sent
+ * @param cmd The command to execute
+ */
+export async function executeCommand(
+	channel: string,
+	cmd: string,
+): Promise<HTMLElement[]> {
+	console.debug(`Executing: ${cmd}`);
 
-	/**
-	 * Register a new command
-	 * @param pattern The command pattern
-	 * @param callback
-	 */
-	register(pattern: string, callback: CommandPipe) {
-		this.patterns.set(pattern, callback);
+	if (!registry.has(channel) || !registry.get(channel).has(cmd)) {
+		console.warn(`The command ${cmd} was not found on channel ${channel}.`);
+		return undefined;
 	}
 
-	/**
-	 * Execute a command
-	 * @param cmd The command
-	 */
-	async execute(cmd: string) {
-		console.debug(`Executing: ${cmd}`)
-		const pipe = this.getCommandPipe(cmd);
-		if (undefined == pipe) {
-			this.help();
-			return;
-		}
-
-		await pipe(this.output, cmd);
-		await emitSignal(this.updated);
-	}
-
-	/**
-	 * help
-	 */
-	help() {
-		this.output("Help");
-		this.output("-------------------------------------------");
-		this.output("");
-		this.output("This are the available commands:");
-		for (let key of this.patterns.keys()) {
-			this.output(key);
-		}
-	}
-
-	/**
-	 * Get command pipe
-	 * @param cmd the command to Execute
-	 * @returns the command pipe matching the command
-	 */
-	private getCommandPipe(cmd: string): CommandPipe {
-		return this.patterns.get(cmd);
-	}
-
-	/**
-	 * Attach the output pipe
-	 * @param output the output to attach
-	 */
-	attach(output: OutputPipe) {
-		this.output = output;
-	}
+	return await registry.get(channel).get(cmd)();
 }

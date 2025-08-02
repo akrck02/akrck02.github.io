@@ -1,129 +1,111 @@
-
 import { setTopBarTitle } from "../component/top.bar.js";
 import { BubbleUI } from "../lib/bubble.js";
 import { uiComponent } from "../lib/dom.js";
 import { Html } from "../lib/html.js";
 import { getIcon } from "../lib/icons.js";
 import { IconBundle, MaterialIcons } from "../model/configurations/icons.js";
+import { redirect } from "../service/path.service.js";
+import { currentNanoseconds } from "../service/time.service.js";
 
-import PathService from "../service/path.service.js";
-import TimeService from "../service/time.service.js";
+/**
+ * Show home view
+ */
+export async function showHomeView(
+	parameters: string[],
+	container: HTMLElement,
+) {
+	setTopBarTitle("akrck02.org");
 
-export default class HomeView {
-	// HTML ids and classes
-	static readonly VIEW_ID = "home";
-	static readonly CONTENT_ID = "content";
-	static readonly ECHO_ID = "echo";
-	static readonly TITLE_ID = "title";
-	static readonly TIMESTAMP_ID = "timestamp";
-	static readonly SUBTITLE_ID = "subtitle";
-	static readonly EXPLORE_LINK_ID = "explore";
-	static readonly MINI_TERMINAL_WIDGET_ID = "mini-terminal-widget";
-	static readonly MINI_TERMINAL_ID = "mini-terminal";
-	static readonly DOLAR_SIGN_ID = "dolar";
+	let ns = currentNanoseconds();
+	const view = uiComponent({
+		type: Html.View,
+		id: "home",
+		classes: [BubbleUI.BoxColumn, BubbleUI.BoxCenter],
+	});
 
-	/**
-	 * Show home view
-	 */
-	static async show(parameters: string[], container: HTMLElement) {
+	const content = uiComponent({
+		id: "content",
+		classes: [BubbleUI.BoxColumn, BubbleUI.BoxCenter],
+	});
 
-		setTopBarTitle("akrck02.org")
+	const echo = uiComponent({
+		type: Html.P,
+		id: "echo",
+		text: "echo",
+	});
+	content.appendChild(echo);
 
-		let ns = TimeService.currentNanoseconds();
-		const view = uiComponent({
-			type: Html.View,
-			id: HomeView.VIEW_ID,
-			classes: [BubbleUI.BoxColumn, BubbleUI.BoxCenter],
-		});
+	const title = uiComponent({
+		type: Html.H1,
+		id: "title",
+		text: "'Hello world'",
+		classes: [BubbleUI.BoxRow, BubbleUI.BoxCenter],
+	});
+	content.appendChild(title);
 
-		const content = uiComponent({
-			id: HomeView.CONTENT_ID,
-			classes: [BubbleUI.BoxColumn, BubbleUI.BoxCenter],
-		});
+	const timestamp = uiComponent({
+		type: Html.P,
+		id: "timestamp",
+	});
+	content.appendChild(timestamp);
 
-		const echo = uiComponent({
-			type: Html.P,
-			id: HomeView.ECHO_ID,
-			text: "echo",
-		});
-		content.appendChild(echo);
+	const subtitle = uiComponent({
+		type: Html.H2,
+		id: "subtitle",
+		text: `I’m akrck02, a ${new Date().getFullYear() - 2000} year old <br> software developer.`,
+	});
+	content.appendChild(subtitle);
 
-		const title = uiComponent({
-			type: Html.H1,
-			id: HomeView.TITLE_ID,
-			text: "'Hello world'",
-			classes: [BubbleUI.BoxRow, BubbleUI.BoxCenter],
-		});
-		content.appendChild(title);
+	const widget = createMiniTerminalWidget();
+	content.appendChild(widget);
 
-		const timestamp = uiComponent({
-			type: Html.P,
-			id: HomeView.TIMESTAMP_ID,
-		});
-		content.appendChild(timestamp);
+	view.appendChild(content);
+	container.appendChild(view);
+	document.getElementById("timestamp").innerText =
+		`${currentNanoseconds() - ns}ns`;
+}
 
-		const subtitle = uiComponent({
-			type: Html.H2,
-			id: HomeView.SUBTITLE_ID,
-			text: `I’m akrck02, a ${new Date().getFullYear() - 2000} year old <br> software developer.`,
-		});
-		content.appendChild(subtitle);
+/**
+ * Create the mini terminal widget
+ */
+function createMiniTerminalWidget(): HTMLElement {
+	const widget = uiComponent({
+		id: "mini-terminal-widget",
+		classes: [BubbleUI.BoxCenter],
+	});
 
-		const widget = HomeView.createMiniTerminalWidget();
-		content.appendChild(widget);
+	const miniTerminal = uiComponent({
+		id: "mini-terminal",
+		classes: [BubbleUI.BoxRow, BubbleUI.BoxXStart, BubbleUI.BoxYCenter],
+	});
 
-		const a = uiComponent({
-			classes : [BubbleUI.BoxXCenter, BubbleUI.BoxRow]
-		})
+	const dolarSign = uiComponent({
+		type: Html.Span,
+		id: "dolar",
+		text: "$",
+	});
 
-		view.appendChild(content);
-		container.appendChild(view);
-		document.getElementById(HomeView.TIMESTAMP_ID).innerText =
-			`${TimeService.currentNanoseconds() - ns}ns`;
-	}
+	miniTerminal.appendChild(dolarSign);
 
-	/**
-	 * Create the mini terminal widget
-	 */
-	private static createMiniTerminalWidget(): HTMLElement {
-		const widget = uiComponent({
-			id: HomeView.MINI_TERMINAL_WIDGET_ID,
-			classes: [BubbleUI.BoxCenter],
-		});
+	const command = uiComponent({
+		type: Html.Input,
+		attributes: {
+			placeholder: "cd ./projects",
+			value: "cd ./projects",
+		},
+	}) as HTMLInputElement;
+	command.readOnly = true;
 
-		const miniTerminal = uiComponent({
-			id: HomeView.MINI_TERMINAL_ID,
-			classes: [BubbleUI.BoxRow, BubbleUI.BoxXStart, BubbleUI.BoxYCenter],
-		});
+	miniTerminal.appendChild(command);
+	widget.appendChild(miniTerminal);
 
-		const dolarSign = uiComponent({
-			type: Html.Span,
-			id: HomeView.DOLAR_SIGN_ID,
-			text: "$",
-		});
+	const nextButton = uiComponent({
+		type: Html.Button,
+		text: getIcon(IconBundle.Material, MaterialIcons.ArrowCircleRight)
+			.outerHTML,
+	});
+	nextButton.onclick = () => redirect("projects");
+	widget.appendChild(nextButton);
 
-		miniTerminal.appendChild(dolarSign);
-
-		const command = uiComponent({
-			type: Html.Input,
-			attributes: {
-				placeholder: "cd ./projects",
-				value: "cd ./projects",
-			},
-		}) as HTMLInputElement;
-		command.readOnly = true;
-
-		miniTerminal.appendChild(command);
-		widget.appendChild(miniTerminal);
-
-		const nextButton = uiComponent({
-			type: Html.Button,
-			text: getIcon(IconBundle.Material, MaterialIcons.ArrowCircleRight)
-				.outerHTML,
-		});
-		nextButton.onclick = () => PathService.redirect("projects");
-		widget.appendChild(nextButton);
-
-		return widget;
-	}
+	return widget;
 }
