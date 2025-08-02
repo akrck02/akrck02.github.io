@@ -13,17 +13,25 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Cache NPM dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-npm-cache-
+
       - name: Install node dependencies
-        run: npm install -g @typescript/native-preview && npm install -g typescript && npm install -g rollup
+        run: npm i
 
       - name: Minify the css
         run: ./bin/lit -f styles.env
 
       - name: Transpile typescript and minify the js
-        run: tsgo
+        run: npm run tsgo
 
       - name: Minify the js
-        run: rollup ./scripts/start.js --file ./out/start.js --format iife
+        run: npm run rollup ./scripts/start.js --file ./out/start.js --format iife
 
       - name: Remove old javascript files and move the minified js file
         run: rm -rf scripts/* && mv out/start.js scripts/start.js
