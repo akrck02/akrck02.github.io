@@ -13,6 +13,9 @@ jobs:
         with:
           sparse-checkout: .
 
+      - name: Show directories
+        run: tree -L 2 .
+
       - name: Minify the css
         run: ./bin/lit -f styles.env
 
