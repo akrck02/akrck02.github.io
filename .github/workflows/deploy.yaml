@@ -14,7 +14,7 @@ jobs:
         run: ./bin/lit -f styles.env
 
       - name: Transpile typescript and minify the js
-        run: ./bin/esbuild ./src/start.ts --bundle --minify --loader=ts --sourcemap --target=chrome58,firefox57,safari11,edge16 --outfile=./out/start.js
+        run: ./bin/esbuild ./src/start.ts --bundle --minify --tsconfig=tsconfig.json --sourcemap --target=chrome58,firefox57,safari11,edge16 --outfile=./out/start.js
 
       - name: Remove old javascript files and move the minified js file
         run: rm -rf scripts/* && mv out/start.js scripts/start.js
