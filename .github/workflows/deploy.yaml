@@ -14,22 +14,25 @@ jobs:
           node-version: "20"
 
       - name: Install node dependencies
-        run: npm install -g typescript && npm i -D @swc/cli @swc/core
+        run: npm install -g @typescript/native-preview && npm install -g typescript && npm install -g rollup
 
       - name: Minify the css
         run: ./bin/lit -f styles.env
 
       - name: Transpile typescript and minify the js
-        run: npx swc src -d scripts --copy-files --strip-leading-paths
+        run: tsgo
 
-      - name: Create directories
-        run: mkdir -p styles/src
+      - name: Minify the js
+        run: rollup ./scripts/start.js --file ./out/start.js --format iife
+
+      - name: Remove old javascript files and move the minified js file
+        run: rm -rf scripts/* && mv out/start.js scripts/start.js
 
       - name: Move css
-        run: mv styles/out/master.css styles/src/master.css
+        run:  mkdir -p styles/src && mv styles/out/master.css styles/src/master.css
 
       - name: Remove innecesary files and directories
-        run: rm -rf .git .gitignore .github styles/src node_modules package.json package-lock.json .swcrc server-n-cache.py bin temp src styles/out styles.env tsconfig.json README.md
+        run: rm -rf .git .gitignore .github styles/src node_modules package.json package-lock.json bin temp src styles/out styles.env tsconfig.json README.md
 
       - name: Show directories
         run: tree -L 2 .
