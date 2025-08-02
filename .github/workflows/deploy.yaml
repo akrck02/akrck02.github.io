@@ -1,37 +1,18 @@
 name: Deploy
 on:
   push:
-    branches: [main,dev]
+    branches: [main, dev]
 permissions:
   contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "20"
-
-      - name: Cache NPM dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.OS }}-npm-cache-
-
-      - name: Install node dependencies
-        run: npm i
-
       - name: Minify the css
         run: ./bin/lit -f styles.env
 
       - name: Transpile typescript and minify the js
-        run: npm run tsgo
-
-      - name: Minify the js
-        run: npm run rollup ./scripts/start.js --file ./out/start.js --format iife
+        run: esbuild ./src/start.ts --bundle --minify --loader=ts --sourcemap --target=chrome58,firefox57,safari11,edge16 --outfile=./out/start.js
 
       - name: Remove old javascript files and move the minified js file
         run: rm -rf scripts/* && mv out/start.js scripts/start.js
@@ -40,7 +21,7 @@ jobs:
         run:  mkdir -p styles/src && mv styles/out/master.css styles/src/master.css
 
       - name: Remove innecesary files and directories
-        run: rm -rf .git .gitignore .github styles/src node_modules package.json package-lock.json bin temp src styles/out styles.env tsconfig.json README.md
+        run: rm -rf .git .gitignore .github styles/src bin temp src styles/out styles.env tsconfig.json README.md
 
       - name: Show directories
         run: tree -L 2 .
