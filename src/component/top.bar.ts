@@ -5,12 +5,15 @@ import { uiComponent } from "../lib/dom.js";
 import { Html } from "../lib/html.js";
 import { getIcon } from "../lib/icons.js";
 import { AppConfigurations } from "../model/configurations/configurations.js";
-import { IconBundle, MaterialIcons, SocialIcons } from "../model/configurations/icons.js";
+import {
+	IconBundle,
+	MaterialIcons,
+	SocialIcons,
+} from "../model/configurations/icons.js";
 
 let title: HTMLElement;
 
-export function createTopBar(name: string) : HTMLElement {
-
+export function createTopBar(name: string): HTMLElement {
 	const instance = uiComponent({
 		type: Html.Header,
 		id: "top-bar",
@@ -39,26 +42,33 @@ export function createTopBar(name: string) : HTMLElement {
 
 	const githubIcon = getIcon(IconBundle.Social, SocialIcons.Github);
 	rightContainer.appendChild(githubIcon ?? uiComponent());
-	githubIcon.onclick = () => window.open(getConfiguration(AppConfigurations.GithubRepository), "_blank")
+	githubIcon.onclick = () =>
+		window.open(getConfiguration(AppConfigurations.GithubRepository), "_blank");
 
-	const motionsIcon = getIcon(IconBundle.Material, Animations.enabled? MaterialIcons.MotionPause: MaterialIcons.MotionPlay);
+	const motionsIcon = getIcon(
+		IconBundle.Material,
+		Animations.enabled ? MaterialIcons.MotionPause : MaterialIcons.MotionPlay,
+	);
 	rightContainer.appendChild(motionsIcon ?? uiComponent());
 
-	motionsIcon.onclick= () => {
-		Animations.enabled =! Animations.enabled
-		setConfiguration(AppConfigurations.Animations, Animations.enabled)
-		document.documentElement.dataset.animations = `${Animations.enabled}`
-		motionsIcon.innerHTML = getIcon(IconBundle.Material, Animations.enabled? MaterialIcons.MotionPause: MaterialIcons.MotionPlay).querySelector("svg").outerHTML;
-	}
+	motionsIcon.onclick = () => {
+		Animations.enabled = !Animations.enabled;
+		setConfiguration(AppConfigurations.Animations, Animations.enabled);
+		document.documentElement.dataset.animations = `${Animations.enabled}`;
+		motionsIcon.innerHTML = getIcon(
+			IconBundle.Material,
+			Animations.enabled ? MaterialIcons.MotionPause : MaterialIcons.MotionPlay,
+		).querySelector("svg").outerHTML;
+	};
 
-	const folderIcon = getIcon(IconBundle.Material, MaterialIcons.Folder);
-	rightContainer.appendChild(folderIcon ?? uiComponent());
+	// const folderIcon = getIcon(IconBundle.Material, MaterialIcons.Folder);
+	// rightContainer.appendChild(folderIcon ?? uiComponent());
 
 	instance.appendChild(rightContainer);
 	return instance;
 }
 
-export async function setTopBarTitle(name : string) {
-	if(undefined === title) return
+export async function setTopBarTitle(name: string) {
+	if (undefined === title) return;
 	title.innerText = name;
 }

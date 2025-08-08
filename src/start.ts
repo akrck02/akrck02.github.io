@@ -113,7 +113,7 @@ async function start() {
 function setRoutes(parent: HTMLElement) {
 	setHomeRoute(showHomeView);
 	setNotFoundRoute(showNotFoundView);
-	setRoute("/projects", showProjectsView);
-	setRoute("/terminal", showTerminalView);
+	// setRoute("/projects", showProjectsView);
+	// setRoute("/terminal", showTerminalView);
 	showRoute(window.location.hash.slice(1).toLowerCase(), parent);
 }

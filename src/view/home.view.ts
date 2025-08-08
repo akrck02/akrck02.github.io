@@ -56,8 +56,17 @@ export async function showHomeView(
 	});
 	content.appendChild(subtitle);
 
-	const widget = createMiniTerminalWidget();
-	content.appendChild(widget);
+	// const widget = createMiniTerminalWidget();
+	// content.appendChild(widget);
+
+	const message = uiComponent({
+		type: Html.P,
+		id: "",
+		classes: [BubbleUI.TextCenter],
+		text: `This website is currently under construction.`,
+		styles: {},
+	});
+	content.appendChild(message);
 
 	view.appendChild(content);
 	container.appendChild(view);
