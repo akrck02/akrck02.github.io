@@ -1,7 +1,7 @@
 name: Deploy
 on:
   push:
-    branches: [main]
+    branches: [master]
 permissions:
   contents: write
 jobs:
@@ -17,7 +17,7 @@ jobs:
         run: ./bin/esbuild ./src/start.ts --bundle --minify --tsconfig=tsconfig.json --sourcemap --target=chrome58,firefox57,safari11,edge16 --outfile=./scripts/start.js
 
       - name: Move css
-        run:  mkdir -p styles/src && mv styles/out/master.css styles/src/master.css
+        run: mkdir -p styles/src && mv styles/out/master.css styles/src/master.css
 
       - name: Remove innecesary files and directories
         run: rm -rf .git .gitignore .github styles/src bin temp src styles/out styles.env tsconfig.json README.md
@@ -28,5 +28,5 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.3.0
         with:
-         branch: gh-pages # The branch the action should deploy to.
-         folder: . # The folder the action should deploy.
+          branch: gh-pages # The branch the action should deploy to.
+          folder: . # The folder the action should deploy.
