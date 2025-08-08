@@ -1,0 +1,29 @@
+header#top-bar {
+	backdrop-filter: blur(1rem);
+	width: 100%;
+	padding: 0 1rem;
+	height: 3rem;
+}
+
+header#top-bar div#left-container svg {
+	fill: var(--on-surface-1);
+}
+
+header#top-bar div#left-container h1 {
+	color: var(--on-surface-1);
+	margin: 0 1rem;
+	font-size: 1.25rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+:root[data-display="mobile"] header#top-bar div#left-container h1 {
+	font-size: 1rem;
+}
+
+header#top-bar div#right-container svg {
+	fill: var(--on-surface-1);
+	margin-left: 1rem;
+	cursor: pointer;
+}

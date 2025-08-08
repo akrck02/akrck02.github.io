@@ -1,0 +1,74 @@
+div.terminal {
+	padding: 1rem 3rem;
+	width: 100%;
+	height: 100%;
+	transition: opacity var(--animation-medium);
+	backdrop-filter: blur(.5rem);
+	opacity: 0;
+	overflow: auto;
+}
+
+div.terminal.show {
+	opacity: 1;
+}
+
+:root[data-display=mobile] div.terminal {
+	padding: 1rem 1rem;
+}
+
+div.terminal div.in {
+	padding: 2rem 0rem;
+	width: 100%;
+	color: var(--on-background);
+	font: var(--font-console);
+	font-size: 1.5rem;
+}
+
+:root[data-display=mobile] div.terminal div.in {
+	font-size: 1rem;
+}
+
+div.terminal div.out {
+	padding: 0.05rem 1rem;
+	font-size: 1.5rem;
+	line-height: 135%;
+	color: #676767;
+}
+
+:root[data-display=mobile] div.terminal div.out {
+	font-size: 1rem;
+}
+
+
+:root[data-animations=true] div.terminal div.out {
+	transition: opacity var(--animation-ultrafast);
+	opacity: 0;
+}
+
+:root[data-animations=true] div.terminal div.out.show {
+	opacity: 1;
+}
+
+div.terminal div.out .red {
+	color: #b24545;
+}
+
+div.terminal div.out .green {
+	color: #82ad6a;
+}
+
+div.terminal div.out .blue {
+	color: #b4e6ff;
+}
+
+div.terminal div.out .darkblue {
+	color: #454EB2;
+}
+
+div.terminal div.out .orange {
+	color: #BD764A;
+}
+
+div.terminal div.out .pink {
+	color: #AF66AE;
+}
