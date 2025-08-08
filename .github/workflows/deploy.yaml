@@ -1,0 +1,32 @@
+name: Deploy
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Minify the css
+        run: ./bin/lit -f styles.env
+
+      - name: Transpile typescript and minify the js
+        run: ./bin/esbuild ./src/start.ts --bundle --minify --tsconfig=tsconfig.json --sourcemap --target=chrome58,firefox57,safari11,edge16 --outfile=./scripts/start.js
+
+      - name: Move css
+        run:  mkdir -p styles/src && mv styles/out/master.css styles/src/master.css
+
+      - name: Remove innecesary files and directories
+        run: rm -rf .git .gitignore .github styles/src bin temp src styles/out styles.env tsconfig.json README.md
+
+      - name: Show directories
+        run: tree -L 2 .
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.3.0
+        with:
+         branch: gh-pages # The branch the action should deploy to.
+         folder: . # The folder the action should deploy.

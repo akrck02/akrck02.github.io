@@ -1,5 +1,4 @@
-*/**/delete.*
-/node_modules/
-/client/temp/
-/client/out/
-/web/styles/out/
+scripts
+node_modules
+package.lock.json
+.ropeproject
