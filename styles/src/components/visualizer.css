@@ -43,7 +43,7 @@ div#visualizer .button:hover {
 }
 div#visualizer .button#back {
   transform: rotate(180deg);
-
+}
 
 /* --- Mobile Version (Show Full Height) --- */
 
