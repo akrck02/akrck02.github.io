@@ -1,0 +1,47 @@
+div#visualizer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000000;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(1rem);
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+div#visualizer.show {
+  display: flex;
+}
+
+div#visualizer img {
+  width: 80%;
+  height: 90%;
+  margin: 0 2rem;
+  object-fit: contain;
+}
+
+div#visualizer #close {
+  position: fixed;
+  right: 2rem;
+  top: 2rem;
+}
+
+/* --- Mobile Version (Show Full Height) --- */
+
+html[data-display="mobile"] div#visualizer {
+  padding: 0;
+  background: rgba(255, 255, 255, 0.95); /* or pink to test */
+}
+
+html[data-display="mobile"] div#visualizer img {
+  height: 100vh;
+  width: 100%;
+}
+
+html[data-display="mobile"] div#visualizer .button {
+  display: none !important;
+}
