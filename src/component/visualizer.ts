@@ -26,6 +26,7 @@ export function createVisualizer() {
   // Note: Switched to ArrowCircleLeft for back button!
   const backButton = getIcon(IconBundle.Material, MaterialIcons.Next, "3rem");
   backButton.classList.add("button");
+  backButton.id = "back";
   backButton.onclick = () => showLastPhoto(image.dataset.id);
   visualizer.appendChild(backButton);
 
@@ -39,6 +40,11 @@ export function createVisualizer() {
   nextButton.onclick = () => showNextPhoto(image.dataset.id);
   visualizer.appendChild(nextButton);
 
+  visualizer.onclick = (event: MouseEvent) => {
+    if (event.target === visualizer || event.target == image) {
+      closeVisualizer();
+    }
+  };
   return visualizer;
 }
 

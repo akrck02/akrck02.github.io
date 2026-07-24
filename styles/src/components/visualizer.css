@@ -30,6 +30,21 @@ div#visualizer #close {
   top: 2rem;
 }
 
+div#visualizer .button {
+  cursor: pointer;
+  border-radius: 100%;
+  filter: brightness(3.5);
+}
+
+div#visualizer .button:hover {
+  background: #eaeaea;
+  filter: brightness(1);
+
+}
+div#visualizer .button#back {
+  transform: rotate(180deg);
+
+
 /* --- Mobile Version (Show Full Height) --- */
 
 html[data-display="mobile"] div#visualizer {
