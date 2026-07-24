@@ -32,8 +32,11 @@ export async function showPhotosView(parameters: string[], container: HTMLElemen
   });
   view.appendChild(gallery);
 
-  for (const [_, albumPhotos] of Object.entries(index)) {
-    for (const [photoId, photoPath] of Object.entries(albumPhotos)) {
+  for (const entry of Object.entries(index)) {
+    const albumPhotos = entry[1];
+    for (const photoEntry of Object.entries(albumPhotos)) {
+      const photoId = photoEntry[0];
+      const photoPath = photoEntry[1] as string;
       const imageUrl = getImageUrl(photoPath);
       gallery.appendChild(createImage(photoId, imageUrl));
     }
