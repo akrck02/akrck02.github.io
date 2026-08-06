@@ -13,7 +13,8 @@
 			],
 			"url": "https://github.com/akrck02/valhalla",
 			"archived": false,
-			"featured": true
+			"featured": true,
+			"website": "https://akrck02.org/#/software/valhalla"
 		},
 		{
 			"id": "salary",
@@ -27,7 +28,8 @@
 			],
 			"url": "https://github.com/akrck02/salary",
 			"archived": false,
-			"featured": true
+			"featured": true,
+			"website": "https://akrck02.org/salary"
 		},
 		{
 			"id": "gtd",
@@ -57,7 +59,8 @@
 			],
 			"url": "https://github.com/akrck02/bubble",
 			"archived": false,
-			"featured": true
+			"featured": true,
+			"website": "http://akrck02.org/app/#/software/bubbleUI"
 		},
 		{
 			"id": "countless",
@@ -161,7 +164,8 @@
 			],
 			"url": "https://github.com/akrck02/papiro-deploy",
 			"archived": false,
-			"featured": false
+			"featured": false,
+			"website": "https://akrck02.org/papiro"
 		},
 		{
 			"id": "app-igniter",
@@ -265,7 +269,8 @@
 			],
 			"url": "https://github.com/akrck02/homelab",
 			"archived": false,
-			"featured": false
+			"featured": false,
+			"website": "https://akrck02.org/homelab"
 		},
 		{
 			"id": "javascript-int-parsing-error",
@@ -280,7 +285,8 @@
 			],
 			"url": "https://github.com/akrck02/javascript-int-parsing-error",
 			"archived": false,
-			"featured": false
+			"featured": false,
+			"website": "http://akrck02.org/javascript-int-parsing-error/"
 		},
 		{
 			"id": "markdown-docs",
@@ -339,7 +345,8 @@
 			],
 			"url": "https://github.com/akrck02/papiro",
 			"archived": false,
-			"featured": false
+			"featured": false,
+			"website": "http://akrck02.org/papiro/"
 		},
 		{
 			"id": "skyleriearts-uploader",
@@ -408,7 +415,8 @@
 			],
 			"url": "https://github.com/akrck02/color-extractor",
 			"archived": false,
-			"featured": false
+			"featured": false,
+			"website": "http://akrck02.org/color-extractor/"
 		},
 		{
 			"id": "cyber-plant-2099",
@@ -587,7 +595,8 @@
 			],
 			"url": "https://github.com/akrck02/weblogic-docker",
 			"archived": true,
-			"featured": false
+			"featured": false,
+			"website": "https://hub.docker.com/repository/docker/akrck02/weblogic"
 		},
 		{
 			"id": "whisper",
@@ -684,6 +693,7 @@
 			"url": "https://github.com/akrck02/linus-tiny-adventure",
 			"archived": false,
 			"featured": true,
+			"website": "https://nightlightstudios.itch.io/linus-tiny-adventure",
 			"engine": "Godot"
 		},
 		{
@@ -732,6 +742,7 @@
 			"url": "https://github.com/akrck02/io-world",
 			"archived": false,
 			"featured": false,
+			"website": "https://akrck02.org/io-world/",
 			"engine": "Godot"
 		},
 		{

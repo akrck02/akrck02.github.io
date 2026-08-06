@@ -73,8 +73,14 @@ export async function showHomeView(parameters: string[], container: HTMLElement)
   content.appendChild(buttonGroup);
 
   const photoCard = uiComponent({
-    id: "polaroid-card"
+    id: "polaroid-card",
+    classes: ["loading"]
   });
+
+  const placeholder = uiComponent({
+    id: "polaroid-placeholder"
+  });
+  photoCard.appendChild(placeholder);
 
   const profileImg = uiComponent({
     type: Html.Img,
@@ -82,7 +88,12 @@ export async function showHomeView(parameters: string[], container: HTMLElement)
       src: getImageUrl("profile.jpg"),
       alt: "akrck02 photo"
     }
-  });
+  }) as HTMLImageElement;
+
+  const revealPhoto = () => photoCard.classList.remove("loading");
+  profileImg.onload = revealPhoto;
+  profileImg.onerror = revealPhoto;
+  if (profileImg.complete) revealPhoto();
 
   photoCard.appendChild(profileImg);
 

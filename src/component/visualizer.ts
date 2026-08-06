@@ -3,12 +3,17 @@ import { Html } from "../lib/html.js";
 import { getIcon } from "../lib/icons.js";
 import { IconBundle, MaterialIcons } from "../model/configurations/icons.js";
 import { getImageUrl } from "../service/path.service.js";
+import { loadPhotosExif, PhotoExif } from "../service/photos.service.js";
 
 type albumType = {
   [name: string]: string;
 };
 
 let image: HTMLImageElement;
+let exifPanel: HTMLElement;
+let exifToggle: HTMLElement;
+let exifData: { [id: string]: PhotoExif } = {};
+let exifVisible = false;
 
 let currentPhoto: string;
 let currentAlbum: albumType;
@@ -49,12 +54,58 @@ export function createVisualizer() {
   };
   visualizer.appendChild(nextButton);
 
+  exifPanel = uiComponent({
+    id: "exif"
+  });
+  visualizer.appendChild(exifPanel);
+
+  exifToggle = getIcon(IconBundle.Material, MaterialIcons.Info, "1.75rem");
+  exifToggle.id = "exif-toggle";
+  exifToggle.onclick = (event: MouseEvent) => {
+    event.stopPropagation();
+    exifVisible = !exifVisible;
+    exifPanel.classList.toggle("show", exifVisible);
+    exifToggle.classList.toggle("collapsed", !exifVisible);
+  };
+  visualizer.appendChild(exifToggle);
+
+  loadPhotosExif().then((data) => {
+    exifData = data;
+    renderExif(image?.dataset.id);
+  });
+
   visualizer.onclick = (event: MouseEvent) => {
     if (event.target === visualizer || event.target == image) {
       closeVisualizer();
     }
   };
   return visualizer;
+}
+
+function renderExif(id: string | undefined) {
+  if (!exifPanel) return;
+
+  const exif = id ? exifData[id] : undefined;
+  if (!exif) {
+    exifPanel.innerHTML = "";
+    exifPanel.classList.remove("show");
+    exifToggle?.classList.remove("show");
+    return;
+  }
+
+  const specs = [exif.focal, exif.aperture, exif.shutter, exif.iso]
+    .filter(Boolean)
+    .map((spec) => `<span>${spec}</span>`)
+    .join("");
+
+  exifPanel.innerHTML =
+    (exif.camera ? `<div class="exif-camera">${exif.camera}</div>` : "") +
+    (exif.lens ? `<div class="exif-lens">${exif.lens}</div>` : "") +
+    (specs ? `<div class="exif-specs">${specs}</div>` : "");
+
+  exifPanel.classList.toggle("show", exifVisible);
+  exifToggle?.classList.add("show");
+  exifToggle?.classList.toggle("collapsed", !exifVisible);
 }
 
 export function loadAlbum(album: albumType) {
@@ -76,6 +127,7 @@ export function showPhoto(currentId: string, show: boolean = true) {
   image.dataset.id = currentId;
   currentPhoto = currentAlbum[currentId];
   image.src = getImageUrl(currentPhoto);
+  renderExif(currentId);
 
   if (show) {
     showVisualizer();

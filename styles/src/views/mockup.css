@@ -33,6 +33,18 @@ view#music button#home-button svg {
   fill: #ffffff;
 }
 
+view#stories button#home-button,
+view#music button#home-button {
+  transition: transform var(--animation-fast) ease,
+    background-color var(--animation-fast) ease;
+}
+
+view#stories button#home-button:hover,
+view#music button#home-button:hover {
+  transform: scale(1.1);
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
 view#stories div#mockup-icon svg,
 view#music div#mockup-icon svg {
   fill: var(--on-background);

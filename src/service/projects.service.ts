@@ -10,6 +10,7 @@ export interface Project {
   stars: number;
   tags: string[];
   url: string;
+  website?: string;
   archived: boolean;
   featured: boolean;
 }

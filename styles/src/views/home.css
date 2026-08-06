@@ -71,6 +71,13 @@ view#home button.nav-button {
   border: none;
   color: #ffffff;
   cursor: pointer;
+  transition: transform var(--animation-fast) ease,
+    background-color var(--animation-fast) ease;
+}
+
+view#home button.nav-button:hover {
+  transform: translateY(-4px) scale(1.05);
+  background-color: rgba(255, 255, 255, 0.25);
 }
 
 view#home div#polaroid-card {
@@ -82,12 +89,50 @@ view#home div#polaroid-card {
   background-color: #ffffff;
   transform: rotate(6deg);
   box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.5);
+  transition: transform var(--animation-medium) ease,
+    box-shadow var(--animation-medium) ease;
+}
+
+view#home div#polaroid-card:hover {
+  transform: rotate(2deg) scale(1.03);
+  box-shadow: 0px 18px 40px rgba(0, 0, 0, 0.55);
 }
 
 view#home div#polaroid-card img {
   display: block;
   width: 100%;
   border-radius: 10px;
+  opacity: 1;
+  transition: opacity var(--animation-medium) ease;
+}
+
+view#home div#polaroid-card #polaroid-placeholder {
+  display: none;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  background: linear-gradient(
+    100deg,
+    #e6e6e6 30%,
+    #f5f5f5 50%,
+    #e6e6e6 70%
+  );
+  background-size: 200% 100%;
+  animation: polaroid-shimmer 1.3s ease-in-out infinite;
+}
+
+view#home div#polaroid-card.loading #polaroid-placeholder {
+  display: block;
+}
+
+view#home div#polaroid-card.loading img {
+  display: none;
+  opacity: 0;
+}
+
+@keyframes polaroid-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 /* Mobile */

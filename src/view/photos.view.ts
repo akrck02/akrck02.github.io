@@ -63,6 +63,7 @@ export async function showPhotosView(parameters: string[], container: HTMLElemen
     classes: [BubbleUI.BoxColumn, BubbleUI.BoxCenter]
   });
   hint.innerHTML = getIcon(IconBundle.Material, MaterialIcons.Expand, "32px").outerHTML;
+  hint.onclick = () => view.scrollTo({ top: view.clientHeight, behavior: "smooth" });
   hero.appendChild(hint);
 
   view.appendChild(hero);

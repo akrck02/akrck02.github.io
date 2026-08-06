@@ -22,6 +22,21 @@ view#photos button#home-button {
   background-color: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(4px);
   cursor: pointer;
+  transition: transform var(--animation-fast) ease,
+    background-color var(--animation-fast) ease;
+}
+
+view#photos button#home-button:hover {
+  transform: scale(1.1);
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+view#photos #photos-hero-hint svg {
+  transition: transform var(--animation-fast) ease;
+}
+
+view#photos #photos-hero-hint:hover svg {
+  transform: scale(1.3);
 }
 
 view#photos button#home-button svg {
@@ -63,6 +78,7 @@ view#photos p#photos-description {
 
 view#photos #photos-hero-hint {
   margin-top: 2rem;
+  cursor: pointer;
   animation: photos-hint-bounce 1.6s ease-in-out infinite;
 }
 

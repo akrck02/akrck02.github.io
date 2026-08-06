@@ -15,5 +15,6 @@ export enum MaterialIcons {
 	MusicNote = "music_note",
 	PhotoCamera = "photo_camera",
 	SportsEsports = "sports_esports",
-	Home = "home"
+	Home = "home",
+	Info = "info"
 }

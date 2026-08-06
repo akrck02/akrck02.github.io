@@ -1,3 +1,25 @@
+import { getConfiguration } from "../lib/configuration.js";
+
+export interface PhotoExif {
+  camera?: string;
+  lens?: string;
+  aperture?: string;
+  shutter?: string;
+  iso?: string;
+  focal?: string;
+}
+
+let photosExif: { [id: string]: PhotoExif };
+
+export async function loadPhotosExif(): Promise<{ [id: string]: PhotoExif }> {
+  if (photosExif) return photosExif;
+  const base = getConfiguration("path")["data"];
+  photosExif = await fetch(`${base}/photos-exif.json`)
+    .then((res) => res.json())
+    .catch(() => ({}));
+  return photosExif;
+}
+
 let photosIndex: any;
 
 export function loadPhotosIndex() {

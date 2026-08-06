@@ -66,6 +66,7 @@ export function createProjectsView(config: ProjectsViewConfig) {
       classes: [BubbleUI.BoxColumn, BubbleUI.BoxCenter]
     });
     hint.innerHTML = getIcon(IconBundle.Material, MaterialIcons.Expand, "32px").outerHTML;
+    hint.onclick = () => view.scrollTo({ top: view.clientHeight, behavior: "smooth" });
     hero.appendChild(hint);
 
     view.appendChild(hero);
@@ -80,19 +81,72 @@ export function createProjectsView(config: ProjectsViewConfig) {
       { passive: true }
     );
 
+    const filterBar = uiComponent({
+      id: "projects-filters",
+      classes: [BubbleUI.BoxRow, BubbleUI.BoxYCenter]
+    });
+    view.appendChild(filterBar);
+
     const grid = uiComponent({
       id: "projects-grid"
     });
     view.appendChild(grid);
 
     const index = await loadProjects();
-    const projects = index[config.dataKey] ?? [];
-
-    projects
+    const projects = (index[config.dataKey] ?? [])
       .slice()
-      .sort((a, b) => Number(b.featured) - Number(a.featured) || b.stars - a.stars)
-      .forEach((project) => grid.appendChild(createCard(project)));
+      .sort((a, b) => Number(b.featured) - Number(a.featured) || b.stars - a.stars);
+
+    projects.forEach((project) => grid.appendChild(createCard(project)));
+
+    buildFilters(filterBar, grid, projects);
   };
+}
+
+function buildFilters(filterBar: HTMLElement, grid: HTMLElement, projects: Project[]) {
+  const counts = new Map<string, number>();
+  projects.forEach((p) => counts.set(p.language, (counts.get(p.language) ?? 0) + 1));
+
+  const count = (lang: string) => counts.get(lang) ?? 0;
+  const languages = Array.from(counts.keys()).sort((a, b) => count(b) - count(a) || a.localeCompare(b));
+
+  let language = "all";
+  let showArchived = false;
+
+  const apply = () => {
+    grid.querySelectorAll(".project-card").forEach((card) => {
+      const el = card as HTMLElement;
+      const languageOk = language === "all" || el.dataset.language === language;
+      const archivedOk = showArchived || !el.classList.contains("archived");
+      el.classList.toggle("hidden", !(languageOk && archivedOk));
+    });
+  };
+
+  const select = uiComponent({ type: "select", id: "language-select" }) as HTMLSelectElement;
+  select.innerHTML = [
+    `<option value="all">All languages (${projects.length})</option>`,
+    ...languages.map((lang) => `<option value="${lang}">${lang} (${count(lang)})</option>`)
+  ].join("");
+  select.onchange = () => {
+    language = select.value;
+    apply();
+  };
+  filterBar.appendChild(select);
+
+  const archivedButton = uiComponent({
+    type: Html.Button,
+    id: "archived-toggle",
+    text: "Show archived"
+  });
+  archivedButton.onclick = () => {
+    showArchived = !showArchived;
+    archivedButton.classList.toggle("active", showArchived);
+    archivedButton.innerText = showArchived ? "Hide archived" : "Show archived";
+    apply();
+  };
+  filterBar.appendChild(archivedButton);
+
+  apply();
 }
 
 function createCard(project: Project): HTMLElement {
@@ -108,6 +162,7 @@ function createCard(project: Project): HTMLElement {
   });
   if (project.featured) card.classList.add("featured");
   if (project.archived) card.classList.add("archived");
+  if (project.website) card.classList.add("has-website");
 
   const header = uiComponent({
     classes: ["project-card-header", BubbleUI.BoxRow, BubbleUI.BoxYCenter]
@@ -119,6 +174,19 @@ function createCard(project: Project): HTMLElement {
     text: project.name
   });
   header.appendChild(name);
+
+  if (project.website) {
+    const live = uiComponent({
+      classes: ["project-live"],
+      text: "Live"
+    });
+    live.onclick = (event: MouseEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+      window.open(project.website, "_blank", "noopener");
+    };
+    header.appendChild(live);
+  }
 
   const stars = uiComponent({
     classes: ["project-stars"],
