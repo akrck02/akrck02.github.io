@@ -20,14 +20,19 @@ export function createVisualizer() {
 
   const closeButton = getIcon(IconBundle.Material, MaterialIcons.Folder);
   closeButton.id = "close";
-  closeButton.onclick = () => closeVisualizer();
+  closeButton.onclick = (event: MouseEvent) => {
+    event.stopPropagation();
+    closeVisualizer();
+  };
   visualizer.appendChild(closeButton);
 
-  // Note: Switched to ArrowCircleLeft for back button!
   const backButton = getIcon(IconBundle.Material, MaterialIcons.Next, "3rem");
   backButton.classList.add("button");
   backButton.id = "back";
-  backButton.onclick = () => showLastPhoto(image.dataset.id);
+  backButton.onclick = (event: MouseEvent) => {
+    event.stopPropagation();
+    showLastPhoto(image.dataset.id);
+  };
   visualizer.appendChild(backButton);
 
   image = uiComponent({
@@ -37,7 +42,11 @@ export function createVisualizer() {
 
   const nextButton = getIcon(IconBundle.Material, MaterialIcons.Next, "3rem");
   nextButton.classList.add("button");
-  nextButton.onclick = () => showNextPhoto(image.dataset.id);
+  nextButton.id = "next";
+  nextButton.onclick = (event: MouseEvent) => {
+    event.stopPropagation();
+    showNextPhoto(image.dataset.id);
+  };
   visualizer.appendChild(nextButton);
 
   visualizer.onclick = (event: MouseEvent) => {

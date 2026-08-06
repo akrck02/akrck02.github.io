@@ -1,125 +1,92 @@
-import { setTopBarTitle } from "../component/top.bar.js";
 import { BubbleUI } from "../lib/bubble.js";
 import { uiComponent } from "../lib/dom.js";
 import { Html } from "../lib/html.js";
 import { getIcon } from "../lib/icons.js";
 import { IconBundle, MaterialIcons } from "../model/configurations/icons.js";
-import { redirect } from "../service/path.service.js";
-import { currentNanoseconds } from "../service/time.service.js";
+import { getImageUrl, redirect } from "../service/path.service.js";
 
-/**
- * Show home view
- */
 export async function showHomeView(parameters: string[], container: HTMLElement) {
-  setTopBarTitle("akrck02.org");
-
-  let ns = currentNanoseconds();
   const view = uiComponent({
     type: Html.View,
     id: "home",
-    classes: [BubbleUI.BoxColumn, BubbleUI.BoxCenter]
+    classes: [BubbleUI.BoxRow, BubbleUI.BoxCenter]
   });
+
+  const background = uiComponent({
+    id: "home-background",
+    styles: {
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url("${getImageUrl("DSCF0140.JPG")}")`
+    }
+  });
+  view.appendChild(background);
 
   const content = uiComponent({
     id: "content",
-    classes: [BubbleUI.BoxColumn, BubbleUI.BoxCenter]
+    classes: [BubbleUI.BoxColumn, BubbleUI.BoxXStart]
   });
-  view.appendChild(content);
-
-  const echo = uiComponent({
-    type: Html.P,
-    id: "echo",
-    text: "echo"
-  });
-  content.appendChild(echo);
 
   const title = uiComponent({
     type: Html.H1,
     id: "title",
-    text: "'Hello world'",
-    classes: [BubbleUI.BoxRow, BubbleUI.BoxCenter]
+    text: "Hi there!"
   });
-  content.appendChild(title);
-
-  const timestamp = uiComponent({
-    type: Html.P,
-    id: "timestamp"
-  });
-  content.appendChild(timestamp);
 
   const subtitle = uiComponent({
-    type: Html.H2,
-    id: "subtitle",
-    text: `I’m akrck02, a ${new Date().getFullYear() - 2000} year old <br> software developer.`
-  });
-  content.appendChild(subtitle);
-
-  //const widget = createMiniTerminalWidget();
-  //content.appendChild(widget);
-
-  const message = uiComponent({
     type: Html.P,
-    id: "",
-    classes: [BubbleUI.TextCenter],
-    text: `This website is currently under construction.`,
-    styles: {}
+    id: "subtitle",
+    text: `I’m akrck02, a ${new Date().getFullYear() - 2000} year old\nsoftware developer.`
   });
-  //content.appendChild(message);
 
-  const photosBtn = uiComponent({
-    type: Html.A,
-    text: "Photos",
+  const description = uiComponent({
+    type: Html.P,
+    id: "description",
+    text: "I enjoy researching, and creating things like:"
+  });
+
+  const buttonGroup = uiComponent({
+    id: "button-group",
+    classes: [BubbleUI.BoxRow]
+  });
+
+  const navItems = [
+    { icon: MaterialIcons.PhotoCamera, route: "photos" },
+    { icon: MaterialIcons.Code, route: "software" },
+    { icon: MaterialIcons.AutoStories, route: "stories" },
+    { icon: MaterialIcons.SportsEsports, route: "games" },
+    { icon: MaterialIcons.MusicNote, route: "music" }
+  ];
+
+  navItems.forEach(({ icon, route }) => {
+    const btn = uiComponent({
+      type: Html.Button,
+      classes: [BubbleUI.BoxCenter, "nav-button"]
+    });
+
+    btn.innerHTML = getIcon(IconBundle.Material, icon, "28px", "#ffffff").outerHTML;
+    btn.onclick = () => redirect(route);
+    buttonGroup.appendChild(btn);
+  });
+
+  content.appendChild(title);
+  content.appendChild(subtitle);
+  content.appendChild(description);
+  content.appendChild(buttonGroup);
+
+  const photoCard = uiComponent({
+    id: "polaroid-card"
+  });
+
+  const profileImg = uiComponent({
+    type: Html.Img,
     attributes: {
-      href: "/#/photos"
+      src: getImageUrl("profile.jpg"),
+      alt: "akrck02 photo"
     }
   });
 
-  content.appendChild(photosBtn);
+  photoCard.appendChild(profileImg);
 
+  view.appendChild(content);
+  view.appendChild(photoCard);
   container.appendChild(view);
-  document.getElementById("timestamp").innerText = `${currentNanoseconds() - ns}ns`;
-}
-
-/**
- * Create the mini terminal widget
- */
-function createMiniTerminalWidget(): HTMLElement {
-  const widget = uiComponent({
-    id: "mini-terminal-widget",
-    classes: [BubbleUI.BoxCenter]
-  });
-
-  const miniTerminal = uiComponent({
-    id: "mini-terminal",
-    classes: [BubbleUI.BoxRow, BubbleUI.BoxXStart, BubbleUI.BoxYCenter]
-  });
-
-  const dolarSign = uiComponent({
-    type: Html.Span,
-    id: "dolar",
-    text: "$"
-  });
-
-  miniTerminal.appendChild(dolarSign);
-
-  const command = uiComponent({
-    type: Html.Input,
-    attributes: {
-      placeholder: "cd ./projects",
-      value: "cd ./projects"
-    }
-  }) as HTMLInputElement;
-  command.readOnly = true;
-
-  miniTerminal.appendChild(command);
-  widget.appendChild(miniTerminal);
-
-  const nextButton = uiComponent({
-    type: Html.Button,
-    text: getIcon(IconBundle.Material, MaterialIcons.ArrowCircleRight).outerHTML
-  });
-  nextButton.onclick = () => redirect("projects");
-  widget.appendChild(nextButton);
-
-  return widget;
 }

@@ -1,23 +1,19 @@
 export enum IconBundle {
 	Material = "material",
-	Social = "social",
 }
 
 export enum MaterialIcons {
-	Back = "back",
 	Next = "next",
 	Expand = "expand",
-	ExpandLess = "expand_less",
-	Download = "download",
 	Search = "search",
 	Terminal = "terminal",
-	ArrowCircleRight = "arrow_circle_right",
-	Add = "add",
 	Folder = "folder",
 	MotionPlay = "motion_play",
-	MotionPause = "motion_photos_pause"
-}
-
-export enum SocialIcons {
-	Github = "github",
+	MotionPause = "motion_photos_pause",
+	AutoStories = "auto_stories",
+	Code = "code",
+	MusicNote = "music_note",
+	PhotoCamera = "photo_camera",
+	SportsEsports = "sports_esports",
+	Home = "home"
 }
