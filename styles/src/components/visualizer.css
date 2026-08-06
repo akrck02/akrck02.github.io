@@ -4,6 +4,7 @@ div#visualizer {
   left: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   z-index: 1000000;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(1rem);
@@ -23,6 +24,8 @@ div#visualizer img {
   margin: 0 2rem;
   object-fit: contain;
   z-index: 1;
+  touch-action: none;
+  transform-origin: center center;
   transition: filter var(--animation-medium) ease;
 }
 
@@ -30,17 +33,84 @@ div#visualizer img.loading-full {
   filter: blur(6px);
 }
 
-div#visualizer #close {
-  position: fixed;
-  right: 2rem;
-  top: 2rem;
-  z-index: 3;
-  cursor: pointer;
-  transition: transform var(--animation-fast) ease;
+/* Hide overlay texts while the photo is zoomed */
+div#visualizer[data-scale="zoomed"] #viz-hint,
+div#visualizer[data-scale="zoomed"] #exif,
+div#visualizer[data-scale="zoomed"] #exif-toggle {
+  opacity: 0;
+  pointer-events: none;
 }
 
-div#visualizer #close:hover {
-  transform: scale(1.15) rotate(90deg);
+/* Mini floating reset-zoom button — pops in only while zoomed */
+div#visualizer #zoom-reset {
+  position: fixed;
+  bottom: 1.75rem;
+  left: 50%;
+  z-index: 4;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(0.4rem);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateX(-50%) scale(0.6);
+  pointer-events: none;
+  transition: opacity var(--animation-fast) ease,
+    transform var(--animation-fast) ease, background var(--animation-fast) ease;
+}
+
+div#visualizer[data-scale="zoomed"] #zoom-reset {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+  pointer-events: auto;
+}
+
+div#visualizer #zoom-reset:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+div#visualizer[data-scale="zoomed"] #zoom-reset:hover {
+  transform: translateX(-50%) scale(1.12);
+}
+
+div#visualizer #viz-hint {
+  position: fixed;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #666;
+  opacity: 0.75;
+  pointer-events: none;
+  text-align: center;
+  transition: opacity var(--animation-fast) ease;
+}
+
+div#visualizer #viz-hint .hint-mobile {
+  display: none;
+}
+
+html[data-display="mobile"] div#visualizer #viz-hint .hint-desktop {
+  display: none;
+}
+
+html[data-display="mobile"] div#visualizer #viz-hint .hint-mobile {
+  display: inline;
 }
 
 div#visualizer .button {
@@ -174,14 +244,25 @@ div#visualizer #exif .exif-specs span:not(:last-child)::after {
 html[data-display="mobile"] div#visualizer {
   flex-direction: column;
   justify-content: center;
-  padding: 0;
+  gap: 1rem;
+  padding: calc(2.5rem + env(safe-area-inset-top)) 1rem
+    calc(1.5rem + env(safe-area-inset-bottom)) 1rem;
   background: rgba(255, 255, 255, 0.95);
+}
+
+/* Hint sits statically at the top of the column with breathing room */
+html[data-display="mobile"] div#visualizer #viz-hint {
+  position: static;
+  transform: none;
+  order: -1;
 }
 
 html[data-display="mobile"] div#visualizer img {
   height: auto;
-  max-height: 82vh;
+  max-height: 62vh;
+  max-height: 62dvh;
   width: 100%;
+  margin: 0;
   object-fit: contain;
 }
 
@@ -195,8 +276,8 @@ html[data-display="mobile"] div#visualizer #exif {
   transform: none;
   display: flex;
   max-width: 100%;
-  margin-top: 0.75rem;
-  padding: 0 1rem;
+  margin-top: 0;
+  padding: 0 0.5rem;
   background: transparent;
   box-shadow: none;
   backdrop-filter: none;
