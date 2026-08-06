@@ -18,16 +18,41 @@ div#visualizer.show {
 }
 
 div#visualizer img {
-  width: 80%;
+  width: 70%;
   height: 90%;
   margin: 0 2rem;
   object-fit: contain;
+  z-index: 1;
 }
 
 div#visualizer #close {
   position: fixed;
   right: 2rem;
   top: 2rem;
+  z-index: 3;
+  cursor: pointer;
+}
+
+div#visualizer .button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  cursor: pointer;
+  border-radius: 100%;
+}
+
+div#visualizer .button:hover {
+  background: #eaeaea;
+}
+
+div#visualizer .button#back {
+  left: 2rem;
+  transform: translateY(-50%) rotate(180deg);
+}
+
+div#visualizer .button#next {
+  right: 2rem;
 }
 
 /* --- Mobile Version (Show Full Height) --- */

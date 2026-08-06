@@ -5,8 +5,8 @@
 :root {
 	--animation-ultrafast: .2s;
 
-	--background: #222;
-	--on-background: #e1e1e1;
+	--background: #f5f5f5;
+	--on-background: #1a1a1a;
 	--background-blur: blur(.5rem);
 
 	--surface-1: #dfdfdf10;
@@ -58,7 +58,7 @@ body {
 * {
 	transition: none;
 	user-select: none;
-	font-family: var(--font-console) !important;
+	font-family: var(--font) !important;
 }
 
 *:focus {
@@ -73,6 +73,6 @@ a:focus:not(:hover) {
 
 div#app-content {
 	width: 100%;
-	height: calc(100% - 3rem);
+	height: calc(100%);
 	overflow-y: auto;
 }

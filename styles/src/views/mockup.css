@@ -1,0 +1,97 @@
+view#software,
+view#stories,
+view#games,
+view#music {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  padding: 2rem;
+  gap: 1rem;
+  color: var(--on-background);
+  text-align: center;
+}
+
+view#software button#home-button,
+view#stories button#home-button,
+view#games button#home-button,
+view#music button#home-button {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  box-sizing: border-box;
+  width: 48px;
+  height: 48px;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+}
+
+view#software button#home-button svg,
+view#stories button#home-button svg,
+view#games button#home-button svg,
+view#music button#home-button svg {
+  fill: #ffffff;
+}
+
+view#software div#mockup-icon svg,
+view#stories div#mockup-icon svg,
+view#games div#mockup-icon svg,
+view#music div#mockup-icon svg {
+  fill: var(--on-background);
+  opacity: 0.85;
+}
+
+view#software h1#mockup-title,
+view#stories h1#mockup-title,
+view#games h1#mockup-title,
+view#music h1#mockup-title {
+  font-size: 3rem;
+  font-weight: 300;
+  margin: 0.5rem 0 0 0;
+}
+
+view#software p#mockup-description,
+view#stories p#mockup-description,
+view#games p#mockup-description,
+view#music p#mockup-description {
+  font-size: 1.25rem;
+  font-weight: 300;
+  opacity: 0.8;
+  max-width: 32rem;
+  margin: 0;
+}
+
+view#software div#mockup-badge,
+view#stories div#mockup-badge,
+view#games div#mockup-badge,
+view#music div#mockup-badge {
+  margin-top: 1rem;
+  padding: 0.4rem 1rem;
+  border-radius: 6rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background-color: var(--on-background);
+  color: var(--background);
+  opacity: 0.9;
+}
+
+:root[data-display='mobile'] view#software h1#mockup-title,
+:root[data-display='mobile'] view#stories h1#mockup-title,
+:root[data-display='mobile'] view#games h1#mockup-title,
+:root[data-display='mobile'] view#music h1#mockup-title {
+  font-size: 2.25rem;
+}
+
+:root[data-display='mobile'] view#software p#mockup-description,
+:root[data-display='mobile'] view#stories p#mockup-description,
+:root[data-display='mobile'] view#games p#mockup-description,
+:root[data-display='mobile'] view#music p#mockup-description {
+  font-size: 1.1rem;
+}

@@ -1,7 +1,79 @@
 view#photos {
   position: relative;
   width: 100%;
+  height: 100vh;
   overflow-y: auto;
+  padding: 1rem;
+}
+
+view#photos button#home-button {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  box-sizing: border-box;
+  width: 48px;
+  height: 48px;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+}
+
+view#photos button#home-button svg {
+  fill: #ffffff;
+}
+
+/* Intro hero — fades and lifts away as the gallery scrolls up */
+view#photos #photos-hero {
+  height: calc(100vh - 2rem);
+  gap: 0.75rem;
+  text-align: center;
+  color: var(--on-background);
+  /* Fade/lift is driven from JS (see photos.view.ts) via CSS variables so
+     it works in every browser, including those without scroll timelines. */
+  opacity: var(--hero-progress-opacity, 1);
+  transform: translateY(var(--hero-progress-shift, 0));
+  will-change: opacity, transform;
+}
+
+view#photos #photos-hero-icon svg {
+  fill: var(--on-background);
+  opacity: 0.85;
+}
+
+view#photos h1#photos-title {
+  font-size: 3rem;
+  font-weight: 300;
+  margin: 0.5rem 0 0 0;
+  color: var(--on-background);
+}
+
+view#photos p#photos-description {
+  font-size: 1.25rem;
+  font-weight: 300;
+  opacity: 0.8;
+  max-width: 32rem;
+  margin: 0;
+}
+
+view#photos #photos-hero-hint {
+  margin-top: 2rem;
+  animation: photos-hint-bounce 1.6s ease-in-out infinite;
+}
+
+view#photos #photos-hero-hint svg {
+  fill: var(--on-background);
+  opacity: 0.6;
+}
+
+@keyframes photos-hint-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(0.4rem); }
 }
 
 view#photos #gallery {
@@ -82,5 +154,13 @@ view#photos .gallery-item img:hover {
 @media (max-width: 600px) {
   view#photos #gallery {
     column-count: 2;
+  }
+
+  view#photos h1#photos-title {
+    font-size: 2.25rem;
+  }
+
+  view#photos p#photos-description {
+    font-size: 1.1rem;
   }
 }

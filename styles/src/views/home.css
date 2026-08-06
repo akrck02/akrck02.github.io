@@ -1,131 +1,131 @@
 view#home {
+  position: relative;
+  overflow: hidden;
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
+  padding: 2rem;
+  gap: 4rem;
+  background-color: #000000;
 }
 
-:root[data-display='mobile'] view#home {
-  padding: 0rem 0rem;
+view#home div#home-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px);
+  transform: scale(1.06);
+  z-index: 0;
 }
 
 view#home div#content {
-  width: 33rem;
-}
-
-:root[data-display='mobile'] view#home div#content {
-  width: min(21rem, 100%);
-}
-
-view#home p#echo {
-  text-align: left;
-  width: 100%;
-  color: var(--surface-6);
+  position: relative;
+  z-index: 1;
+  max-width: 500px;
+  color: #ffffff;
 }
 
 view#home h1#title {
-  font-size: 5rem;
+  font-size: 3.5rem;
+  font-weight: 300;
+  margin: 0;
+  margin-bottom: 1rem;
+}
+
+view#home p#subtitle {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  opacity: 0.9;
+  white-space: pre-line;
+  margin: 0;
+  font-weight: 100;
+  margin-bottom: 1.5rem;
+}
+
+view#home p#description {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  opacity: 0.9;
+  font-weight: 100;
+  white-space: pre-line;
+  margin-bottom: 2rem;
+}
+
+view#home div#button-group {
+  gap: 0.5rem;
+}
+
+view#home button.nav-button {
+  box-sizing: border-box;
+  width: 64px;
+  height: 64px;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(4px);
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+view#home div#polaroid-card {
+  position: relative;
+  z-index: 1;
+  max-width: 360px;
+  padding: 1rem 1rem 3rem 1rem;
+  border-radius: 16px;
+  background-color: #ffffff;
+  transform: rotate(6deg);
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+view#home div#polaroid-card img {
+  display: block;
   width: 100%;
-  margin: 0rem 1rem;
+  border-radius: 10px;
+}
+
+/* Mobile */
+:root[data-display='mobile'] view#home {
+  flex-direction: column-reverse;
+  justify-content: center;
+  padding: 1.5rem;
+  gap: 2.5rem;
+}
+
+:root[data-display='mobile'] view#home div#content {
+  max-width: 100%;
+  align-items: center;
+  text-align: center;
 }
 
 :root[data-display='mobile'] view#home h1#title {
-  font-size: 2.8rem;
+  font-size: 2.5rem;
 }
 
-view#home p#timestamp {
-  text-align: right;
-  width: 100%;
-  color: var(--surface-6);
+:root[data-display='mobile'] view#home p#subtitle,
+:root[data-display='mobile'] view#home p#description {
+  font-size: 1.1rem;
 }
 
-view#home h2#subtitle {
-  color: var(--surface-6);
-  font-size: 2.25rem;
-  font-weight: lighter;
-  line-height: 135%;
-  margin: 2rem 0;
+:root[data-display='mobile'] view#home div#button-group {
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
 }
 
-:root[data-display='mobile'] view#home h2#subtitle {
-  font-size: 1.25rem;
-  margin: 2rem 0;
+:root[data-display='mobile'] view#home button.nav-button {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
 }
 
-view#home div#mini-terminal-widget {
-  width: 100%;
-  padding: 0 1.2rem;
-}
-
-:root[data-display='mobile'] view#home div#mini-terminal-widget {
-  padding: 0 0.5rem;
-}
-
-view#home div#mini-terminal-widget div#mini-terminal {
-  background: var(--surface-1);
-  backdrop-filter: var(--surface-1-blur);
-  height: 4rem;
-  width: 80%;
-  border-radius: 1.4rem;
-  padding: 1rem;
-  font: var(--font-console);
-}
-
-:root[data-display='mobile']
-  view#home
-  div#mini-terminal-widget
-  div#mini-terminal {
-  height: 4rem;
-  width: 80%;
-  padding: 1rem;
-}
-
-view#home div#mini-terminal-widget div#mini-terminal span#dolar {
-  margin-right: 0.75rem;
-  font-size: 1.5rem;
-  color: var(--background);
-}
-
-view#home
-  div#mini-terminal-widget
-  div#mini-terminal:has(input:focus)
-  span#dolar {
-  color: var(--primary-color);
-}
-
-view#home div#mini-terminal-widget div#mini-terminal input {
-  background: transparent;
-  color: var(--on-surface-1);
-  font-size: 1.2rem;
-  width: 100%;
-  user-select: none;
-}
-
-view#home div#mini-terminal-widget div#mini-terminal input:focus {
-  outline: none;
-}
-
-view#home div#mini-terminal-widget button {
-  margin: 0;
-  margin-left: 1rem;
-  background: var(--surface-1);
-  height: 4rem;
-  width: 4rem;
-  padding: 0;
-}
-
-:root[data-display='mobile'] view#home div#mini-terminal-widget button {
-  margin-left: 0.5rem;
-}
-
-view#home div#mini-terminal-widget button svg {
-  width: 2.5rem;
-  height: 2.5rem;
-  fill: var(--on-surface-1);
-}
-
-view#home div#mini-terminal-widget button:focus {
-  outline: none;
-}
-
-view#home div#mini-terminal-widget button:focus svg {
-  fill: var(--primary-color);
+:root[data-display='mobile'] view#home div#polaroid-card {
+  max-width: 260px;
+  padding: 0.75rem 0.75rem 2rem 0.75rem;
 }
