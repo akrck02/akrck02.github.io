@@ -9,6 +9,7 @@
 		"language": "resources/i18n",
 		"images": "resources/images",
 		"icons": "resources/icons",
-		"wiki": "resources/wiki"
+		"wiki": "resources/wiki",
+		"data": "resources/data"
 	}
 }

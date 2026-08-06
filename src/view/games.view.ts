@@ -1,10 +1,10 @@
-import { createMockupView } from "./mockup.view.js";
+import { createProjectsView } from "./projects.view.js";
 import { MaterialIcons } from "../model/configurations/icons.js";
 
-export const showGamesView = createMockupView({
+export const showGamesView = createProjectsView({
   id: "games",
-  route: "games",
   icon: MaterialIcons.SportsEsports,
   title: "Games",
-  description: "Small games and interactive experiments I have created."
+  description: "Small games and interactive experiments I have created.",
+  dataKey: "games"
 });
