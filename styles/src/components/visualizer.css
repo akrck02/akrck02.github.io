@@ -23,6 +23,11 @@ div#visualizer img {
   margin: 0 2rem;
   object-fit: contain;
   z-index: 1;
+  transition: filter var(--animation-medium) ease;
+}
+
+div#visualizer img.loading-full {
+  filter: blur(6px);
 }
 
 div#visualizer #close {

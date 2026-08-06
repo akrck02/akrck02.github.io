@@ -2,7 +2,7 @@ import { uiComponent } from "../lib/dom.js";
 import { Html } from "../lib/html.js";
 import { getIcon } from "../lib/icons.js";
 import { IconBundle, MaterialIcons } from "../model/configurations/icons.js";
-import { getImageUrl } from "../service/path.service.js";
+import { getImageUrl, getThumbnailUrl } from "../service/path.service.js";
 import { loadPhotosExif, PhotoExif } from "../service/photos.service.js";
 
 type albumType = {
@@ -126,7 +126,20 @@ export function showPhoto(currentId: string, show: boolean = true) {
 
   image.dataset.id = currentId;
   currentPhoto = currentAlbum[currentId];
-  image.src = getImageUrl(currentPhoto);
+
+  // Show the cached thumbnail instantly, then swap in the full resolution.
+  image.classList.add("loading-full");
+  image.src = getThumbnailUrl(currentPhoto);
+
+  const full = new Image();
+  full.onload = () => {
+    if (image.dataset.id === currentId) {
+      image.src = full.src;
+      image.classList.remove("loading-full");
+    }
+  };
+  full.src = getImageUrl(currentPhoto);
+
   renderExif(currentId);
 
   if (show) {

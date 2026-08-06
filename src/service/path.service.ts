@@ -11,6 +11,10 @@ export function getImageUrl(appendix: string = "") {
 	return `${location.protocol}//${location.host}/${getConfiguration("path")["images"]}/${appendix}`;
 }
 
+export function getThumbnailUrl(appendix: string = "") {
+	return getImageUrl(`thumb/${appendix}`);
+}
+
 export function redirect(view: string, params: string[] = []) {
 	location.href = getWebUrl(`#/${view}/${params.join("/")}`);
 }

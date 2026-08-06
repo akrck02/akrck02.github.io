@@ -124,8 +124,8 @@ function buildFilters(filterBar: HTMLElement, grid: HTMLElement, projects: Proje
 
   const select = uiComponent({ type: "select", id: "language-select" }) as HTMLSelectElement;
   select.innerHTML = [
-    `<option value="all">All languages (${projects.length})</option>`,
-    ...languages.map((lang) => `<option value="${lang}">${lang} (${count(lang)})</option>`)
+    `<option value="all">All languages</option>`,
+    ...languages.map((lang) => `<option value="${lang}">${lang}</option>`)
   ].join("");
   select.onchange = () => {
     language = select.value;

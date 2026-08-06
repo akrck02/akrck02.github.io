@@ -13,8 +13,7 @@
 			],
 			"url": "https://github.com/akrck02/valhalla",
 			"archived": false,
-			"featured": true,
-			"website": "https://akrck02.org/#/software/valhalla"
+			"featured": true
 		},
 		{
 			"id": "salary",
@@ -59,8 +58,7 @@
 			],
 			"url": "https://github.com/akrck02/bubble",
 			"archived": false,
-			"featured": true,
-			"website": "http://akrck02.org/app/#/software/bubbleUI"
+			"featured": true
 		},
 		{
 			"id": "countless",
