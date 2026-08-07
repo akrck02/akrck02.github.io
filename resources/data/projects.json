@@ -667,7 +667,8 @@
 				"mac",
 				"android"
 			],
-			"status": "in-development"
+			"status": "in-development",
+			"screenshots": 4
 		},
 		{
 			"id": "linus-tiny-adventure",
@@ -690,7 +691,8 @@
 				"linux",
 				"mac",
 				"web"
-			]
+			],
+			"screenshots": 4
 		},
 		{
 			"id": "io-world",
@@ -712,7 +714,8 @@
 				"web",
 				"windows"
 			],
-			"status": "prototype"
+			"status": "prototype",
+			"screenshots": 0
 		}
 	]
 }
