@@ -20,10 +20,15 @@ let currentPhoto: string;
 let currentAlbum: albumType;
 
 export function createVisualizer() {
+  // Never keep more than one visualizer alive (a re-render of the photos view
+  // would otherwise leak a second one on document.body).
+  document.getElementById("visualizer")?.remove();
+
   const visualizer = uiComponent({
     id: "visualizer"
   });
   visualizerElement = visualizer;
+  bindHistory();
 
   const hint = uiComponent({
     id: "viz-hint"
@@ -313,10 +318,44 @@ export function showLastPhoto(currentId: string) {
   }
 }
 
+let historyStatePushed = false;
+let historyBound = false;
+
+// Close the visualizer on the browser/OS "back" gesture instead of letting it
+// navigate the route away (which used to strand the overlay and break state).
+function bindHistory() {
+  if (historyBound) return;
+  historyBound = true;
+  window.addEventListener("popstate", () => {
+    const el = document.getElementById("visualizer");
+    if (el && el.classList.contains("show")) {
+      historyStatePushed = false;
+      hideVisualizer(el);
+    }
+  });
+}
+
+function hideVisualizer(el: HTMLElement) {
+  el.classList.remove("show");
+  resetZoom();
+}
+
 function closeVisualizer() {
-  document.getElementById("visualizer").classList.remove("show");
+  const el = document.getElementById("visualizer");
+  if (!el) return;
+  hideVisualizer(el);
+  if (historyStatePushed) {
+    historyStatePushed = false;
+    history.back(); // pop the entry we pushed when opening
+  }
 }
 
 function showVisualizer() {
-  document.getElementById("visualizer").classList.add("show");
+  const el = document.getElementById("visualizer");
+  if (!el) return;
+  el.classList.add("show");
+  if (!historyStatePushed) {
+    history.pushState({ visualizer: true }, "");
+    historyStatePushed = true;
+  }
 }
