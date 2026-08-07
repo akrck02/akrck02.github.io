@@ -392,39 +392,40 @@ function buildGamePage(game: Project): HTMLElement {
   body.appendChild(aside);
   view.appendChild(body);
 
-  // Gallery — real screenshots from games/<id>/screenshots/<n>.(jpg|png|…).
-  // Missing indices drop out; the whole section hides if none load.
-  const gallery = uiComponent({ classes: ["game-page-gallery"] });
-  gallery.appendChild(uiComponent({ classes: ["game-page-eyebrow"], text: "GALLERY" }));
-  const shots = uiComponent({ classes: ["game-page-shots"] });
-  gallery.appendChild(shots);
-  gallery.style.display = "none"; // revealed once at least one shot loads
-  view.appendChild(gallery);
+  // Gallery — exactly `game.screenshots` shots from games/<id>/screenshots/<n>.<ext>.
+  // Driven by the declared count so we never request beyond what exists; each shot
+  // tries .png then .jpg, so PNG costs zero extra requests and JPG just one fallback.
+  const count = game.screenshots ?? 0;
+  if (count > 0) {
+    const gallery = uiComponent({ classes: ["game-page-gallery"] });
+    gallery.appendChild(uiComponent({ classes: ["game-page-eyebrow"], text: "GALLERY" }));
+    const shots = uiComponent({ classes: ["game-page-shots"] });
+    gallery.appendChild(shots);
+    view.appendChild(gallery);
 
-  const MAX_SHOTS = 8;
-  const EXTS = ["png", "jpg", "jpeg", "webp"];
-  for (let n = 1; n <= MAX_SHOTS; n++) {
-    const shot = uiComponent({
-      type: Html.Img,
-      classes: ["game-shot", "img-skeleton"],
-      attributes: { alt: `${game.name} screenshot ${n}` }
-    }) as HTMLImageElement;
-    let ext = 0;
-    shot.onload = () => {
-      shot.classList.remove("img-skeleton");
-      // Match the cell to the image's real orientation so nothing is cropped.
-      shot.style.aspectRatio = `${shot.naturalWidth} / ${shot.naturalHeight}`;
-      shot.classList.toggle("portrait", shot.naturalHeight > shot.naturalWidth);
-      gallery.style.display = "";
-    };
-    shot.onerror = () => {
-      ext += 1;
-      if (ext < EXTS.length) shot.src = getGameImageUrl(game.id, `screenshots/${n}.${EXTS[ext]}`);
-      else shot.remove();
-    };
-    shot.onclick = () => openImagePreview(shot.src, shot.alt);
-    shot.src = getGameImageUrl(game.id, `screenshots/${n}.${EXTS[0]}`);
-    shots.appendChild(shot);
+    const EXTS = ["png", "jpg"];
+    for (let n = 1; n <= count; n++) {
+      const shot = uiComponent({
+        type: Html.Img,
+        classes: ["game-shot", "img-skeleton"],
+        attributes: { alt: `${game.name} screenshot ${n}` }
+      }) as HTMLImageElement;
+      let ext = 0;
+      shot.onload = () => {
+        shot.classList.remove("img-skeleton");
+        // Match the cell to the image's real orientation so nothing is cropped.
+        shot.style.aspectRatio = `${shot.naturalWidth} / ${shot.naturalHeight}`;
+        shot.classList.toggle("portrait", shot.naturalHeight > shot.naturalWidth);
+      };
+      shot.onerror = () => {
+        ext += 1;
+        if (ext < EXTS.length) shot.src = getGameImageUrl(game.id, `screenshots/${n}.${EXTS[ext]}`);
+        else shot.remove();
+      };
+      shot.onclick = () => openImagePreview(shot.src, shot.alt);
+      shot.src = getGameImageUrl(game.id, `screenshots/${n}.${EXTS[0]}`);
+      shots.appendChild(shot);
+    }
   }
 
   return view;

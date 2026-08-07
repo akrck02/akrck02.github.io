@@ -15,6 +15,7 @@ export interface Project {
   featured: boolean;
   platforms?: string[];
   status?: string;
+  screenshots?: number;
 }
 
 export interface ProjectsIndex {
