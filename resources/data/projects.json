@@ -660,22 +660,14 @@
 			"url": "https://github.com/akrck02/isometric-pets",
 			"archived": false,
 			"featured": true,
-			"engine": "Godot"
-		},
-		{
-			"id": "portalnt",
-			"name": "Portalnt",
-			"description": "Game prototype like Portal using godot engine.",
-			"language": "GDScript",
-			"stars": 4,
-			"tags": [
-				"3d-game",
-				"godot"
+			"engine": "Godot",
+			"platforms": [
+				"windows",
+				"linux",
+				"mac",
+				"android"
 			],
-			"url": "https://github.com/akrck02/portalnt",
-			"archived": false,
-			"featured": true,
-			"engine": "Godot"
+			"status": "in-development"
 		},
 		{
 			"id": "linus-tiny-adventure",
@@ -692,39 +684,13 @@
 			"archived": false,
 			"featured": true,
 			"website": "https://nightlightstudios.itch.io/linus-tiny-adventure",
-			"engine": "Godot"
-		},
-		{
-			"id": "godot-generic-platformer",
-			"name": "Generic Platformer",
-			"description": "2D platformer game made to learn godot.",
-			"language": "GDScript",
-			"stars": 2,
-			"tags": [
-				"godot",
-				"platformer2d",
-				"videogame"
-			],
-			"url": "https://github.com/akrck02/godot-generic-platformer",
-			"archived": false,
-			"featured": false,
-			"engine": "Godot"
-		},
-		{
-			"id": "godot-grid-pathfinding",
-			"name": "Godot Grid Pathfinding",
-			"description": "Grid movement pathfinding for godot game engine.",
-			"language": "GDScript",
-			"stars": 2,
-			"tags": [
-				"godot-engine",
-				"grid-based-games",
-				"pathfinding"
-			],
-			"url": "https://github.com/akrck02/godot-grid-pathfinding",
-			"archived": false,
-			"featured": false,
-			"engine": "Godot"
+			"engine": "Godot",
+			"platforms": [
+				"windows",
+				"linux",
+				"mac",
+				"web"
+			]
 		},
 		{
 			"id": "io-world",
@@ -741,54 +707,12 @@
 			"archived": false,
 			"featured": false,
 			"website": "https://akrck02.org/io-world/",
-			"engine": "Godot"
-		},
-		{
-			"id": "enjoined",
-			"name": "Enjoined",
-			"description": "2D platformer game with the \"joined together\" theme for *Late* game jam 2021.",
-			"language": "Java",
-			"stars": 1,
-			"tags": [
-				"2d",
-				"game-jam",
-				"java"
+			"engine": "Godot",
+			"platforms": [
+				"web",
+				"windows"
 			],
-			"url": "https://github.com/akrck02/enjoined",
-			"archived": true,
-			"featured": false,
-			"engine": "libGDX"
-		},
-		{
-			"id": "the-legend-of-lumberJack",
-			"name": "The Legend of LumberJack",
-			"description": "Mini 2D ugly game tutorial made in godot ",
-			"language": "GDScript",
-			"stars": 1,
-			"tags": [
-				"godot",
-				"godot-2d-game",
-				"godot-tutorial"
-			],
-			"url": "https://github.com/akrck02/the-legend-of-lumberJack",
-			"archived": false,
-			"featured": false,
-			"engine": "Godot"
-		},
-		{
-			"id": "warmio-bros",
-			"name": "Warmio Bros",
-			"description": "Platformer mini-game for a gamejam. ",
-			"language": "GDScript",
-			"stars": 1,
-			"tags": [
-				"gamejam",
-				"godot"
-			],
-			"url": "https://github.com/akrck02/warmio-bros",
-			"archived": false,
-			"featured": false,
-			"engine": "Godot"
+			"status": "prototype"
 		}
 	]
 }

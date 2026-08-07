@@ -26,11 +26,48 @@ div#visualizer img {
   z-index: 1;
   touch-action: none;
   transform-origin: center center;
-  transition: filter var(--animation-medium) ease;
 }
 
-div#visualizer img.loading-full {
-  filter: blur(6px);
+/* Loading spinner shown while the full-resolution image streams in */
+div#visualizer #viz-spinner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  width: 100%;
+  height: 3px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.08);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--animation-fast) ease;
+}
+
+div#visualizer #viz-spinner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 40%;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+div#visualizer img.loading-full ~ #viz-spinner {
+  opacity: 1;
+}
+
+div#visualizer img.loading-full ~ #viz-spinner::before {
+  animation: viz-progress 1.1s linear infinite;
+}
+
+@keyframes viz-progress {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(350%);
+  }
 }
 
 /* Hide overlay texts while the photo is zoomed */
