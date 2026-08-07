@@ -3,7 +3,7 @@ import { uiComponent } from "../lib/dom.js";
 import { Html } from "../lib/html.js";
 import { getIcon } from "../lib/icons.js";
 import { IconBundle, MaterialIcons } from "../model/configurations/icons.js";
-import { getImageUrl, redirect } from "../service/path.service.js";
+import { getOtherImageUrl, redirect } from "../service/path.service.js";
 
 export async function showHomeView(parameters: string[], container: HTMLElement) {
   const view = uiComponent({
@@ -15,7 +15,7 @@ export async function showHomeView(parameters: string[], container: HTMLElement)
   const background = uiComponent({
     id: "home-background",
     styles: {
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url("${getImageUrl("wallpaper.jpg")}")`
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url("${getOtherImageUrl("wallpaper.jpg")}")`
     }
   });
   view.appendChild(background);
@@ -85,7 +85,7 @@ export async function showHomeView(parameters: string[], container: HTMLElement)
   const profileImg = uiComponent({
     type: Html.Img,
     attributes: {
-      src: getImageUrl("profile.jpg"),
+      src: getOtherImageUrl("profile.jpg"),
       alt: "akrck02 photo"
     }
   }) as HTMLImageElement;

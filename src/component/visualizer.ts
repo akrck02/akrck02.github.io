@@ -2,12 +2,10 @@ import { uiComponent } from "../lib/dom.js";
 import { Html } from "../lib/html.js";
 import { getIcon } from "../lib/icons.js";
 import { IconBundle, MaterialIcons } from "../model/configurations/icons.js";
-import { getImageUrl, getThumbnailUrl } from "../service/path.service.js";
-import { loadPhotosExif, PhotoExif } from "../service/photos.service.js";
+import { getPhotoThumbnailUrl, getPhotoUrl } from "../service/path.service.js";
+import { Album, loadPhotosExif, PhotoExif } from "../service/photos.service.js";
 
-type albumType = {
-  [name: string]: string;
-};
+type albumType = Album;
 
 let image: HTMLImageElement;
 let visualizerElement: HTMLElement;
@@ -51,6 +49,11 @@ export function createVisualizer() {
     type: Html.Img
   }) as HTMLImageElement;
   visualizer.appendChild(image);
+
+  const spinner = uiComponent({
+    id: "viz-spinner"
+  });
+  visualizer.appendChild(spinner);
 
   const nextButton = getIcon(IconBundle.Material, MaterialIcons.Next, "3rem");
   nextButton.classList.add("button");
@@ -254,7 +257,7 @@ function renderExif(id: string | undefined) {
 
 export function loadAlbum(album: albumType) {
   currentAlbum = album;
-  const firstId = Object.keys(album)[0];
+  const firstId = Object.keys(album.photos)[0];
   if (firstId) {
     showPhoto(firstId, false);
   }
@@ -266,15 +269,15 @@ export function loadAlbumAndPhoto(album: albumType, photoId: string) {
 }
 
 export function showPhoto(currentId: string, show: boolean = true) {
-  if (!currentAlbum || !currentAlbum[currentId]) return;
+  if (!currentAlbum || !currentAlbum.photos[currentId]) return;
 
   image.dataset.id = currentId;
-  currentPhoto = currentAlbum[currentId];
+  currentPhoto = currentAlbum.photos[currentId];
   resetZoom();
 
   // Show the cached thumbnail instantly, then swap in the full resolution.
   image.classList.add("loading-full");
-  image.src = getThumbnailUrl(currentPhoto);
+  image.src = getPhotoThumbnailUrl(currentAlbum.folder, currentPhoto);
 
   const full = new Image();
   full.onload = () => {
@@ -283,7 +286,7 @@ export function showPhoto(currentId: string, show: boolean = true) {
       image.classList.remove("loading-full");
     }
   };
-  full.src = getImageUrl(currentPhoto);
+  full.src = getPhotoUrl(currentAlbum.folder, currentPhoto);
 
   renderExif(currentId);
 
@@ -293,7 +296,7 @@ export function showPhoto(currentId: string, show: boolean = true) {
 }
 
 export function showNextPhoto(currentId: string) {
-  const keys = Object.keys(currentAlbum);
+  const keys = Object.keys(currentAlbum.photos);
   if (keys.length === 0) return;
 
   const currentIndex = keys.indexOf(currentId);
@@ -306,7 +309,7 @@ export function showNextPhoto(currentId: string) {
 }
 
 export function showLastPhoto(currentId: string) {
-  const keys = Object.keys(currentAlbum);
+  const keys = Object.keys(currentAlbum.photos);
   if (keys.length === 0) return;
 
   const currentIndex = keys.indexOf(currentId);

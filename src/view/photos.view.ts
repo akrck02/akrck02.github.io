@@ -4,7 +4,7 @@ import { setDomEvents, uiComponent } from "../lib/dom.js";
 import { Html } from "../lib/html.js";
 import { getIcon } from "../lib/icons.js";
 import { IconBundle, MaterialIcons } from "../model/configurations/icons.js";
-import { getThumbnailUrl, getWebUrl } from "../service/path.service.js";
+import { getPhotoThumbnailUrl, getWebUrl } from "../service/path.service.js";
 import { loadPhotosIndex } from "../service/photos.service.js";
 import { setOpaqueBackground } from "../service/ui.service.js";
 
@@ -83,12 +83,9 @@ export async function showPhotosView(parameters: string[], container: HTMLElemen
   });
   view.appendChild(gallery);
 
-  for (const entry of Object.entries(index)) {
-    const albumPhotos = entry[1];
-    for (const photoEntry of Object.entries(albumPhotos)) {
-      const photoId = photoEntry[0];
-      const photoPath = photoEntry[1] as string;
-      gallery.appendChild(createImage(photoId, getThumbnailUrl(photoPath)));
+  for (const album of Object.values(index)) {
+    for (const [photoId, file] of Object.entries(album.photos)) {
+      gallery.appendChild(createImage(photoId, getPhotoThumbnailUrl(album.folder, file)));
     }
   }
 }

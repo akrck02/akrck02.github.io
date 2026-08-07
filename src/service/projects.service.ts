@@ -13,6 +13,8 @@ export interface Project {
   website?: string;
   archived: boolean;
   featured: boolean;
+  platforms?: string[];
+  status?: string;
 }
 
 export interface ProjectsIndex {

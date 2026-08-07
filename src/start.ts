@@ -57,6 +57,7 @@ function setRoutes(parent: HTMLElement) {
   setRoute("/software", showSoftwareView);
   setRoute("/stories", showStoriesView);
   setRoute("/games", showGamesView);
+  setRoute("/games/$", showGamesView);
   setRoute("/music", showMusicView);
   showRoute(window.location.hash.slice(1).toLowerCase(), parent);
 }

@@ -20,11 +20,18 @@ export async function loadPhotosExif(): Promise<{ [id: string]: PhotoExif }> {
   return photosExif;
 }
 
-let photosIndex: any;
+export interface Album {
+  folder: string;
+  photos: { [id: string]: string };
+}
 
-export function loadPhotosIndex() {
+let photosIndex: { [name: string]: Album };
+
+export function loadPhotosIndex(): { [name: string]: Album } {
   photosIndex = {
     Default: {
+      folder: "default",
+      photos: {
       DSC06584: "DSC06584.JPG",
       DSC06667: "DSC06667.JPG",
       DSC06691: "DSC06691.JPG",
@@ -61,6 +68,7 @@ export function loadPhotosIndex() {
       DSC08889: "DSC08889.JPG",
       DSC08954: "DSC08954.JPG",
       DSC08987: "DSC08987.JPG"
+      }
     }
   };
 
