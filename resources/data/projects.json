@@ -1,0 +1,794 @@
+{
+	"software": [
+		{
+			"id": "valhalla",
+			"name": "Valhalla",
+			"description": "The modern productivity app.",
+			"language": "TypeScript",
+			"stars": 8,
+			"tags": [
+				"electron",
+				"nodejs",
+				"productivity"
+			],
+			"url": "https://github.com/akrck02/valhalla",
+			"archived": false,
+			"featured": true
+		},
+		{
+			"id": "salary",
+			"name": "Salary Calculator",
+			"description": "Simple salary calculator website for basque country",
+			"language": "TypeScript",
+			"stars": 6,
+			"tags": [
+				"irpf",
+				"tax-calculator"
+			],
+			"url": "https://github.com/akrck02/salary",
+			"archived": false,
+			"featured": true,
+			"website": "https://akrck02.org/salary"
+		},
+		{
+			"id": "gtd",
+			"name": "GTD",
+			"description": "Easy idiomatic web library.",
+			"language": "TypeScript",
+			"stars": 4,
+			"tags": [
+				"library",
+				"typescript",
+				"web-based-application"
+			],
+			"url": "https://github.com/akrck02/gtd",
+			"archived": false,
+			"featured": true
+		},
+		{
+			"id": "bubble",
+			"name": "Bubble UI",
+			"description": "Modular, variable based UI design system.",
+			"language": "CSS",
+			"stars": 2,
+			"tags": [
+				"bubbleui",
+				"css",
+				"css-framework"
+			],
+			"url": "https://github.com/akrck02/bubble",
+			"archived": false,
+			"featured": true
+		},
+		{
+			"id": "countless",
+			"name": "Countless",
+			"description": "Manage your income and outcome on an easy way",
+			"language": "Kotlin",
+			"stars": 4,
+			"tags": [
+				"accounting",
+				"android",
+				"compose-multiplatform"
+			],
+			"url": "https://github.com/akrck02/countless",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "laptop-nas-project",
+			"name": "Laptop NAS",
+			"description": "Configuring a NAS with linux.",
+			"language": "Other",
+			"stars": 4,
+			"tags": [
+				"github-backup",
+				"nas",
+				"samba"
+			],
+			"url": "https://github.com/akrck02/laptop-nas-project",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "gtd-lib",
+			"name": "GTD Lib",
+			"description": "Clean code support library for typescript.",
+			"language": "TypeScript",
+			"stars": 3,
+			"tags": [
+				"javascript",
+				"library",
+				"toolkit"
+			],
+			"url": "https://github.com/akrck02/gtd-lib",
+			"archived": true,
+			"featured": false
+		},
+		{
+			"id": "light-tile",
+			"name": "Light Tile",
+			"description": "2D RPG map maker.",
+			"language": "Java",
+			"stars": 3,
+			"tags": [
+				"2d",
+				"java",
+				"map-creator"
+			],
+			"url": "https://github.com/akrck02/light-tile",
+			"archived": true,
+			"featured": false
+		},
+		{
+			"id": "lit",
+			"name": "Lit",
+			"description": "Lightweight css minifier.",
+			"language": "Go",
+			"stars": 3,
+			"tags": [
+				"cli",
+				"css",
+				"java"
+			],
+			"url": "https://github.com/akrck02/lit",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "lss",
+			"name": "LSS",
+			"description": "Minified and modular css generation library.",
+			"language": "TypeScript",
+			"stars": 3,
+			"tags": [
+				"code-generator",
+				"compilator",
+				"css"
+			],
+			"url": "https://github.com/akrck02/lss",
+			"archived": true,
+			"featured": false
+		},
+		{
+			"id": "papiro-deploy",
+			"name": "Papiro Deploy",
+			"description": "Github action to deploy your markdown documents as a web wiki.",
+			"language": "Go",
+			"stars": 3,
+			"tags": [
+				"github-action",
+				"markdown-wiki"
+			],
+			"url": "https://github.com/akrck02/papiro-deploy",
+			"archived": false,
+			"featured": false,
+			"website": "https://akrck02.org/papiro"
+		},
+		{
+			"id": "app-igniter",
+			"name": "App Igniter",
+			"description": "Github clone made with codeigniter.",
+			"language": "PHP",
+			"stars": 2,
+			"tags": [
+				"codeigniter",
+				"mvc",
+				"php"
+			],
+			"url": "https://github.com/akrck02/app-igniter",
+			"archived": true,
+			"featured": false
+		},
+		{
+			"id": "arduino-journey",
+			"name": "Arduino Journey",
+			"description": "Software developer fighting hardware design.",
+			"language": "C++",
+			"stars": 2,
+			"tags": [
+				"arduino",
+				"elegoo",
+				"starter-kit"
+			],
+			"url": "https://github.com/akrck02/arduino-journey",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "crabby-cli",
+			"name": "Crabby CLI",
+			"description": "Cli tools made to learn rust.",
+			"language": "Rust",
+			"stars": 2,
+			"tags": [
+				"cli",
+				"rust"
+			],
+			"url": "https://github.com/akrck02/crabby-cli",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "gif-maker",
+			"name": "Gif Maker",
+			"description": "Gifs making app.",
+			"language": "TypeScript",
+			"stars": 2,
+			"tags": [
+				"electron",
+				"gif-generator",
+				"java"
+			],
+			"url": "https://github.com/akrck02/gif-maker",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "godot-android-nfc-plugin",
+			"name": "Godot Android Nfc Plugin",
+			"description": "Android NFC plugin for godot engine.",
+			"language": "Kotlin",
+			"stars": 2,
+			"tags": [
+				"android",
+				"godot",
+				"godot-nfc"
+			],
+			"url": "https://github.com/akrck02/godot-android-nfc-plugin",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "gtd-test",
+			"name": "GTD Test",
+			"description": "Automatic test engine built in typescript for secure code.",
+			"language": "TypeScript",
+			"stars": 2,
+			"tags": [
+				"java",
+				"secure-code",
+				"test"
+			],
+			"url": "https://github.com/akrck02/gtd-test",
+			"archived": true,
+			"featured": false
+		},
+		{
+			"id": "homelab",
+			"name": "Homelab",
+			"description": "Setting up a homelab for self-hosting.",
+			"language": "Other",
+			"stars": 2,
+			"tags": [
+				"docker",
+				"homelab",
+				"linux"
+			],
+			"url": "https://github.com/akrck02/homelab",
+			"archived": false,
+			"featured": false,
+			"website": "https://akrck02.org/homelab"
+		},
+		{
+			"id": "javascript-int-parsing-error",
+			"name": "JS parseInt Error",
+			"description": "A Little explanation of the famous Javascript parseInt(0.0000005); error meme.",
+			"language": "JavaScript",
+			"stars": 2,
+			"tags": [
+				"javascript",
+				"meme",
+				"parsingerror"
+			],
+			"url": "https://github.com/akrck02/javascript-int-parsing-error",
+			"archived": false,
+			"featured": false,
+			"website": "http://akrck02.org/javascript-int-parsing-error/"
+		},
+		{
+			"id": "markdown-docs",
+			"name": "Markdown Docs",
+			"description": "Markdown parser for project documentation.",
+			"language": "TypeScript",
+			"stars": 2,
+			"tags": [
+				"docs",
+				"markdown",
+				"parser"
+			],
+			"url": "https://github.com/akrck02/markdown-docs",
+			"archived": true,
+			"featured": false
+		},
+		{
+			"id": "moonbot",
+			"name": "Moonbot",
+			"description": "General purpose discord bot.",
+			"language": "Go",
+			"stars": 2,
+			"tags": [
+				"discord",
+				"discord-api",
+				"discord-bot"
+			],
+			"url": "https://github.com/akrck02/moonbot",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "network",
+			"name": "Network",
+			"description": "Social platform api develop in nestsjs (interview) ",
+			"language": "TypeScript",
+			"stars": 2,
+			"tags": [
+				"asynchronous",
+				"nestjs",
+				"social-network"
+			],
+			"url": "https://github.com/akrck02/network",
+			"archived": true,
+			"featured": false
+		},
+		{
+			"id": "papiro",
+			"name": "Papiro",
+			"description": "Markdown documents as a web wiki.",
+			"language": "TypeScript",
+			"stars": 2,
+			"tags": [
+				"markdown",
+				"wiki"
+			],
+			"url": "https://github.com/akrck02/papiro",
+			"archived": false,
+			"featured": false,
+			"website": "http://akrck02.org/papiro/"
+		},
+		{
+			"id": "skyleriearts-uploader",
+			"name": "Skyleriearts Uploader",
+			"description": "Content management program made for skyleriarts.",
+			"language": "Kotlin",
+			"stars": 2,
+			"tags": [],
+			"url": "https://github.com/akrck02/skyleriearts-uploader",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "software-design-patterns",
+			"name": "Software Design Patterns",
+			"description": "Learning software design patterns.",
+			"language": "TypeScript",
+			"stars": 2,
+			"tags": [
+				"design-patterns",
+				"software-architecture"
+			],
+			"url": "https://github.com/akrck02/software-design-patterns",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "valhalla-core",
+			"name": "Valhalla Core",
+			"description": "Valhalla backend core logic.",
+			"language": "Go",
+			"stars": 2,
+			"tags": [
+				"backend",
+				"productivity-app"
+			],
+			"url": "https://github.com/akrck02/valhalla-core",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "animation-sequences",
+			"name": "Animation Sequences",
+			"description": "Animations for websites.",
+			"language": "HTML",
+			"stars": 1,
+			"tags": [
+				"animations",
+				"css",
+				"html"
+			],
+			"url": "https://github.com/akrck02/animation-sequences",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "color-extractor",
+			"name": "Color Extractor",
+			"description": "Website that generates a structural color pallete given a base color ",
+			"language": "TypeScript",
+			"stars": 1,
+			"tags": [
+				"bubbleui",
+				"color-generator",
+				"color-palette"
+			],
+			"url": "https://github.com/akrck02/color-extractor",
+			"archived": false,
+			"featured": false,
+			"website": "http://akrck02.org/color-extractor/"
+		},
+		{
+			"id": "cyber-plant-2099",
+			"name": "Cyber Plant 2099",
+			"description": "Arduino project to make the definitive plant based system on the entire universe.",
+			"language": "C++",
+			"stars": 1,
+			"tags": [
+				"arduino",
+				"iot",
+				"plants"
+			],
+			"url": "https://github.com/akrck02/cyber-plant-2099",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "file-comparator",
+			"name": "File Comparator",
+			"description": "Tool to compare files.",
+			"language": "TypeScript",
+			"stars": 1,
+			"tags": [
+				"cli",
+				"compare-files",
+				"nodejs"
+			],
+			"url": "https://github.com/akrck02/file-comparator",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "github-backup-script",
+			"name": "GitHub Backup Script",
+			"description": "Script for local github backup.",
+			"language": "Go",
+			"stars": 1,
+			"tags": [
+				"backup-script",
+				"crontask",
+				"git"
+			],
+			"url": "https://github.com/akrck02/github-backup-script",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "go-api-template",
+			"name": "Go API Template",
+			"description": "API template for golang.",
+			"language": "Go",
+			"stars": 1,
+			"tags": [
+				"golang",
+				"golang-api"
+			],
+			"url": "https://github.com/akrck02/go-api-template",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "image-compressor",
+			"name": "Image Compressor",
+			"description": "Image compressor CLI tool.",
+			"language": "Go",
+			"stars": 1,
+			"tags": [],
+			"url": "https://github.com/akrck02/image-compressor",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "isometric-pets-service",
+			"name": "Isometric Pets Service",
+			"description": "Online service only for isometric pets. ",
+			"language": "Go",
+			"stars": 1,
+			"tags": [],
+			"url": "https://github.com/akrck02/isometric-pets-service",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "mewbot",
+			"name": "Mewbot",
+			"description": "Discord bot using some AI services.",
+			"language": "Go",
+			"stars": 1,
+			"tags": [
+				"dalle",
+				"dalle-mini",
+				"discord-bot"
+			],
+			"url": "https://github.com/akrck02/mewbot",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "nickname-generator",
+			"name": "Nickname Generator",
+			"description": "Nickname generation app.",
+			"language": "Python",
+			"stars": 1,
+			"tags": [
+				"csv",
+				"customtkinter",
+				"generator"
+			],
+			"url": "https://github.com/akrck02/nickname-generator",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "nightfall-engine",
+			"name": "Nightfall Engine",
+			"description": "2D Micro discord game engine.",
+			"language": "Go",
+			"stars": 1,
+			"tags": [
+				"discord",
+				"game-engine"
+			],
+			"url": "https://github.com/akrck02/nightfall-engine",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "node-stream-server",
+			"name": "Node Stream Server",
+			"description": "Static video streaming server acording to HTTP partial content delivery.",
+			"language": "TypeScript",
+			"stars": 1,
+			"tags": [
+				"nodejs",
+				"streaming",
+				"video"
+			],
+			"url": "https://github.com/akrck02/node-stream-server",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "papiro-indexer",
+			"name": "Papiro Indexer",
+			"description": "The papiro indexer cli.",
+			"language": "Go",
+			"stars": 1,
+			"tags": [],
+			"url": "https://github.com/akrck02/papiro-indexer",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "valhalla-sync",
+			"name": "Valhalla Sync",
+			"description": "Synchronization service for *early* valhalla.",
+			"language": "TypeScript",
+			"stars": 1,
+			"tags": [
+				"api",
+				"web-service"
+			],
+			"url": "https://github.com/akrck02/valhalla-sync",
+			"archived": true,
+			"featured": false
+		},
+		{
+			"id": "weblogic-docker",
+			"name": "Weblogic Docker",
+			"description": "Dockerizing the Oracle Weblogic server",
+			"language": "Go",
+			"stars": 1,
+			"tags": [
+				"docker",
+				"weblogic"
+			],
+			"url": "https://github.com/akrck02/weblogic-docker",
+			"archived": true,
+			"featured": false,
+			"website": "https://hub.docker.com/repository/docker/akrck02/weblogic"
+		},
+		{
+			"id": "whisper",
+			"name": "Whisper",
+			"description": "Tiny self-hosted chat app prototype.",
+			"language": "Go",
+			"stars": 1,
+			"tags": [],
+			"url": "https://github.com/akrck02/whisper",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "benchmark",
+			"name": "Benchmark",
+			"description": "a silly CLI to test commands.",
+			"language": "Go",
+			"stars": 0,
+			"tags": [
+				"benchmark",
+				"cli"
+			],
+			"url": "https://github.com/akrck02/benchmark",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "go-renderer",
+			"name": "Go Renderer",
+			"description": "Simple graphics renderer.",
+			"language": "Go",
+			"stars": 0,
+			"tags": [
+				"render-engine"
+			],
+			"url": "https://github.com/akrck02/go-renderer",
+			"archived": false,
+			"featured": false
+		},
+		{
+			"id": "whisper-app",
+			"name": "Whisper App",
+			"description": "Prototype client for whisper.",
+			"language": "TypeScript",
+			"stars": 0,
+			"tags": [],
+			"url": "https://github.com/akrck02/whisper-app",
+			"archived": false,
+			"featured": false
+		}
+	],
+	"games": [
+		{
+			"id": "isometric-pets",
+			"name": "Isometric Pets",
+			"description": "Virtual pet game.",
+			"language": "GDScript",
+			"stars": 8,
+			"tags": [
+				"godot",
+				"virtual-pets"
+			],
+			"url": "https://github.com/akrck02/isometric-pets",
+			"archived": false,
+			"featured": true,
+			"engine": "Godot"
+		},
+		{
+			"id": "portalnt",
+			"name": "Portalnt",
+			"description": "Game prototype like Portal using godot engine.",
+			"language": "GDScript",
+			"stars": 4,
+			"tags": [
+				"3d-game",
+				"godot"
+			],
+			"url": "https://github.com/akrck02/portalnt",
+			"archived": false,
+			"featured": true,
+			"engine": "Godot"
+		},
+		{
+			"id": "linus-tiny-adventure",
+			"name": "Linus' Tiny Adventure",
+			"description": "A 2D puzzle short game to explain Godot!",
+			"language": "GDScript",
+			"stars": 3,
+			"tags": [
+				"godot",
+				"godot-2d-game",
+				"puzzle-game"
+			],
+			"url": "https://github.com/akrck02/linus-tiny-adventure",
+			"archived": false,
+			"featured": true,
+			"website": "https://nightlightstudios.itch.io/linus-tiny-adventure",
+			"engine": "Godot"
+		},
+		{
+			"id": "godot-generic-platformer",
+			"name": "Generic Platformer",
+			"description": "2D platformer game made to learn godot.",
+			"language": "GDScript",
+			"stars": 2,
+			"tags": [
+				"godot",
+				"platformer2d",
+				"videogame"
+			],
+			"url": "https://github.com/akrck02/godot-generic-platformer",
+			"archived": false,
+			"featured": false,
+			"engine": "Godot"
+		},
+		{
+			"id": "godot-grid-pathfinding",
+			"name": "Godot Grid Pathfinding",
+			"description": "Grid movement pathfinding for godot game engine.",
+			"language": "GDScript",
+			"stars": 2,
+			"tags": [
+				"godot-engine",
+				"grid-based-games",
+				"pathfinding"
+			],
+			"url": "https://github.com/akrck02/godot-grid-pathfinding",
+			"archived": false,
+			"featured": false,
+			"engine": "Godot"
+		},
+		{
+			"id": "io-world",
+			"name": "IO World",
+			"description": "Little 2D puzzle-platformer game made on godot engine!",
+			"language": "C#",
+			"stars": 2,
+			"tags": [
+				"2d",
+				"game",
+				"godot"
+			],
+			"url": "https://github.com/akrck02/io-world",
+			"archived": false,
+			"featured": false,
+			"website": "https://akrck02.org/io-world/",
+			"engine": "Godot"
+		},
+		{
+			"id": "enjoined",
+			"name": "Enjoined",
+			"description": "2D platformer game with the \"joined together\" theme for *Late* game jam 2021.",
+			"language": "Java",
+			"stars": 1,
+			"tags": [
+				"2d",
+				"game-jam",
+				"java"
+			],
+			"url": "https://github.com/akrck02/enjoined",
+			"archived": true,
+			"featured": false,
+			"engine": "libGDX"
+		},
+		{
+			"id": "the-legend-of-lumberJack",
+			"name": "The Legend of LumberJack",
+			"description": "Mini 2D ugly game tutorial made in godot ",
+			"language": "GDScript",
+			"stars": 1,
+			"tags": [
+				"godot",
+				"godot-2d-game",
+				"godot-tutorial"
+			],
+			"url": "https://github.com/akrck02/the-legend-of-lumberJack",
+			"archived": false,
+			"featured": false,
+			"engine": "Godot"
+		},
+		{
+			"id": "warmio-bros",
+			"name": "Warmio Bros",
+			"description": "Platformer mini-game for a gamejam. ",
+			"language": "GDScript",
+			"stars": 1,
+			"tags": [
+				"gamejam",
+				"godot"
+			],
+			"url": "https://github.com/akrck02/warmio-bros",
+			"archived": false,
+			"featured": false,
+			"engine": "Godot"
+		}
+	]
+}

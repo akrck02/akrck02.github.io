@@ -4,10 +4,10 @@
 General variables of the framework
 */
 :root {
---font: 'Open Sans', sans-serif;
---font-light:   'Open Sans light', sans-serif;
---font-title:   'Open Sans', sans-serif;
---font-console: 'Ubuntu Mono', monospace;
+--font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+--font-light:   system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+--font-title:   system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+--font-console: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Ubuntu Mono', monospace;
 --animation-fast: .25s;
 --animation-medium:   .5s;
 --animation-slow: .75s;
