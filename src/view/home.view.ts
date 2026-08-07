@@ -15,7 +15,7 @@ export async function showHomeView(parameters: string[], container: HTMLElement)
   const background = uiComponent({
     id: "home-background",
     styles: {
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url("${getImageUrl("DSCF0140.JPG")}")`
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url("${getImageUrl("wallpaper.jpg")}")`
     }
   });
   view.appendChild(background);
