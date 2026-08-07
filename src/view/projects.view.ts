@@ -31,7 +31,7 @@ export function createProjectsView(config: ProjectsViewConfig) {
       id: "home-button",
       classes: [BubbleUI.BoxCenter]
     });
-    homeButton.innerHTML = getIcon(IconBundle.Material, MaterialIcons.Home, "24px", "#ffffff").outerHTML;
+    homeButton.innerHTML = `<span class="msr">home</span>`;
     homeButton.onclick = () => (location.href = getWebUrl("#/"));
     view.appendChild(homeButton);
 

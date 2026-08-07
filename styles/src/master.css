@@ -61,6 +61,29 @@ body {
 	font-family: var(--font) !important;
 }
 
+/* Material Symbols Rounded (filled) — usable in any view */
+.msr {
+	font-family: "Material Symbols Rounded" !important;
+	font-weight: normal !important;
+	font-style: normal;
+	font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+	line-height: 1;
+	letter-spacing: normal;
+	text-transform: none;
+	white-space: nowrap;
+	word-wrap: normal;
+	direction: ltr;
+	-webkit-font-feature-settings: "liga";
+	-webkit-font-smoothing: antialiased;
+	user-select: none;
+}
+
+/* Shared floating home button glyph (photos / software / mockup views) */
+button#home-button .msr {
+	color: #ffffff;
+	font-size: 1.5rem;
+}
+
 *:focus {
 	transition: outline-color var(--animation-fast);
 	outline: 0.15rem solid var(--primary-color);
