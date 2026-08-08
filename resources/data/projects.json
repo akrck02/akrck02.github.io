@@ -268,7 +268,7 @@
 			"url": "https://github.com/akrck02/homelab",
 			"archived": false,
 			"featured": false,
-			"website": "https://akrck02.org/homelab"
+			"docs": "https://akrck02.org/homelab"
 		},
 		{
 			"id": "javascript-int-parsing-error",
@@ -284,7 +284,7 @@
 			"url": "https://github.com/akrck02/javascript-int-parsing-error",
 			"archived": false,
 			"featured": false,
-			"website": "http://akrck02.org/javascript-int-parsing-error/"
+			"docs": "https://akrck02.org/javascript-int-parsing-error"
 		},
 		{
 			"id": "markdown-docs",
@@ -344,7 +344,7 @@
 			"url": "https://github.com/akrck02/papiro",
 			"archived": false,
 			"featured": false,
-			"website": "http://akrck02.org/papiro/"
+			"docs": "https://akrck02.org/papiro"
 		},
 		{
 			"id": "skyleriearts-uploader",
@@ -429,7 +429,8 @@
 			],
 			"url": "https://github.com/akrck02/cyber-plant-2099",
 			"archived": false,
-			"featured": false
+			"featured": false,
+			"docs": "https://akrck02.org/cyber-plant-2099"
 		},
 		{
 			"id": "file-comparator",

@@ -11,6 +11,7 @@ export interface Project {
   tags: string[];
   url: string;
   website?: string;
+  docs?: string;
   archived: boolean;
   featured: boolean;
   platforms?: string[];

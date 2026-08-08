@@ -55,6 +55,7 @@ function setRoutes(parent: HTMLElement) {
   setNotFoundRoute(showNotFoundView);
   setRoute("/photos", showPhotosView);
   setRoute("/software", showSoftwareView);
+  setRoute("/software/$", showSoftwareView);
   setRoute("/stories", showStoriesView);
   setRoute("/games", showGamesView);
   setRoute("/games/$", showGamesView);

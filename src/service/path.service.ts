@@ -22,6 +22,11 @@ export function getGameImageUrl(gameId: string, file: string) {
 	return getImageUrl(`games/${gameId}/${file}`);
 }
 
+/** Per-software art — images/software/<id>/<file> */
+export function getSoftwareImageUrl(softwareId: string, file: string) {
+	return getImageUrl(`software/${softwareId}/${file}`);
+}
+
 /** Full-resolution album photo — images/photos/<album>/full/<file> */
 export function getPhotoUrl(album: string, file: string) {
 	return getImageUrl(`photos/${album}/full/${file}`);

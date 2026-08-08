@@ -13,6 +13,11 @@ export interface ProjectsViewConfig {
   title: string;
   description: string;
   dataKey: "software" | "games";
+  /**
+   * When set, cards deep-link internally to this hash instead of opening the
+   * repo in a new tab — e.g. `(p) => "#/software/" + p.id`.
+   */
+  detailHash?: (project: Project) => string;
 }
 
 export function createProjectsView(config: ProjectsViewConfig) {
@@ -97,7 +102,7 @@ export function createProjectsView(config: ProjectsViewConfig) {
       .slice()
       .sort((a, b) => Number(b.featured) - Number(a.featured) || b.stars - a.stars);
 
-    projects.forEach((project) => grid.appendChild(createCard(project)));
+    projects.forEach((project) => grid.appendChild(createCard(project, config.detailHash)));
 
     buildFilters(filterBar, grid, projects);
   };
@@ -149,16 +154,17 @@ function buildFilters(filterBar: HTMLElement, grid: HTMLElement, projects: Proje
   apply();
 }
 
-function createCard(project: Project): HTMLElement {
+function createCard(project: Project, detailHash?: (project: Project) => string): HTMLElement {
+  // Internal detail link stays in-app; external repo links open in a new tab.
+  const internal = detailHash != null;
+  const attributes: { [key: string]: string } = internal
+    ? { href: detailHash(project), "data-language": project.language }
+    : { href: project.url, target: "_blank", rel: "noopener noreferrer", "data-language": project.language };
+
   const card = uiComponent({
     type: Html.A,
     classes: ["project-card"],
-    attributes: {
-      href: project.url,
-      target: "_blank",
-      rel: "noopener noreferrer",
-      "data-language": project.language
-    }
+    attributes
   });
   if (project.featured) card.classList.add("featured");
   if (project.archived) card.classList.add("archived");
