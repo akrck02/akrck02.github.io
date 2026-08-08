@@ -689,8 +689,7 @@
 			"platforms": [
 				"windows",
 				"linux",
-				"mac",
-				"web"
+				"mac"
 			],
 			"screenshots": 4
 		},
@@ -711,8 +710,7 @@
 			"website": "https://akrck02.org/io-world/",
 			"engine": "Godot",
 			"platforms": [
-				"web",
-				"windows"
+				"web"
 			],
 			"status": "prototype",
 			"screenshots": 0
