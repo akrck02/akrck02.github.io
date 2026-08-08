@@ -4,6 +4,7 @@
 	"app_version": "v1.0.0",
 	"author": "akrck02",
 	"github_repository": "https://github.com/akrck02",
+	"api": "",
 	"path": {
 		"resources": "resources",
 		"language": "resources/i18n",

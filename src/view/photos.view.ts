@@ -4,11 +4,9 @@ import { setDomEvents, uiComponent } from "../lib/dom.js";
 import { Html } from "../lib/html.js";
 import { getIcon } from "../lib/icons.js";
 import { IconBundle, MaterialIcons } from "../model/configurations/icons.js";
-import { getPhotoThumbnailUrl, getWebUrl } from "../service/path.service.js";
+import { getPhotoThumbnailUrl, getWebUrl, resolveApiPhotoUrl } from "../service/path.service.js";
 import { loadPhotosIndex } from "../service/photos.service.js";
 import { setOpaqueBackground } from "../service/ui.service.js";
-
-const index = loadPhotosIndex();
 
 export async function showPhotosView(parameters: string[], container: HTMLElement) {
   setOpaqueBackground();
@@ -19,9 +17,13 @@ export async function showPhotosView(parameters: string[], container: HTMLElemen
   });
   container.appendChild(view);
 
+  const index = await loadPhotosIndex();
+
   const visualizer = createVisualizer();
   document.body.appendChild(visualizer);
-  loadAlbum(index["Default"]);
+  if (index.albums.length > 0) {
+    loadAlbum(index.albums[0]);
+  }
 
   const homeButton = uiComponent({
     type: Html.Button,
@@ -83,9 +85,9 @@ export async function showPhotosView(parameters: string[], container: HTMLElemen
   });
   view.appendChild(gallery);
 
-  for (const album of Object.values(index)) {
-    for (const [photoId, file] of Object.entries(album.photos)) {
-      gallery.appendChild(createImage(photoId, getPhotoThumbnailUrl(album.folder, file)));
+  for (const album of index.albums) {
+    for (const photo of album.photos) {
+      gallery.appendChild(createImage(photo.id, resolveApiPhotoUrl(photo.thumb)));
     }
   }
 }

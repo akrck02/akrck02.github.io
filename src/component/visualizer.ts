@@ -2,8 +2,8 @@ import { uiComponent } from "../lib/dom.js";
 import { Html } from "../lib/html.js";
 import { getIcon } from "../lib/icons.js";
 import { IconBundle, MaterialIcons } from "../model/configurations/icons.js";
-import { getPhotoThumbnailUrl, getPhotoUrl } from "../service/path.service.js";
-import { Album, loadPhotosExif, PhotoExif } from "../service/photos.service.js";
+import { getPhotoThumbnailUrl, getPhotoUrl, resolveApiPhotoUrl } from "../service/path.service.js";
+import { Album, loadPhotoExif, loadPhotosExif, Photo, PhotoExif } from "../service/photos.service.js";
 
 type albumType = Album;
 
@@ -14,7 +14,7 @@ let exifToggle: HTMLElement;
 let exifData: { [id: string]: PhotoExif } = {};
 let exifVisible = false;
 
-let currentPhoto: string;
+let currentPhoto: Photo | undefined;
 let currentAlbum: albumType;
 
 export function createVisualizer() {
@@ -41,7 +41,7 @@ export function createVisualizer() {
   backButton.id = "back";
   backButton.onclick = (event: MouseEvent) => {
     event.stopPropagation();
-    showLastPhoto(image.dataset.id);
+    if (image.dataset.id) showLastPhoto(image.dataset.id);
   };
   visualizer.appendChild(backButton);
 
@@ -60,7 +60,7 @@ export function createVisualizer() {
   nextButton.id = "next";
   nextButton.onclick = (event: MouseEvent) => {
     event.stopPropagation();
-    showNextPhoto(image.dataset.id);
+    if (image.dataset.id) showNextPhoto(image.dataset.id);
   };
   visualizer.appendChild(nextButton);
 
@@ -89,11 +89,6 @@ export function createVisualizer() {
     resetZoom();
   };
   visualizer.appendChild(zoomReset);
-
-  loadPhotosExif().then((data) => {
-    exifData = data;
-    renderExif(image?.dataset.id);
-  });
 
   visualizer.onclick = (event: MouseEvent) => {
     if (swipeHandled) {
@@ -229,10 +224,21 @@ function addTouchGestures(target: HTMLElement) {
   );
 }
 
-function renderExif(id: string | undefined) {
-  if (!exifPanel) return;
+async function renderExif(id: string | undefined) {
+  if (!exifPanel || !id) {
+    if (exifPanel) {
+      exifPanel.innerHTML = "";
+      exifPanel.classList.remove("show");
+      exifToggle?.classList.remove("show");
+    }
+    return;
+  }
 
-  const exif = id ? exifData[id] : undefined;
+  let exif: PhotoExif | null | undefined = exifData[id];
+  if (!exif) {
+    exif = await loadPhotoExif(id);
+  }
+
   if (!exif) {
     exifPanel.innerHTML = "";
     exifPanel.classList.remove("show");
@@ -240,7 +246,7 @@ function renderExif(id: string | undefined) {
     return;
   }
 
-  const specs = [exif.focal, exif.aperture, exif.shutter, exif.iso]
+  const specs = [exif.focal_length, exif.aperture, exif.shutter, exif.iso ? `${exif.iso}` : undefined]
     .filter(Boolean)
     .map((spec) => `<span>${spec}</span>`)
     .join("");
@@ -257,9 +263,8 @@ function renderExif(id: string | undefined) {
 
 export function loadAlbum(album: albumType) {
   currentAlbum = album;
-  const firstId = Object.keys(album.photos)[0];
-  if (firstId) {
-    showPhoto(firstId, false);
+  if (album.photos.length > 0) {
+    showPhoto(album.photos[0].id, false);
   }
 }
 
@@ -269,15 +274,17 @@ export function loadAlbumAndPhoto(album: albumType, photoId: string) {
 }
 
 export function showPhoto(currentId: string, show: boolean = true) {
-  if (!currentAlbum || !currentAlbum.photos[currentId]) return;
+  if (!currentAlbum) return;
+  const targetPhoto = currentAlbum.photos.find((p) => p.id === currentId);
+  if (!targetPhoto) return;
 
   image.dataset.id = currentId;
-  currentPhoto = currentAlbum.photos[currentId];
+  currentPhoto = targetPhoto;
   resetZoom();
 
   // Show the cached thumbnail instantly, then swap in the full resolution.
   image.classList.add("loading-full");
-  image.src = getPhotoThumbnailUrl(currentAlbum.folder, currentPhoto);
+  image.src = resolveApiPhotoUrl(targetPhoto.thumb);
 
   const full = new Image();
   full.onload = () => {
@@ -286,7 +293,7 @@ export function showPhoto(currentId: string, show: boolean = true) {
       image.classList.remove("loading-full");
     }
   };
-  full.src = getPhotoUrl(currentAlbum.folder, currentPhoto);
+  full.src = resolveApiPhotoUrl(targetPhoto.display);
 
   renderExif(currentId);
 
@@ -296,28 +303,26 @@ export function showPhoto(currentId: string, show: boolean = true) {
 }
 
 export function showNextPhoto(currentId: string) {
-  const keys = Object.keys(currentAlbum.photos);
-  if (keys.length === 0) return;
+  if (!currentAlbum || currentAlbum.photos.length === 0) return;
 
-  const currentIndex = keys.indexOf(currentId);
+  const currentIndex = currentAlbum.photos.findIndex((p) => p.id === currentId);
 
   if (currentIndex !== -1) {
-    const nextIndex = (currentIndex + 1) % keys.length;
-    const nextId = keys[nextIndex];
-    showPhoto(nextId);
+    const nextIndex = (currentIndex + 1) % currentAlbum.photos.length;
+    const nextPhoto = currentAlbum.photos[nextIndex];
+    showPhoto(nextPhoto.id);
   }
 }
 
 export function showLastPhoto(currentId: string) {
-  const keys = Object.keys(currentAlbum.photos);
-  if (keys.length === 0) return;
+  if (!currentAlbum || currentAlbum.photos.length === 0) return;
 
-  const currentIndex = keys.indexOf(currentId);
+  const currentIndex = currentAlbum.photos.findIndex((p) => p.id === currentId);
 
   if (currentIndex !== -1) {
-    const prevIndex = (currentIndex - 1 + keys.length) % keys.length;
-    const prevId = keys[prevIndex];
-    showPhoto(prevId);
+    const prevIndex = (currentIndex - 1 + currentAlbum.photos.length) % currentAlbum.photos.length;
+    const prevPhoto = currentAlbum.photos[prevIndex];
+    showPhoto(prevPhoto.id);
   }
 }
 
