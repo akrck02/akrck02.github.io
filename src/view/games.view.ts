@@ -3,6 +3,7 @@ import { uiComponent } from "../lib/dom.js";
 import { Html } from "../lib/html.js";
 import { getGameImageUrl, getOtherImageUrl, getWebUrl } from "../service/path.service.js";
 import { loadProjects, Project } from "../service/projects.service.js";
+import { loadLatestRelease, Release, ReleaseAsset } from "../service/releases.service.js";
 import { setOpaqueBackground } from "../service/ui.service.js";
 
 // Engine → accent dot color, mirroring the palette from the design mock.
@@ -187,6 +188,18 @@ function iconButton(icon: string, id: string, onclick: () => void): HTMLElement 
   return button;
 }
 
+// A website counts as a playable web build only when it's hosted on our own
+// domain under the game's id (akrck02.org/<id>). Everything else is external.
+function isPlayableWebsite(website: string, id: string): boolean {
+  try {
+    const url = new URL(website);
+    if (!/(^|\.)akrck02\.org$/i.test(url.hostname)) return false;
+    return url.pathname.replace(/^\/+|\/+$/g, "").toLowerCase().startsWith(id.toLowerCase());
+  } catch {
+    return false;
+  }
+}
+
 function linkButton(text: string, href: string, primary: boolean): HTMLElement {
   return uiComponent({
     type: Html.A,
@@ -365,8 +378,13 @@ function buildGamePage(game: Project): HTMLElement {
   main.appendChild(uiComponent({ type: Html.P, classes: ["game-page-desc"], text: game.description }));
 
   const actions = uiComponent({ classes: ["game-actions", BubbleUI.BoxRow, BubbleUI.BoxYCenter] });
-  actions.appendChild(linkButton("Play", game.website ?? game.url, true));
-  actions.appendChild(linkButton("View source", game.url, false));
+  if (game.website) {
+    // A playable web build lives under akrck02.org/<id>; anything else is an
+    // external link, so label it "Website" rather than "Play".
+    const playable = isPlayableWebsite(game.website, game.id);
+    actions.appendChild(linkButton(playable ? "Play" : "Website", game.website, true));
+  }
+  actions.appendChild(linkButton("View source", game.url, game.website == null));
   main.appendChild(actions);
 
   if ((game.tags ?? []).length > 0) {
@@ -391,6 +409,12 @@ function buildGamePage(game: Project): HTMLElement {
   body.appendChild(main);
   body.appendChild(aside);
   view.appendChild(body);
+
+  // Downloads — populated asynchronously from the repo's latest GitHub release.
+  // Hidden until we know there are assets, so pages with no release show nothing.
+  const downloads = uiComponent({ classes: ["game-page-downloads"], styles: { display: "none" } });
+  view.appendChild(downloads);
+  populateDownloads(downloads, game);
 
   // Gallery — exactly `game.screenshots` shots from games/<id>/screenshots/<n>.<ext>.
   // Driven by the declared count so we never request beyond what exists; each shot
@@ -429,6 +453,77 @@ function buildGamePage(game: Project): HTMLElement {
   }
 
   return view;
+}
+
+function formatSize(bytes: number): string {
+  if (!bytes) return "";
+  const mb = bytes / (1024 * 1024);
+  if (mb >= 1) return `${mb.toFixed(1)} MB`;
+  return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+}
+
+// A single download entry — platform glyph, filename + size, and the download link.
+function downloadRow(asset: ReleaseAsset): HTMLElement {
+  const row = uiComponent({ classes: ["game-download", BubbleUI.BoxRow, BubbleUI.BoxYCenter] });
+
+  const icon = asset.platform ? PLATFORM_ICONS[asset.platform] : undefined;
+  const glyph = uiComponent({ classes: ["game-download-icon", BubbleUI.BoxCenter] });
+  if (icon) {
+    const inner = icon.svg ?? `<path fill="${icon.color}" d="${icon.path}"></path>`;
+    glyph.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" role="img" aria-label="${icon.label}"><title>${icon.label}</title>${inner}</svg>`;
+  } else {
+    glyph.appendChild(msr("insert_drive_file"));
+  }
+  row.appendChild(glyph);
+
+  const info = uiComponent({ classes: ["game-download-info", BubbleUI.BoxColumn] });
+  info.appendChild(uiComponent({ classes: ["game-download-name"], text: icon?.label ?? asset.name }));
+  const sub = [asset.name, formatSize(asset.size)].filter(Boolean).join(" · ");
+  info.appendChild(uiComponent({ classes: ["game-download-meta"], text: sub }));
+  row.appendChild(info);
+
+  row.appendChild(
+    uiComponent({
+      type: Html.A,
+      classes: ["game-link", "primary", "game-download-link"],
+      text: "Download",
+      attributes: { href: asset.url, target: "_blank", rel: "noopener noreferrer", download: "" }
+    })
+  );
+
+  return row;
+}
+
+// Fetch the latest release for a game and, if it has assets, fill in the
+// downloads section. No-ops silently when there is no release or the API fails.
+async function populateDownloads(container: HTMLElement, game: Project) {
+  let release: Release | null = null;
+  try {
+    release = await loadLatestRelease(game.url);
+  } catch {
+    return;
+  }
+  if (!release || release.assets.length === 0 || !container.isConnected) return;
+
+  const header = uiComponent({ classes: ["game-page-downloads-header", BubbleUI.BoxRow, BubbleUI.BoxYCenter] });
+  header.appendChild(uiComponent({ classes: ["game-page-eyebrow"], text: "DOWNLOAD" }));
+  header.appendChild(uiComponent({ classes: ["game-download-tag"], text: release.tag }));
+  container.appendChild(header);
+
+  const list = uiComponent({ classes: ["game-download-list", BubbleUI.BoxColumn] });
+  // Known-platform assets first, in a stable platform order.
+  const order = Object.keys(PLATFORM_ICONS);
+  release.assets
+    .slice()
+    .sort((a, b) => {
+      const ai = a.platform ? order.indexOf(a.platform) : 999;
+      const bi = b.platform ? order.indexOf(b.platform) : 999;
+      return ai - bi;
+    })
+    .forEach((asset) => list.appendChild(downloadRow(asset)));
+  container.appendChild(list);
+
+  container.style.display = "";
 }
 
 // Fullscreen image preview (lightbox) — click anywhere to close.

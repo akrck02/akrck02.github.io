@@ -508,6 +508,77 @@ view.game-page .game-fact-dot {
   border-radius: 50%;
 }
 
+view.game-page .game-page-downloads {
+  max-width: 72rem;
+  margin: 3rem auto 0;
+  padding: 0 clamp(1.5rem, 6vw, 3rem);
+}
+
+view.game-page .game-page-downloads-header {
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+
+view.game-page .game-download-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b6b6b;
+  background: #ffffff;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+view.game-page .game-download-list {
+  gap: 0.75rem;
+}
+
+view.game-page .game-download {
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: transform var(--animation-fast) ease, box-shadow var(--animation-fast) ease;
+}
+
+view.game-page .game-download:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+view.game-page .game-download-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+  border-radius: 0.75rem;
+  background: #f3f3f3;
+}
+
+view.game-page .game-download-info {
+  gap: 0.2rem;
+  flex: 1;
+  min-width: 0;
+}
+
+view.game-page .game-download-name {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #2b2b2b;
+}
+
+view.game-page .game-download-meta {
+  font-size: 0.8rem;
+  color: #9a9a9a;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+view.game-page .game-download-link {
+  flex-shrink: 0;
+}
+
 view.game-page .game-page-gallery {
   max-width: 72rem;
   margin: 3rem auto 0;
